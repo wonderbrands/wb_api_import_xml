@@ -4,7 +4,7 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/python" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.10 (wb_odoo_API)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.10 (wb_api_import_xml)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

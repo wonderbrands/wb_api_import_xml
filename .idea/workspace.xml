@@ -13,6 +13,7 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/app.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/app3.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/app4.py" root0="SKIP_INSPECTION" />
     <setting file="file://$USER_HOME$/AppData/Local/Programs/Python/Python310/Lib/xmlrpc/client.py" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">

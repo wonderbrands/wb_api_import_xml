@@ -63,7 +63,27 @@ print('Se consulta el número de orden de venta en el archivo drive')
 
         #Creacion de factura a partir de la venta
         inv_values = [{
-            'sale_id': sale_id, #Solo ejemplo
+            'ref': self.client_order_ref or '',
+            'move_type': 'out_invoice',
+            'narration': self.note,
+            'currency_id': self.pricelist_id.currency_id.id,
+            'campaign_id': self.campaign_id.id,
+            'medium_id': self.medium_id.id,
+            'source_id': self.source_id.id,
+            'user_id': self.user_id.id,
+            'invoice_user_id': self.user_id.id,
+            'team_id': self.team_id.id,
+            'partner_id': self.partner_invoice_id.id,
+            'partner_shipping_id': self.partner_shipping_id.id,
+            'fiscal_position_id': (self.fiscal_position_id or self.fiscal_position_id.get_fiscal_position(self.partner_invoice_id.id)).id,
+            'partner_bank_id': self.company_id.partner_id.bank_ids.filtered(lambda bank: bank.company_id.id in (self.company_id.id, False))[:1].id,
+            'journal_id': journal.id,  # company comes from the journal
+            'invoice_origin': self.name,
+            'invoice_payment_term_id': self.payment_term_id.id,
+            'payment_reference': self.reference,
+            'transaction_ids': [(6, 0, self.transaction_ids.ids)],
+            'invoice_line_ids': [],
+            'company_id': self.company_id.id,
         }]
 
         create_inv = models.execute_kw(db_name, uid, password, 'account_move', 'create', [inv_values])

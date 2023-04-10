@@ -16,6 +16,9 @@ import socket
 import os
 import xmlrpc.client
 import base64
+import openpyxl
+import xlrd
+import pandas as pd
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
@@ -41,78 +44,134 @@ print('Conexion con la API de Google')
 #//////
 #//////
 #//////
-
-# Define the path to the folder containing the invoices
 print('Se consulta el número de orden de venta en el archivo drive')
 # for rec in tabla:
 #// dv_uuid = rec['UUID']
 #// dv_nm_orden = rec['NmOrdenID']
-#//
-#//
-#//
-
-#Se extrae el ID de la venta en Odoo realizando un match con el numero de orde = yuju marketplace reference
-dv_nm_orden = '8001232223'
-so_domain = ['channel_order_reference', '=', dv_nm_orden]
-sale_ids = models.execute_kw(db_name, uid, password, 'sale.order', 'search_read',[[so_domain]],{'fields':['id','name']})
+# Define the path to the Excel file containing the orders and Read Excel file
+excel_file_path = dir_path + '/files/SO_data.xlsx'
+sale_file = pd.read_excel(excel_file_path, usecols=['id','XML name'])
+sale_id_file = sale_file['id'].tolist()
+xml_id_file = sale_file['XML name'].tolist()
+#Se extrae el ID de la venta en Odoo realizando un match con el numero de orden = yuju marketplace reference
+#POR AHORA USAREMOS EL ID DE LA ORDEN DE VENTA HASTA SOLUCIONAR EL ERROR DE INT LIMIT EXCEED
+so_domain = ['id', 'in', sale_id_file]
+# sale_ids = models.execute_kw(db_name, uid, password,'sale.order', 'search_read', [[so_domain]], {'fields': ['id', 'name','partner_id', 'order_line']})
+sale_ids = models.execute_kw(db_name, uid, password,'sale.order', 'search_read', [[so_domain]])
 
 if sale_ids:
     sale_id = int(sale_ids[0]['id'])
-    print('Número de venta en Odoo: ', sale_id)
+    # Create invoice for sales order
+    for sale_order in sale_ids:
 
-    #Creacion de factura a partir de la venta
-    #inv_values = [{
-    #    'sale_id': sale_id, #Solo ejemplo
-    #}]
+        sale_id = int(sale_order['id'])
+        currency_id = str(sale_order['currency_id'][0])
+        narration = sale_order['note']
+        campaign_id = False
+        medium_id = sale_order['medium_id']
+        source_id = sale_order['source_id']
+        user_id = int(sale_order['user_id'][0])
+        invoice_user_id = int(sale_order['user_id'][0])
+        team_id = int(sale_order['team_id'][0])
+        partner_id = int(sale_order['partner_id'][0])
+        partner_shipping_id = int(sale_order['partner_shipping_id'][0])
+        fiscal_position_id = sale_order['fiscal_position_id']
+        partner_bank_id = 1
+        journal_id = 1
+        invoice_origin = sale_order['name']
+        invoice_payment_term_id = sale_order['payment_term_id']
+        payment_reference = sale_order['reference']
+        company_id = 1
+        sale_order_line_id = sale_order['order_line']
+        print(sale_id, currency_id)
+        invoice = {
+            'ref': '',
+            'move_type': 'out_invoice',
+            'currency_id': currency_id,
+            'narration': narration,
+            'campaign_id': campaign_id,
+            'medium_id': medium_id,
+            'source_id': source_id,
+            'user_id': user_id,
+            'invoice_user_id': invoice_user_id,
+            'team_id': invoice_user_id,
+            'partner_id': team_id,
+            'partner_shipping_id': partner_id,
+            'fiscal_position_id': partner_shipping_id,
+            'partner_bank_id': fiscal_position_id,
+            'journal_id': partner_bank_id,  # company comes from the journal
+            'invoice_origin': journal_id,
+            'invoice_payment_term_id': invoice_origin,
+            'payment_reference': payment_reference,
+            'transaction_ids': False,
+             'invoice_line_ids': [],
+            'company_id': company_id,
+        }
+#///////////////////////////////////////////////////////////////////////
+        # Call to sale order line to get order line data
+        #for order_line in sale_order_line_id:
+        sol_domain = ['id', '=', sale_order_line_id]
+        sale_order_line = models.execute_kw(db_name, uid, password, 'sale.order.line', 'search_read', [[sol_domain]])
+        invoice_list = {'display_type': sale_order_line[0]['display_type'],
+                        'sequence': sale_order_line[0]['sequence'],
+                        'name': sale_order_line[0]['name'],
+                        'product_id': sale_order_line[0]['product_id'][0],
+                        #'product_uom': sale_order_line[0]['product_uom'][0],
+                        'product_qty': sale_order_line[0]['product_qty'],
+                        'discount': sale_order_line[0]['discount'],
+                        'price_unit': sale_order_line[0]['price_unit'],
+                        'tax_id': sale_order_line[0]['tax_id'][0],}
+        invoice['invoice_line_ids'].append(invoice_list)
 
-    #create_inv = models.execute_kw(db_name, uid, password, 'account_move', 'create', [inv_values])
-    move_id = 354885
-    #move_id = int(create_inv)
-    print('Factura creada con ID: ',move_id)
-    print('')
+        create_inv = models.execute_kw(db_name, uid, password, 'account.move', 'create', [invoice])
+        print('La factura de la orden: ', sale_id, 'fue creada con ID: ', create_inv)
+        move_id = create_inv
+        #move_id = int(create_inv)
+        print('Factura creada con ID: ',move_id)
+        print('')
 
-    dv_uuid = '3E43821F-BF6E-4C56-BD37-9147ADBD1D88'
-    invoices_folder = dir_path + '/xml/'
-    for rec in os.listdir(invoices_folder):
-        xml_name = str(rec)
-        if dv_uuid in xml_name:
-            if rec.endswith('.xml'):
-                # Read the contents of the XML file
-                with open(os.path.join(invoices_folder, rec), 'rb') as f:
-                    xml_data = f.read()
+        dv_uuid = xml_id_file
+        invoices_folder = dir_path + '/xml/'
+        for rec in os.listdir(invoices_folder):
+            xml_name = str(rec)
+            if xml_name in dv_uuid:
+                if rec.endswith('.xml'):
+                    # Read the contents of the XML file
+                    with open(os.path.join(invoices_folder, rec), 'rb') as f:
+                        xml_data = f.read()
 
-            xml_base64 = base64.b64encode(xml_data).decode('utf-8')
+                xml_base64 = base64.b64encode(xml_data).decode('utf-8')
 
-            attachment_data = {
-                'name': xml_name,
-                'datas': xml_base64,
-                'res_model': 'account.move',
-                'res_id': move_id,
-            }
+                attachment_data = {
+                    'name': xml_name,
+                    'datas': xml_base64,
+                    'res_model': 'account.move',
+                    'res_id': move_id,
+                }
 
-            attachment_ids = models.execute_kw(db_name, uid, password, 'ir.attachment', 'create', [attachment_data])
-            attachment_id = int(attachment_ids)
-            #Table values edi_document
-            #edi_format_id: 2 = CFDI 4.0
-            values = [{
-                        'move_id': move_id,
-                        'edi_format_id': 2,
-                        'attachment_id': attachment_id,
-                        'state': 'sent',
-                        'create_uid': 1,
-                        'write_uid': 2,
-                    }]
-            #The record in the table edi_document related to the invoice is created
-            edi_document = models.execute_kw(db_name, uid, password, 'account.edi.document', 'create', values)
-            print('Valores para la tabla Documentos EDI: ',values)
-            print('Registro account.edi.document creado')
-            #Invoice status is updated to posted
-            time.sleep(1)
-            upd_invoice_state = models.execute_kw(db_name, uid, password, 'account.move', 'write', [[move_id],{'state': 'posted'}])
-            print('Se publica la factura: ', move_id)
-            break
-        else:
-            pass
+                attachment_ids = models.execute_kw(db_name, uid, password, 'ir.attachment', 'create', [attachment_data])
+                attachment_id = int(attachment_ids)
+                #Table values edi_document
+                #edi_format_id: 2 = CFDI 4.0
+                values = [{
+                            'move_id': move_id,
+                            'edi_format_id': 2,
+                            'attachment_id': attachment_id,
+                            'state': 'sent',
+                            'create_uid': 1,
+                            'write_uid': 2,
+                        }]
+                #The record in the table edi_document related to the invoice is created
+                edi_document = models.execute_kw(db_name, uid, password, 'account.edi.document', 'create', values)
+                print('Valores para la tabla Documentos EDI: ',values)
+                print('Registro account.edi.document creado')
+                #Invoice status is updated to posted
+                time.sleep(1)
+                upd_invoice_state = models.execute_kw(db_name, uid, password, 'account.move', 'write', [[move_id],{'state': 'posted'}])
+                print('Se publica la factura: ', move_id)
+                break
+            else:
+                pass
 else:
     print('El ID de la orden de MP: ', dv_nm_orden,'no coincide con ninguna venta en Odoo')
     pass

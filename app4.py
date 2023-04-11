@@ -81,9 +81,10 @@ if sale_ids:
         invoice_origin = sale_order['name']
         invoice_payment_term_id = sale_order['payment_term_id']
         payment_reference = sale_order['reference']
+        transaction_ids = sale_order['transaction_ids']
         company_id = 1
         sale_order_line_id = sale_order['order_line']
-        print(sale_id, currency_id)
+        sale_order_line_change =  int(sale_order['order_line'][0])
         invoice = {
             'ref': '',
             'move_type': 'out_invoice',
@@ -94,17 +95,17 @@ if sale_ids:
             'source_id': source_id,
             'user_id': user_id,
             'invoice_user_id': invoice_user_id,
-            'team_id': invoice_user_id,
-            'partner_id': team_id,
-            'partner_shipping_id': partner_id,
-            'fiscal_position_id': partner_shipping_id,
-            'partner_bank_id': fiscal_position_id,
-            'journal_id': partner_bank_id,  # company comes from the journal
-            'invoice_origin': journal_id,
-            'invoice_payment_term_id': invoice_origin,
+            'team_id': team_id,
+            'partner_id': partner_id,
+            'partner_shipping_id': partner_shipping_id,
+            'fiscal_position_id': fiscal_position_id,
+            'partner_bank_id': partner_bank_id,
+            'journal_id': journal_id,  # company comes from the journal
+            'invoice_origin': invoice_origin,
+            'invoice_payment_term_id': invoice_payment_term_id,
             'payment_reference': payment_reference,
-            'transaction_ids': False,
-             'invoice_line_ids': [],
+            'transaction_ids': [(6, 0, transaction_ids)],
+            'invoice_line_ids': [],
             'company_id': company_id,
         }
 #///////////////////////////////////////////////////////////////////////
@@ -112,15 +113,19 @@ if sale_ids:
         #for order_line in sale_order_line_id:
         sol_domain = ['id', '=', sale_order_line_id]
         sale_order_line = models.execute_kw(db_name, uid, password, 'sale.order.line', 'search_read', [[sol_domain]])
-        invoice_list = {'display_type': sale_order_line[0]['display_type'],
+        invoice_list = [(0,0,{
+                        'display_type': sale_order_line[0]['display_type'],
                         'sequence': sale_order_line[0]['sequence'],
                         'name': sale_order_line[0]['name'],
                         'product_id': sale_order_line[0]['product_id'][0],
-                        #'product_uom': sale_order_line[0]['product_uom'][0],
-                        'product_qty': sale_order_line[0]['product_qty'],
+                        'product_uom_id': sale_order_line[0]['product_uom'][0],
+                        'quantity': sale_order_line[0]['product_qty'],
                         'discount': sale_order_line[0]['discount'],
                         'price_unit': sale_order_line[0]['price_unit'],
-                        'tax_id': sale_order_line[0]['tax_id'][0],}
+                        'tax_ids': [(6, 0, [sale_order_line[0]['tax_id'][0]])],
+                        'analytic_tag_ids': [(6, 0, sale_order_line[0]['analytic_tag_ids'])],
+                        'sale_line_ids': [(4, sale_order_line_change)],
+                        })]
         invoice['invoice_line_ids'].append(invoice_list)
 
         create_inv = models.execute_kw(db_name, uid, password, 'account.move', 'create', [invoice])

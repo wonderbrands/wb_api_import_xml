@@ -19,6 +19,8 @@ import base64
 import openpyxl
 import xlrd
 import pandas as pd
+import MySQLdb
+
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
@@ -33,6 +35,18 @@ uid = common.authenticate(db_name, username, password, {})
 models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(server_url))
 print(common)
 #Conexion con API Google Drive
+print('Conexion a Mysql/Somos_Reyes/crawl_ml_colecta_prepare')
+print('')
+
+DB = MySQLdb.connect('wonderbrands1.cuwd36ifbz5t.us-east-1.rds.amazonaws.com', 'will', 'RClTFPNeongrVSko',
+                     'tech', local_infile=True)
+cursor = DB.cursor()
+
+DB.set_character_set('utf8mb4')
+cursor.execute('SET NAMES utf8mb4;')
+cursor.execute('SET CHARACTER SET utf8mb4;')
+cursor.execute('SET character_set_connection=utf8mb4;')
+
 #print('Conexion con la API de Google')
 # Define the path to the Excel file containing the orders and Read Excel file
 excel_file_path = dir_path + '/files/SO_data.xlsx'
@@ -157,3 +171,5 @@ if sale_ids:
 else:
     print('El ID de la orden de MP: ', dv_nm_orden,'no coincide con ninguna venta en Odoo')
     pass
+
+DB.close()

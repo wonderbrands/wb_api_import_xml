@@ -14,6 +14,7 @@
     <setting file="file://$PROJECT_DIR$/app.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/app3.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/app4.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/import_invoice.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/so_line_validation.py" root0="SKIP_INSPECTION" />
     <setting file="file://$USER_HOME$/AppData/Local/Programs/Python/Python310/Lib/xmlrpc/client.py" root0="SKIP_INSPECTION" />
   </component>
@@ -39,7 +40,7 @@
       <recent name="C:\Dev\wb_odoo_API" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.so_line_validation">
+  <component name="RunManager">
     <configuration name="app4" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="wb_odoo_API" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -102,6 +103,18 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/app4.py</url>
+          <line>124</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/app4.py</url>
+          <line>118</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">

@@ -13,9 +13,9 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/app.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/app3.py" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/app4.py" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/import_invoice.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/invoice_creation.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/so_line_validation.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/xml_attachment_insert.py" root0="SKIP_INSPECTION" />
     <setting file="file://$USER_HOME$/AppData/Local/Programs/Python/Python310/Lib/xmlrpc/client.py" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -40,8 +40,8 @@
       <recent name="C:\Dev\wb_odoo_API" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration name="app4" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.invoice_creation">
+    <configuration name="invoice_creation" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="wb_odoo_API" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -53,7 +53,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app4.py" />
+      <option name="SCRIPT_NAME" value="C:\Dev\wb_api_import_xml\invoice_creation.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -85,8 +85,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.invoice_creation" />
         <item itemvalue="Python.so_line_validation" />
-        <item itemvalue="Python.app4" />
       </list>
     </recent_temporary>
   </component>
@@ -105,14 +105,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/app4.py</url>
-          <line>124</line>
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/app4.py</url>
-          <line>118</line>
-          <option name="timeStamp" value="19" />
+          <url>file://$PROJECT_DIR$/invoice_creation.py</url>
+          <line>70</line>
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

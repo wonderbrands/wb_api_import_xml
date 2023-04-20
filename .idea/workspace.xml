@@ -13,6 +13,7 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/app.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/app3.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/app4.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/invoice_creation.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/so_line_validation.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/xml_attachment_insert.py" root0="SKIP_INSPECTION" />
@@ -103,13 +104,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/invoice_creation.py</url>
-          <line>70</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">

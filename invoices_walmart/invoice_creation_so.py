@@ -25,8 +25,8 @@ import mysql.connector
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
-server_url  ='https://wonderbrands-v3-7980516.dev.odoo.com'
-db_name = 'wonderbrands-v3-7980516'
+server_url  ='https://wonderbrands-v3-8038141.dev.odoo.com'
+db_name = 'wonderbrands-v3-8038141'
 username = 'admin'
 password = 'admin123'
 

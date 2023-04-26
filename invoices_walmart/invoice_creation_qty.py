@@ -117,17 +117,17 @@ for channel_order_reference in mkp_reference:
                         }
                         #line_id = sale_order_line[0]['id']
                         line_id = inv_lines['id']
-                        invoice_lines = {'display_type': sale_order_line[0]['display_type'],
-                                         'sequence': sale_order_line[0]['sequence'],
-                                         'name': sale_order_line[0]['name'],
-                                         'product_id': sale_order_line[0]['product_id'][0],
-                                         'product_uom_id': sale_order_line[0]['product_uom'][0],
+                        invoice_lines = {'display_type': inv_lines['display_type'],
+                                         'sequence': inv_lines['sequence'],
+                                         'name': inv_lines['name'],
+                                         'product_id': inv_lines['product_id'][0],
+                                         'product_uom_id': inv_lines['product_uom'][0],
                                          #'quantity': sale_order_line[0]['product_qty'],
                                          'quantity': 1,
-                                         'discount': sale_order_line[0]['discount'],
-                                         'price_unit': sale_order_line[0]['price_unit'],
-                                         'tax_ids': [(6, 0, [sale_order_line[0]['tax_id'][0]])],
-                                         'analytic_tag_ids': [(6, 0, sale_order_line[0]['analytic_tag_ids'])],
+                                         'discount': inv_lines['discount'],
+                                         'price_unit': inv_lines['price_unit'],
+                                         'tax_ids': [(6, 0, [inv_lines['tax_id'][0]])],
+                                         'analytic_tag_ids': [(6, 0, inv_lines['analytic_tag_ids'])],
                                          'sale_line_ids': [(4, line_id)],
                                          }
                         invoice['invoice_line_ids'].append((0, 0, invoice_lines))

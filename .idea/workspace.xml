@@ -33,7 +33,7 @@
     "git-widget-placeholder": "15.0",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "C:/Dev/wb_odoo_external_api",
-    "settings.editor.selected.configurable": "preferences.editor.code.editing"
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -48,7 +48,7 @@
       <recent name="D:\Dev\wb_api_import_xml\walmart" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.invoice_creation_qty">
+  <component name="RunManager">
     <configuration name="invoice_creation_qty" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="wb_odoo_API" />
       <option name="INTERPRETER_OPTIONS" value="" />

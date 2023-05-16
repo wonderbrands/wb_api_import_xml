@@ -44,20 +44,20 @@ mydb = mysql.connector.connect(
 )
 mycursor = mydb.cursor()
 #mycursor.execute("SELECT folio, uuid FROM sr_uuid_walmart WHERE id IN %s", [tuple(sales_order_ids)])
-#mycursor.execute("SELECT folio, uuid FROM sr_uuid_walmart limit 3")
-#sales_order_records = mycursor.fetchall()
-#mkp_reference = []
-#for reference in sales_order_records:
-#    row = reference
-#    mkp_reference.append(row)
-mkp_reference = ['SO2213460', 'SO2213461', 'SO2213462']
+mycursor.execute("SELECT folio, uuid FROM sr_uuid_walmart limit 3")
+sales_order_records = mycursor.fetchall()
+mkp_reference = []
+for reference in sales_order_records:
+    row = reference
+    mkp_reference.append(row)
+#mkp_reference = ['SO2213460', 'SO2213461', 'SO2213462']
 for channel_order_reference in mkp_reference:
     order_reference = channel_order_reference
-    #order_reference = channel_order_reference[0]
-    #uuid_reference = channel_order_reference[1]
-    uuid_reference = channel_order_reference
-    so_domain = ['name', '=', order_reference]
-    #so_domain = ['channel_order_reference', '=', order_reference]
+    order_reference = channel_order_reference[0]
+    uuid_reference = channel_order_reference[1]
+    #uuid_reference = channel_order_reference
+    #so_domain = ['name', '=', order_reference]
+    so_domain = ['channel_order_reference', '=', order_reference]
     #so_domain = ['name', '=', 'SO2213460']
     #sale_ids = models.execute_kw(db_name, uid, password,'sale.order', 'search_read', [[so_domain]], {'fields': ['id', 'name','partner_id', 'order_line']})
     sale_ids = models.execute_kw(db_name, uid, password,'sale.order', 'search_read', [[so_domain]])

@@ -54,21 +54,20 @@ for order in sales_order_records:
     order_ids.append(order_id[0])
     order_names.append(order[0])
 
-#try:
-#Se crea el cuerpo de la factura con los campos necesarios
-so_domain = ['id', 'in', order_ids]
-print('----------------------------------------------------------------')
-print(f"Se creará la factura global para las siguientes SO: {order_ids}")
-print('----------------------------------------------------------------')
-print('Definiendo valores de la factura global')
-invoice_vals = {
-    'ref': '',
-    'move_type': 'out_invoice',
-    'partner_id': 140530,
-    'invoice_origin': ', '.join(order_names),
-    'invoice_line_ids': [],
-}
-for order_id in order_ids:
+try:
+    #Se crea el cuerpo de la factura con los campos necesarios
+    so_domain = ['id', 'in', order_ids]
+    print('----------------------------------------------------------------')
+    print(f"Se creará la factura global para las siguientes SO: {order_ids}")
+    print('----------------------------------------------------------------')
+    print('Definiendo valores de la factura global')
+    invoice_vals = {
+        'ref': '',
+        'move_type': 'out_invoice',
+        'partner_id': 140530,
+        'invoice_origin': ', '.join(order_names),
+        'invoice_line_ids': [],
+    }
     # Consultamos a sale.order para obtener los campos requeridos de cada orden de venta
     order = models.execute_kw(db_name, uid, password, 'sale.order', 'search_read', [[so_domain]])
     for order_line in order:
@@ -89,16 +88,12 @@ for order_id in order_ids:
                 'sale_line_ids': [(4, line)],
             }
             invoice_vals['invoice_line_ids'].append((0, 0, invoice_line_vals))
-invoice_id = models.execute_kw(db_name, uid, password, 'account.move', 'create', [invoice_vals])
-
-print('----------------------------------------------------------------')
-print(f"Se creó la factura correctamente")
-print(f"El ID de la factura es el siguiente: {invoice_id}")
-print('----------------------------------------------------------------')
-#except Exception as e:
-#    print(f"Error al crear la factura con error: {e}")
-
-
-
+    invoice_id = models.execute_kw(db_name, uid, password, 'account.move', 'create', [invoice_vals])
+    print('----------------------------------------------------------------')
+    print(f"Se creó la factura correctamente")
+    print(f"El ID de la factura es el siguiente: {invoice_id}")
+    print('----------------------------------------------------------------')
+except Exception as e:
+    print(f"Error al crear la factura con error: {e}")
 
 mydb.close()

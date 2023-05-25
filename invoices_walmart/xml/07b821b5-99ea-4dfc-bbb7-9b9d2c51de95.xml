@@ -1,0 +1,1541 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cfdi:Comprobante Version="4.0" Serie="Linio" Folio="19131" Fecha="2023-04-15T02:41:33" Sello="AcpK3NoXEq83mZtGgJ9IExsXhR1CgJIOirI9xpDq+aT35IFM0EPKDHV8B4wamARzXffofDSgH0YsoNqcBViCDBJb0EU+QFbYKaYutAjSMY/LHyDmnaPIWjaAbsRr/Eg+eIaU9uTnVBXnlMlBq0RVl6N4v3mU9ybZU4Thl+HMVUj86QSIfNDf+0yA6H7uHB93ZzrVC8+ttqS40OE2if520IUKVmVjuAErFLRlPtc4j5BFaThhhVcwfn4EcWQZwtdyfIDenYltJQlAdDFmR33ucAfhIUpw02ofUsjwsnQfIRPcyuCdPe+Qdp4G2mWFI8EBhkbEBoJiA8Ll5jWsp2z4CA==" FormaPago="99" NoCertificado="00001000000513207430" Certificado="MIIF7DCCA9SgAwIBAgIUMDAwMDEwMDAwMDA1MTMyMDc0MzAwDQYJKoZIhvcNAQELBQAwggGEMSAwHgYDVQQDDBdBVVRPUklEQUQgQ0VSVElGSUNBRE9SQTEuMCwGA1UECgwlU0VSVklDSU8gREUgQURNSU5JU1RSQUNJT04gVFJJQlVUQVJJQTEaMBgGA1UECwwRU0FULUlFUyBBdXRob3JpdHkxKjAoBgkqhkiG9w0BCQEWG2NvbnRhY3RvLnRlY25pY29Ac2F0LmdvYi5teDEmMCQGA1UECQwdQVYuIEhJREFMR08gNzcsIENPTC4gR1VFUlJFUk8xDjAMBgNVBBEMBTA2MzAwMQswCQYDVQQGEwJNWDEZMBcGA1UECAwQQ0lVREFEIERFIE1FWElDTzETMBEGA1UEBwwKQ1VBVUhURU1PQzEVMBMGA1UELRMMU0FUOTcwNzAxTk4zMVwwWgYJKoZIhvcNAQkCE01yZXNwb25zYWJsZTogQURNSU5JU1RSQUNJT04gQ0VOVFJBTCBERSBTRVJWSUNJT1MgVFJJQlVUQVJJT1MgQUwgQ09OVFJJQlVZRU5URTAeFw0yMjA1MzAxNzQ4MjJaFw0yNjA1MzAxNzQ4MjJaMIG6MR0wGwYDVQQDExRTT01PUyBSRVlFUyBTQSBERSBDVjEdMBsGA1UEKRMUU09NT1MgUkVZRVMgU0EgREUgQ1YxHTAbBgNVBAoTFFNPTU9TIFJFWUVTIFNBIERFIENWMSUwIwYDVQQtExxTUkUxNDEwMjc4TUEgLyBDRVNMODYwNDA1SzUyMR4wHAYDVQQFExUgLyBDRVNMODYwNDA1SERGSENOMDkxFDASBgNVBAsTC1NPTU9TIFJFWUVTMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqiayVInKhbhubDPCLT9rajieBR7dYUCs8bPGnkYUxDiqZUarHsjvT3dJFE7W/FG/qiAvyHUAl59Aj+noOK8bL6cYb0YJAi+gZaGCPACtVPxfdfj0W+w2ou7Kvlbi/2t4oDhr/gYANE/WxC2a9CFQA72nFKWSzvuQYgrVUehjvGJcoDxzNhGg8mTXBi1YQ/AszZH9kIujbQrZ4w9GG6J6mWw+v+kstVWxp5MV6v9Urus5DtlMnT0HPLHBYLAqaHXbkFykWloytUxfutUjhric/5d1SN1FHGa0IXMkNM0VJrq0mNfKc6w5HoZMmVYJMfDawwXgYaaiw76jEb5yVsi6iwIDAQABox0wGzAMBgNVHRMBAf8EAjAAMAsGA1UdDwQEAwIGwDANBgkqhkiG9w0BAQsFAAOCAgEAtSLxLrzQktiFCgIppUUwAur9nzuSDvUNg/9wzmaRyQb5aFIPUGtcsigz5n1L1TRZ4cnX7NIcmeIcuXNBTUbj0Tn3OfCOlOdRVpnXwp+BrASMXtn5EDKQR4hhItA06HrUBWNGWcbuJ+UtAcUWmXHzFgZAsv0FUz2IeWALh3k4rVJE68IlQgyYFQJmsrdLlQoAWPcgW9OfcBdsdOiwL64iCnhtSopvnpeV/08b3Rnu9M9JYdaobqsAVYQS9Gwl2PSCPy+bn0TK5oIp/39sJe1yvoA3aNSokXZv/D/yOrJcRSqCWZKtccASVwCZrIE3uERqCAFRE6zvyLvYatxo16uaK9JRXk/m979I3jcKfOapJv5FzQOPXndc5PGQ1midvPtN31LMVwVMvFLNlrd25ssg7FPsZxRlZ0yWH1VGPTkhWrEFRe8kWNONU3jplJBNowhyHFE3pE7i3LAmecn5nQXWIqbou3bGk4EFxt5w30jo6yY4M5L8/Qk7blgSRNpiE/8OK4v4TxnWtvtnz58jxfiBbxwGzlvlivyCX8pvrGM+jUAETDAxbYQhCTKwz68vC5+zEU8I8DUVy69wJ40ovitEeKuaZnCHujGYN1Dfon23Rb2JYWsqzEi71PLXp/SAyxJL4h5YSihu/PXkkEyBL4etzGQt/mOf5U7wfDyH7OKAAf8=" SubTotal="331303.60" Descuento="0" Moneda="MXN" TipoCambio="1" Total="384312.22" TipoDeComprobante="I" Exportacion="01" MetodoPago="PPD" LugarExpedicion="53460" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd" xmlns:cfdi="http://www.sat.gob.mx/cfd/4">
+  <cfdi:Emisor Rfc="SRE1410278MA" Nombre="SOMOS REYES" RegimenFiscal="601" />
+  <cfdi:Receptor Rfc="RIS120316SH9" Nombre="BAZAYA MEXICO" DomicilioFiscalReceptor="06600" RegimenFiscalReceptor="601" UsoCFDI="G03" />
+  <cfdi:Conceptos>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Rectangular Desmontable 4.5 X 2.2X 0.84 m 28273 Intex IN488SP1HVU9DLMX-626772474 262713456" ValorUnitario="4102.72" Importe="4102.72" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="4102.72" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="656.44" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49121507" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Kit de Limpieza y Mantenimiento Delux para Albercas 28003 Intex IN488SP0TEXAPLMX-626772459 238386256" ValorUnitario="685.86" Importe="685.86" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="685.86" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="109.74" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49121503" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Toldo Carpa Impermeable Plegable De Acero 3x3m Kingsman KI076SP068SVZLMX-669578863 294559256" ValorUnitario="1135.04" Importe="1135.04" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1135.04" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="181.61" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="27112000" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Desbrozadora Desmalezadora 52cc Motor 2 tiempos 2.5 HP + Carrete Hilo Amarillo KIND5200 Kingsman KI076HL0GLI35LMX-667494822 223359256" ValorUnitario="1516.48" Importe="1516.48" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1516.48" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="242.64" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="56101600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Mesa Plegable Portátil Plástico Blanca 180x74x74 cm Portafolio KingsHouse GE598HL12JMYYLMX-649242258 283648256" ValorUnitario="962.69" Importe="962.69" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="962.69" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="154.03" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="56101600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Mesa Plegable Portátil Plástico Blanca 180x74x74 cm Portafolio KingsHouse GE598HL12JMYYLMX-649242258 272948256" ValorUnitario="962.69" Importe="962.69" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="962.69" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="154.03" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="56101500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Ropero Closet Moderno 4 Puertas 2 Cajones Placard New Roma KingsHouse KI076HL0ISRP3LMX-634272593 273228256" ValorUnitario="2578.55" Importe="2578.55" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="2578.55" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="412.57" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Juego Acuatico Inflable Arcoiris y Tobogan 57453NP Intex IN488TB07PKTZLMX-629296201 285928256" ValorUnitario="1352.67" Importe="1352.67" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1352.67" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="216.43" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49121503" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Toldo Carpa Impermeable Plegable de Acero 3x3 m Negro con Bolsa KingsHouse KI218SP1BX58FLMX-669578870 261498256" ValorUnitario="1135.04" Importe="1135.04" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1135.04" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="181.61" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="56101600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Mesa Plegable Portátil Plástico Blanca 180x74x74 cm Portafolio KingsHouse GE598HL12JMYYLMX-649242258 274388256" ValorUnitario="962.69" Importe="962.69" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="962.69" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="154.03" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="56101600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Mesa Plegable Portátil Plástico Blanca 180x74x74 cm Portafolio KingsHouse GE598HL12JMYYLMX-649242258 259478256" ValorUnitario="962.69" Importe="962.69" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="962.69" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="154.03" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="56101500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Ropero Closet Moderno 6 Puertas 2 Cajones Placard Viena Color Blanco Branco-Branco 2258 KingsHouse KI076HL1H9RMFLMX-634272578 254878256" ValorUnitario="3944.07" Importe="3944.07" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="3944.07" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="631.05" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="39121700" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Combo Inverter Skolt 300318 + careta 300320+ Esmeril G720p + Disco D-71685 KI076HL0LBM81LMX-665659271 288778256" ValorUnitario="2745.45" Importe="2745.45" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="2745.45" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="439.27" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="56101500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Ropero Closet Moderno 4 Puertas 2 Cajones Placard New Roma KingsHouse KI076HL0ISRP3LMX-634272593 261778256" ValorUnitario="2578.55" Importe="2578.55" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="2578.55" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="412.57" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="56101500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Ropero Closet Armario Mueble Moderno 3 Puertas 2Cajones Casa KI076HL06W3LJLMX-634272591 275378256" ValorUnitario="2252.34" Importe="2252.34" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="2252.34" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="360.37" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="27112703" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Kit Taladro Atornillador + Rotomartillo Inalambrico + Accesorios CLX228 Makita MA340HL0D4NHBLMX-665830674 297658256" ValorUnitario="3512.41" Importe="3512.41" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="3512.41" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="561.99" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Juego Acuatico Inflable Arcoiris y Tobogan 57453NP Intex IN488TB07PKTZLMX-629296201 223658256" ValorUnitario="1352.67" Importe="1352.67" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1352.67" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="216.43" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49121503" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Tienda Casa De Campaña Para 3 Personas 68085 Pavillo Bestway BE930SP11ZK5VLMX-670317790 281758256" ValorUnitario="636.77" Importe="636.77" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="636.77" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="101.88" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="56121400" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="2 Juegos Vajilla Opal 24 Pzas Moderna Cuadrada 4 Personas CO800HL0FOILPLMX-670609520 289218256" ValorUnitario="719.97" Importe="719.97" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="719.97" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="115.20" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49121503" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Tienda Casa De Campaña Para 3 Personas 68085 Pavillo Bestway BE930SP11ZK5VLMX-670317790 271218256" ValorUnitario="636.77" Importe="636.77" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="636.77" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="101.88" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="56121400" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Juego de 6 Vasos Cooler Linea Prologue Luna Vidrio Reciclado 1713498 Libbey LI022HL0UIXONLMX-663861341 244918256" ValorUnitario="568.21" Importe="568.21" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="568.21" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="90.91" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="60141012" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Inflable Familiar Rectangular 305x183x46 + Cubierta IN488TB0TLAGHLMX-670652719 231918256" ValorUnitario="1138.50" Importe="1138.50" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1138.50" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="182.16" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49221500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Hielera 40 QT Roja Con Ruedas 6240A703G Coleman CO674SP0B5UGULMX-649203233 253518256" ValorUnitario="1203.19" Importe="1203.19" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1203.19" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="192.51" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Juego Acuatico Inflable Arcoiris y Tobogan 57453NP Intex IN488TB07PKTZLMX-629296201 272318256" ValorUnitario="1352.67" Importe="1352.67" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1352.67" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="216.43" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="56101500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Ropero Closet Moderno 6 Puertas 2 Cajones Placard Viena Color Blanco Branco-Branco 2258 KingsHouse KI076HL1H9RMFLMX-634272578 262238256" ValorUnitario="3944.07" Importe="3944.07" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="3944.07" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="631.05" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="56101600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Mesa Plegable Portátil Plástico Blanca 180x74x74 cm Portafolio KingsHouse GE598HL12JMYYLMX-649242258 273247256" ValorUnitario="962.69" Importe="962.69" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="962.69" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="154.03" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Juego Acuatico Inflable Arcoiris y Tobogan 57453NP Intex IN488TB07PKTZLMX-629296201 231427256" ValorUnitario="1352.67" Importe="1352.67" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1352.67" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="216.43" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="56101600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Mesa Plegable Portátil Plástico Blanca 180x74x74 cm Portafolio KingsHouse GE598HL12JMYYLMX-649242258 262627256" ValorUnitario="962.69" Importe="962.69" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="962.69" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="154.03" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Circular 4485L 305X76 Cm Metal Frame 28200NP Intex IN488TB12945ZLMX-629293730 285727256" ValorUnitario="1785.00" Importe="1785.00" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1785.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="285.60" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Easy Set de 304 x 61 cm 28116NP Intex IN488HL1KUW8QLMX-653665435 249327256" ValorUnitario="1025.13" Importe="1025.13" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1025.13" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="164.02" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49121503" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Toldo Carpa Impermeable Plegable de Acero 3x3 m Naranja con Bolsa KingsHouse KI076HL0BZH4LLMX-662478370 266467256" ValorUnitario="1369.53" Importe="1369.53" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1369.53" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="219.12" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="60141012" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Inflable Ondulada 229 x 229 x 56 cm 57495NP Intex IN488SP028KJHLMX-626680105 225467256" ValorUnitario="839.25" Importe="839.25" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="839.25" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="134.28" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="56101600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Mesa Plegable Portátil Plástico Blanca 180x74x74 cm Portafolio KingsHouse GE598HL12JMYYLMX-649242258 222667256" ValorUnitario="962.69" Importe="962.69" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="962.69" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="154.03" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Juego Acuatico Inflable Arcoiris y Tobogan 57453NP Intex IN488TB07PKTZLMX-629296201 271967256" ValorUnitario="1352.67" Importe="1352.67" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1352.67" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="216.43" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="56101600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Mesa Plegable Portátil Plástico Blanca 180x74x74 cm Portafolio KingsHouse GE598HL12JMYYLMX-649242258 261867256" ValorUnitario="962.69" Importe="962.69" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="962.69" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="154.03" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Inflable Peces 305x183x56 cm 54121 Bestway BE930HL0J19NKLMX-655036706 276767256" ValorUnitario="699.05" Importe="699.05" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="699.05" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="111.85" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Circular 4485L 305X76 Cm Metal Frame 28200NP Intex IN488TB12945ZLMX-629293730 276797256" ValorUnitario="1785.00" Importe="1785.00" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1785.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="285.60" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Inflable para Niños 152x56 cm Tropical 58480NP Intex IN488HL14B0TDLMX-660057464 231597256" ValorUnitario="566.42" Importe="566.42" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="566.42" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="90.63" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="60141012" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Piscina Inflable Cangrejo 183cm + Flotador Infable IN488TB0YY6WHLMX-670652710 223597256" ValorUnitario="963.00" Importe="963.00" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="963.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="154.08" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="56101537" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Mueble Cajonero Multiusos con 8 Cajones 87x90x45 15803-2362 dm-03 Blanco KingsHouse KI076HL0FUV3JLMX-660392812 274197256" ValorUnitario="2313.03" Importe="2313.03" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="2313.03" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="370.08" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="56101600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Mesa Plegable Portátil Plástico Blanca 180x74x74 cm Portafolio KingsHouse GE598HL12JMYYLMX-649242258 288197256" ValorUnitario="962.69" Importe="962.69" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="962.69" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="154.03" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Juego Acuatico Inflable Arcoiris y Tobogan 57453NP Intex IN488TB07PKTZLMX-629296201 217197256" ValorUnitario="1352.67" Importe="1352.67" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1352.67" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="216.43" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Centro De Juegos Alberca Inflable Dinoland Grande 3.33 X 2.29 X 1.12 Cm Con Accesorios 57135Np Intex IN488SP0XSJLPLMX-626680140 217397256" ValorUnitario="1538.06" Importe="1538.06" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1538.06" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="246.09" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49221500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Hielera 40 QT Roja Con Ruedas 6240A703G Coleman CO674SP0B5UGULMX-649203233 283397256" ValorUnitario="1203.19" Importe="1203.19" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1203.19" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="192.51" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="56101537" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Mueble Cajonero Multiusos con 8 Cajones 87x90x45 15803-2362 dm-03 Blanco KingsHouse KI076HL0FUV3JLMX-660392812 278987256" ValorUnitario="2313.03" Importe="2313.03" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="2313.03" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="370.08" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="60141012" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Estructural Circular + Bomba Escalera + 2 Flotadores IN488TB0GHR5DLMX-670652697 264787256" ValorUnitario="4818.75" Importe="4818.75" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="4818.75" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="771.00" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Escalera Para Alberca Hasta 1.22 Mts 3 Peldaños 28066 Intex IN488TB1JGJJRLMX-629293336 295787256" ValorUnitario="1010.47" Importe="1010.47" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1010.47" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="161.68" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Inflable Familiar 3D Azul 262x175x51 cm 54177 Bestway BE930HL0SFF0ZLMX-666748645 215787256" ValorUnitario="881.51" Importe="881.51" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="881.51" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="141.04" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="60141012" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Estructural Circular + Bomba Escalera + 2 Flotadores IN488TB0GHR5DLMX-670652697 256477256" ValorUnitario="4818.75" Importe="4818.75" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="4818.75" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="771.00" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49221500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Hielera 48 Cuartos Azul 2160729 Coleman CO674SP99AJKLMX-1238109 212277256" ValorUnitario="942.33" Importe="942.33" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="942.33" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="150.77" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Juego Acuatico Inflable Arcoiris y Tobogan 57453NP Intex IN488TB07PKTZLMX-629296201 261677256" ValorUnitario="1352.67" Importe="1352.67" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1352.67" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="216.43" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49121503" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Toldo Carpa Impermeable Plegable de Acero 3x3 m Naranja con Bolsa KingsHouse KI076HL0BZH4LLMX-662478370 232977256" ValorUnitario="1369.53" Importe="1369.53" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1369.53" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="219.12" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49221500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Hielera 48 Cuartos Azul 2160729 Coleman CO674SP99AJKLMX-1238109 245177256" ValorUnitario="942.33" Importe="942.33" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="942.33" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="150.77" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="56101600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Mesa Plegable Portátil Plástico Blanca 180x74x74 cm Portafolio KingsHouse GE598HL12JMYYLMX-649242258 286457256" ValorUnitario="962.69" Importe="962.69" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="962.69" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="154.03" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Circular 4485L 305X76 Cm Metal Frame 28200NP Intex IN488TB12945ZLMX-629293730 281657256" ValorUnitario="1785.00" Importe="1785.00" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1785.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="285.60" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="52121600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Set Escurridor Trastes Fregadero 2 Pisos Vajilla Opal 13Pzas CO800HL053019LMX-670609941 294157256" ValorUnitario="1150.07" Importe="1150.07" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1150.07" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="184.01" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="56101600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Mesa Plegable Portátil Plástico Blanca 180x74x74 cm Portafolio KingsHouse GE598HL12JMYYLMX-649242258 226417256" ValorUnitario="962.69" Importe="962.69" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="962.69" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="154.03" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="56101505" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Mueble Modular de TV con 7 Repisas 51x180x40 cm 15808-2435 r-08 KingsHouse KI076HL1KXRU7LMX-660392809 228417256" ValorUnitario="1364.76" Importe="1364.76" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1364.76" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="218.36" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="23101506" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Mini Esmeriladora 820w de 4 1/2&quot; con 12 Discos y Estuche G720K12-B3 Black And Decker BL939HL1N1HA9LMX-627166734 221217256" ValorUnitario="1076.48" Importe="1076.48" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1076.48" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="172.24" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="21101600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Soldadora Inverter 110V/220V Con Careta Electronica Soldar KI076HL0UT185LMX-670552203 249917256" ValorUnitario="1364.76" Importe="1364.76" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1364.76" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="218.36" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Inflable Peces 305x183x56 cm 54121 Bestway BE930HL0J19NKLMX-655036706 271117256" ValorUnitario="699.05" Importe="699.05" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="699.05" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="111.85" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="60141012" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Inflable Familiar Rectangular 305x183x46 + Cubierta IN488TB0TLAGHLMX-670652719 269317256" ValorUnitario="1138.50" Importe="1138.50" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1138.50" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="182.16" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Juego Acuatico Inflable Arcoiris y Tobogan 57453NP Intex IN488TB07PKTZLMX-629296201 266837256" ValorUnitario="1352.67" Importe="1352.67" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1352.67" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="216.43" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Armable Rectangular 220X150X60Cm 1662L 28270NP Intex IN488TB187G7RLMX-629293731 285837256" ValorUnitario="2072.97" Importe="2072.97" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="2072.97" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="331.68" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49221500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Hielera 36 Cuartos Azul 6281-718 Coleman CO674HL40DOLLMX-1240605 293837256" ValorUnitario="1032.46" Importe="1032.46" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1032.46" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="165.19" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="56101700" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Escritorio Repisas Cajones Computadora Estudiante Hogar Casa KI076HL01ZJ2VLMX-658187062 269745256" ValorUnitario="1061.31" Importe="1061.31" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1061.31" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="169.81" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Centro de Juegos Alberca Inflable Acuario Fantástico 239x206x86 cm 53052 Bestway BE930HL1JFWDNLMX-669866902 251745256" ValorUnitario="951.85" Importe="951.85" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="951.85" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="152.30" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49121503" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Toldo Carpa Impermeable Plegable de Acero 3x6 m Azul con Bolsa KingsHouse KI076SP0BZBYFLMX-631257891 246145256" ValorUnitario="2563.92" Importe="2563.92" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="2563.92" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="410.23" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49221500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Hielera 40 QT Roja Con Ruedas 6240A703G Coleman CO674SP0B5UGULMX-649203233 238425256" ValorUnitario="1203.19" Importe="1203.19" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1203.19" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="192.51" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Juego Acuatico Inflable Arcoiris y Tobogan 57453NP Intex IN488TB07PKTZLMX-629296201 293425256" ValorUnitario="1352.67" Importe="1352.67" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1352.67" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="216.43" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Circular 4485L 305X76 Cm Metal Frame 28200NP Intex IN488TB12945ZLMX-629293730 219625256" ValorUnitario="1785.00" Importe="1785.00" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1785.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="285.60" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="27111536" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Easy Set de 2.44 x 61 cm 1,942 Lit 28106NP Intex IN488HL1N9XHOLMX-650969156 265925256" ValorUnitario="735.10" Importe="735.10" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="735.10" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="117.62" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="27112703" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Combo Taladro Rotomartillo HD500 + Juego de Brocas y Accesorios 300234 + Esmeril G720P KI076HL0X0IGLLMX-664417878 283725256" ValorUnitario="2009.59" Importe="2009.59" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="2009.59" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="321.53" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Estructural Rectangular Steel Pro 400x211x81 cm 56425 Bestway BE930HL0Q3LA3LMX-666722200 265525256" ValorUnitario="4123.23" Importe="4123.23" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="4123.23" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="659.72" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Circular 4485L 305X76 Cm Metal Frame 28200NP Intex IN488TB12945ZLMX-629293730 263525256" ValorUnitario="1785.00" Importe="1785.00" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1785.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="285.60" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Inflable Peces 305x183x56 cm 54121 Bestway BE930HL0J19NKLMX-655036706 242665256" ValorUnitario="699.05" Importe="699.05" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="699.05" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="111.85" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="56121400" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Vajilla 24 Piezas Opal Moderna Cuadrada Vasos Vidrio Calypso CO800HL1LYAJXLMX-670609537 238865256" ValorUnitario="623.59" Importe="623.59" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="623.59" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="99.77" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Circular 4485L 305X76 Cm Metal Frame 28200NP Intex IN488TB12945ZLMX-629293730 273765256" ValorUnitario="1785.00" Importe="1785.00" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1785.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="285.60" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="39121700" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Rotomartillo Taladro Percutor 110/120V Reversible 680W Ingco IN972HL09ULF3LMX-670436718 277565256" ValorUnitario="810.97" Importe="810.97" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="810.97" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="129.76" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49121503" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Tienda Casa De Campaña Para 3 Personas 68085 Pavillo Bestway BE930SP11ZK5VLMX-670317790 271995256" ValorUnitario="636.77" Importe="636.77" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="636.77" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="101.88" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49121503" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Tienda Casa De Campaña Para 3 Personas 68085 Pavillo Bestway BE930SP11ZK5VLMX-670317790 242895256" ValorUnitario="636.77" Importe="636.77" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="636.77" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="101.88" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="27112000" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Desbrozadora Desmalezadora 52cc Motor 2 tiempos 2.5 HP + Carrete Hilo Amarillo KIND5200 Kingsman KI076HL0GLI35LMX-667494822 246895256" ValorUnitario="1516.48" Importe="1516.48" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1516.48" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="242.64" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49121503" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Toldo Carpa Impermeable Plegable de Acero 3x3 m Negro con Bolsa KingsHouse KI218SP1BX58FLMX-669578870 275895256" ValorUnitario="1272.07" Importe="1272.07" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1272.07" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="203.53" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="56101500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Rack Multiusos Alacena Cocina con Cajones Puertas y Repisas 210x140x45 158185-2410/2411-185 KingsHouse KI076HL13O7ANLMX-660392816 212595256" ValorUnitario="4148.90" Importe="4148.90" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="4148.90" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="663.82" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49121503" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Tienda Casa De Campaña Para 3 Personas 68085 Pavillo Bestway BE930SP11ZK5VLMX-670317790 276595256" ValorUnitario="636.77" Importe="636.77" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="636.77" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="101.88" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49221500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Colchon Inflable Queen Bomba Int Doble Altura 64123EP Intex IN488TB0GRKXZLMX-629296950 232395256" ValorUnitario="905.69" Importe="905.69" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="905.69" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="144.91" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49121503" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Tienda Casa De Campaña Para 3 Personas 68085 Pavillo Bestway BE930SP11ZK5VLMX-670317790 269395256" ValorUnitario="636.77" Importe="636.77" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="636.77" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="101.88" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49221500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Hielera 40 QT Roja Con Ruedas 6240A703G Coleman CO674SP0B5UGULMX-649203233 218485256" ValorUnitario="1281.59" Importe="1281.59" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1281.59" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="205.05" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="60141012" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Piscina Inflable Rectangular 305cm + Cubierta IN488TB0NMYEPLMX-670652718 233285256" ValorUnitario="1188.00" Importe="1188.00" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1188.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="190.08" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49121503" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Tienda Casa De Campaña Para 4 Personas Pavillo 68091 Bestway BE930SP08TBIRLMX-670317800 282985256" ValorUnitario="1179.01" Importe="1179.01" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1179.01" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="188.64" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49221500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Lancha Inflable Challenger Con Remos Y Bomba 68367NP Intex IN488TB034R6VLMX-629297139 232985256" ValorUnitario="1098.41" Importe="1098.41" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1098.41" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="175.75" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Circular 4485L 305X76 Cm Metal Frame 28200NP Intex IN488TB12945ZLMX-629293730 244885256" ValorUnitario="1785.00" Importe="1785.00" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1785.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="285.60" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="27112000" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Motosierra Gasolina 52 cc Longitud 20&quot; La Leñadora KINM5220 Kingsman KI076HL0AN61DLMX-667494821 246885256" ValorUnitario="909.59" Importe="909.59" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="909.59" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="145.53" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Circular 4485L 305X76 Cm Metal Frame 28200NP Intex IN488TB12945ZLMX-629293730 266785256" ValorUnitario="1785.00" Importe="1785.00" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1785.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="285.60" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="56101600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Mesa Plegable Portátil Plástico Blanca 180x74x74 cm Portafolio KingsHouse GE598HL12JMYYLMX-649242258 258785256" ValorUnitario="1000.62" Importe="1000.62" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1000.62" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="160.10" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Circular 4485L 305X76 Cm Metal Frame 28200NP Intex IN488TB12945ZLMX-629293730 244585256" ValorUnitario="1785.00" Importe="1785.00" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1785.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="285.60" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49221500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Hielera 48 Cuartos Azul 2160729 Coleman CO674SP99AJKLMX-1238109 226585256" ValorUnitario="942.33" Importe="942.33" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="942.33" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="150.77" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49221500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Hielera 48 Cuartos Azul 2160729 Coleman CO674SP99AJKLMX-1238109 256585256" ValorUnitario="942.33" Importe="942.33" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="942.33" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="150.77" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="60141012" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Estructural Circular + Bomba Filtrante + Tapete Piso IN488TB0H36R5LMX-670652707 257385256" ValorUnitario="3998.25" Importe="3998.25" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="3998.25" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="639.72" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Juego Acuatico Inflable Arcoiris y Tobogan 57453NP Intex IN488TB07PKTZLMX-629296201 272475256" ValorUnitario="1352.67" Importe="1352.67" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1352.67" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="216.43" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="21101600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Soldadora Inverter 110V/220V Careta Soldar y Juego Escuadras KI076HL1649PXLMX-670552195 287475256" ValorUnitario="1516.48" Importe="1516.48" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1516.48" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="242.64" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Juego Acuatico Inflable Arcoiris y Tobogan 57453NP Intex IN488TB07PKTZLMX-629296201 262675256" ValorUnitario="1352.67" Importe="1352.67" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1352.67" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="216.43" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="60141012" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Inflable Rectangular Mandarina + Flotador Salvavidas IN488TB0SZUUPLMX-670652709 229675256" ValorUnitario="825.75" Importe="825.75" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="825.75" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="132.12" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49221500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Hielera de 18 QT para 20 Latas Chiller Celeste 2161158 Coleman CO674SP0TNWQNLMX-669523557 244975256" ValorUnitario="670.47" Importe="670.47" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="670.47" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="107.28" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="56101500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Ropero Closet Armario Mueble Moderno 6 Puertas 2Cajones Casa KI076HL00XRJRLMX-634272590 213975256" ValorUnitario="4550.97" Importe="4550.97" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="4550.97" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="728.16" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="25174001" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Ventilador Metalico Pedestal 3 en 1 (Pedestal-piso-pared ) 18&quot; SFM-45 AIRON AI447HL03MQ8QLMX-373346695 222875256" ValorUnitario="1098.41" Importe="1098.41" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1098.41" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="175.75" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="30191501" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Escalera Tubular Plegable Taburete Acero 3 Escalones Surtek SU467HL1BNF5MLMX-656207791 295875256" ValorUnitario="902.00" Importe="902.00" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="902.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="144.32" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Circular Metal Frame con Bomba 3.66 x 0.76 m 28211 Intex IN488TB0KNSMDLMX-627310674 253875256" ValorUnitario="3076.85" Importe="3076.85" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="3076.85" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="492.30" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49221500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Hielera 48 Cuartos Azul 2160729 Coleman CO674SP99AJKLMX-1238109 212775256" ValorUnitario="942.33" Importe="942.33" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="942.33" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="150.77" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49221500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Hielera 40 QT Roja Con Ruedas 6240A703G Coleman CO674SP0B5UGULMX-649203233 271575256" ValorUnitario="1281.59" Importe="1281.59" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1281.59" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="205.05" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Escalera Para Alberca Piscinas de 52 In 132 cm 28077 Intex IN488SP12ASIRLMX-632252404 249375256" ValorUnitario="1944.01" Importe="1944.01" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1944.01" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="311.04" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="56101500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Ropero Closet Moderno con Espejo 3 Puertas 2 Cajones Internos Rieles Metálicos Puertas Doble Vista Color Ipe/Vainilla 3531-21 KingsHouse KI076HL17ZR01LMX-632891654 275375256" ValorUnitario="4983.38" Importe="4983.38" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="4983.38" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="797.34" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="60141012" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Inflable Familiar Rectangular 305x183x46 + Cubierta IN488TB0TLAGHLMX-670652719 213455256" ValorUnitario="1138.50" Importe="1138.50" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1138.50" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="182.16" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="21101600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Soldadora Inverter 110V/220V Con Careta Electronica Soldar KI076HL0IWD4LLMX-670552201 292955256" ValorUnitario="1364.76" Importe="1364.76" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1364.76" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="218.36" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Circular 4485L 305X76 Cm Metal Frame 28200NP Intex IN488TB12945ZLMX-629293730 244855256" ValorUnitario="1785.00" Importe="1785.00" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1785.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="285.60" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Inflable Fast Set 305x66 cm 57456 Bestway BE930HL14XIQBLMX-666748736 272755256" ValorUnitario="951.85" Importe="951.85" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="951.85" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="152.30" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="60141012" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Inflable Familiar Rectangular 305x183x46 + Cubierta IN488TB0TLAGHLMX-670652719 272555256" ValorUnitario="1138.50" Importe="1138.50" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1138.50" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="182.16" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Circular 4485L 305X76 Cm Metal Frame 28200NP Intex IN488TB12945ZLMX-629293730 251215256" ValorUnitario="1785.00" Importe="1785.00" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1785.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="285.60" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49201513" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Trampolín 48” Plegable en 4 Cap. 150 Kg C/36 Resortes Color Negro KingSports GE598SP1HGYA5LMX-668126513 212915256" ValorUnitario="1391.51" Importe="1391.51" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1391.51" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="222.64" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49121503" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Tienda Casa De Campaña Para 3 Personas 68085 Pavillo Bestway BE930SP11ZK5VLMX-670317790 278915256" ValorUnitario="636.77" Importe="636.77" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="636.77" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="101.88" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49221500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Hielera 40 QT Roja Con Ruedas 6240A703G Coleman CO674SP0B5UGULMX-649203233 281815256" ValorUnitario="1281.59" Importe="1281.59" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1281.59" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="205.05" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="25174001" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Ventilador de Pared 16 In 45w 3 velocidades WF-40 Airon AI447HL1EUZMKLMX-651242486 287715256" ValorUnitario="746.68" Importe="746.68" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="746.68" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="119.47" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Circular Prism Frame 3.66 x 0.76 m 26710NP Intex IN488TB1EFGV9LMX-627310679 265435256" ValorUnitario="2503.10" Importe="2503.10" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="2503.10" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="400.50" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49221500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Detector De Metales Vanquish 340 Minelab MI209SP1LV9QFLMX-665903377 278935256" ValorUnitario="3296.68" Importe="3296.68" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="3296.68" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="527.47" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Circular 4485L 305X76 Cm Metal Frame 28200NP Intex IN488TB12945ZLMX-629293730 217935256" ValorUnitario="1785.00" Importe="1785.00" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1785.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="285.60" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Centro De Juegos Alberca Inflable Dinoland Grande 3.33 X 2.29 X 1.12 Cm Con Accesorios 57135Np Intex IN488SP0XSJLPLMX-626680140 256835256" ValorUnitario="1538.06" Importe="1538.06" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1538.06" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="246.09" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Juego Acuatico Inflable Resbaladilla CandyZone 57149NP Intex IN488TB0E2X07LMX-629295164 292535256" ValorUnitario="1359.27" Importe="1359.27" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1359.27" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="217.48" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Juego Acuatico Inflable Infantil Con Tobogan 57165NP Intex IN488TB0LA9FBLMX-629295632 266535256" ValorUnitario="873.45" Importe="873.45" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="873.45" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="139.75" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49221500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Hielera 40 QT Roja Con Ruedas 6240A703G Coleman CO674SP0B5UGULMX-649203233 297335256" ValorUnitario="1281.59" Importe="1281.59" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1281.59" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="205.05" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="56101537" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Mueble Cajonero Multiusos con 8 Cajones 87x90x45 15803-2362 dm-03 Blanco KingsHouse KI076HL0FUV3JLMX-660392812 274241256" ValorUnitario="2404.07" Importe="2404.07" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="2404.07" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="384.65" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Juego Acuatico Inflable Arcoiris y Tobogan 57453NP Intex IN488TB07PKTZLMX-629296201 274941256" ValorUnitario="1352.67" Importe="1352.67" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1352.67" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="216.43" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Infantil Fill-N-Fun Acuario 244x46 cm 55031 Bestway BE930HL14C34JLMX-666748647 261941256" ValorUnitario="526.85" Importe="526.85" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="526.85" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="84.30" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Centro De Juegos Alberca Inflable Dinoland Grande 3.33 X 2.29 X 1.12 Cm Con Accesorios 57135Np Intex IN488SP0XSJLPLMX-626680140 252541256" ValorUnitario="1538.06" Importe="1538.06" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1538.06" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="246.09" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Inflable Parasol 157X157X122 cm 57470 Intex IN488SP1DV8XPLMX-626680113 239541256" ValorUnitario="636.77" Importe="636.77" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="636.77" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="101.88" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Estrucutral Steel Pro Max 427x84 cm 56597 Bestway BE930HL11K988LMX-655027806 287541256" ValorUnitario="4077.07" Importe="4077.07" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="4077.07" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="652.33" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="27112000" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Motosierra Gasolina 52 cc Longitud 20&quot; La Leñadora KINM5220 Kingsman KI076HL0AN61DLMX-667494821 243541256" ValorUnitario="909.59" Importe="909.59" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="909.59" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="145.53" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="27112709" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Sierra Inglete Ingletadora de 10 In 1650w SM16-B3 Stanley ST921HL0WM9XPLMX-629813630 219341256" ValorUnitario="3145.24" Importe="3145.24" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="3145.24" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="503.24" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="27111536" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Juego Mecanico de 143 piezas Dados Cromo Negro en 1/4 , 3/8 &amp; 1/2&quot; STMT74084 Stanley ST921EL06CQJWLMX-353622848 298341256" ValorUnitario="1711.45" Importe="1711.45" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1711.45" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="273.83" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="52121600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Set Escurridor Trastes Fregadero Vajilla Opal Blanca 13 Pzas CO800HL1M2KVHLMX-670609940 263221256" ValorUnitario="1066.62" Importe="1066.62" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1066.62" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="170.66" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Inflable Familiar Z C/Portavasos Azul 54321 Bestway BE930HL0U9V03LMX-666748755 297621256" ValorUnitario="951.12" Importe="951.12" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="951.12" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="152.18" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="56121400" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="2 Juegos Vajilla Opal 24 Pzas Moderna Cuadrada 4 Personas CO800HL0FOILPLMX-670609520 295621256" ValorUnitario="719.97" Importe="719.97" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="719.97" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="115.20" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49221500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Hielera 36 Cuartos Azul 6281-718 Coleman CO674HL40DOLLMX-1240605 266921256" ValorUnitario="1032.46" Importe="1032.46" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1032.46" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="165.19" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Centro De Juegos Alberca Inflable Dinoland Grande 3.33 X 2.29 X 1.12 Cm Con Accesorios 57135Np Intex IN488SP0XSJLPLMX-626680140 234821256" ValorUnitario="1538.06" Importe="1538.06" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1538.06" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="246.09" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49121503" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Toldo Carpa Impermeable Plegable de Acero 3x3 m Negro con Bolsa KingsHouse KI218SP1BX58FLMX-669578870 262321256" ValorUnitario="1135.04" Importe="1135.04" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1135.04" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="181.61" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="27112703" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Taladro de Percusion 550 w GSB 550 RE Bosch BO226HL1C9AILLMX-617022706 273761256" ValorUnitario="985.45" Importe="985.45" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="985.45" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="157.67" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Estructural Redonda Steel Pro 305x76 cm Con Bomba Y Filtro 56678 Bestway BE930HL1B1Y5KLMX-655051918 243561256" ValorUnitario="2278.15" Importe="2278.15" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="2278.15" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="364.50" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Inflable Fast Set 305x66 cm 57456 Bestway BE930HL14XIQBLMX-666748736 273561256" ValorUnitario="951.85" Importe="951.85" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="951.85" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="152.30" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="25191700" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Bomba Presurizador Automatico Igoto PAC16 1/6hp 2 Servicios IG148HL1BP547LMX-670445461 292361256" ValorUnitario="757.86" Importe="757.86" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="757.86" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="121.26" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="25191700" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Bomba Periferica Igoto QB-80 1 Hp 750w Alcance 60 Metros IG148HL1HNH5ZLMX-670445462 232361256" ValorUnitario="1125.79" Importe="1125.79" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1125.79" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="180.13" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Centro de Juegos Alberca Inflable Acuario Fantástico 239x206x86 cm 53052 Bestway BE930HL1JFWDNLMX-669866902 249361256" ValorUnitario="878.58" Importe="878.58" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="878.58" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="140.57" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Centro de Juegos Alberca Inflable Acuario Fantástico 239x206x86 cm 53052 Bestway BE930HL1JFWDNLMX-669866902 292691256" ValorUnitario="878.58" Importe="878.58" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="878.58" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="140.57" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="25191700" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Bomba Periferica Igoto QB-80 1 Hp 750w Alcance 60 Metros IG148HL1HNH5ZLMX-670445462 299691256" ValorUnitario="1125.79" Importe="1125.79" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1125.79" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="180.13" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="27112000" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Motosierra Gasolina 52 cc Longitud 20&quot; La Leñadora KINM5220 Kingsman KI076HL0AN61DLMX-667494821 296991256" ValorUnitario="909.59" Importe="909.59" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="909.59" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="145.53" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="27112703" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Taladro Rotomartillo de 1/2&quot; Brushless 20V 2 Baterias DCD7781D2 DeWalt DE625HL0L5NN1LMX-665530112 251991256" ValorUnitario="3252.97" Importe="3252.97" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="3252.97" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="520.48" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Estructural Steel Pro 2.21x1.50x0.43 m 56401 Bestway BE930TB1G94XNLMX-631435359 266591256" ValorUnitario="1756.42" Importe="1756.42" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1756.42" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="281.03" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Estructural Steel Pro 2.21x1.50x0.43 m 56401 Bestway BE930TB1G94XNLMX-631435359 224681256" ValorUnitario="1756.42" Importe="1756.42" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1756.42" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="281.03" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="27112000" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Escalera Multiposiciones de Acero 12 Escalones Naranja 333614 Peldanos PE943HL12969JLMX-631517744 217781256" ValorUnitario="1895.79" Importe="1895.79" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1895.79" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="303.33" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="30191501" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Escalera Telescopica De Aluminio Plegable 5 M 13 Escalones KI076HL08YL6JLMX-669870536 233381256" ValorUnitario="1827.52" Importe="1827.52" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1827.52" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="292.40" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Juego Acuatico Inflable Resbaladilla CandyZone 57149NP Intex IN488TB0E2X07LMX-629295164 261671256" ValorUnitario="1359.27" Importe="1359.27" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1359.27" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="217.48" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49121503" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Toldo Carpa Impermeable Plegable de Acero 3x4.5 m Rojo con Bolsa KingsHouse KI218HL115B4BLMX-669647666 255971256" ValorUnitario="1955.00" Importe="1955.00" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1955.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="312.80" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49221500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Hielera 40 QT Roja Con Ruedas 6240A703G Coleman CO674SP0B5UGULMX-649203233 295771256" ValorUnitario="1281.59" Importe="1281.59" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1281.59" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="205.05" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Circular Metal Frame con Bomba 3.05 x 0.76 m 28201 Intex IN488TB0EPGKLLMX-627310673 286571256" ValorUnitario="2153.58" Importe="2153.58" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="2153.58" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="344.57" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Infantil Fill-N-Fun Acuario 244x46 cm 55031 Bestway BE930HL14C34JLMX-666748647 273571256" ValorUnitario="504.87" Importe="504.87" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="504.87" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="80.78" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49221500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Hielera 40 QT Roja Con Ruedas 6240A703G Coleman CO674SP0B5UGULMX-649203233 246951256" ValorUnitario="1281.59" Importe="1281.59" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1281.59" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="205.05" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Estructural Steel Pro 2.21x1.50x0.43 m 56401 Bestway BE930TB1G94XNLMX-631435359 264851256" ValorUnitario="1756.42" Importe="1756.42" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1756.42" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="281.03" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="60141012" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Estructural Circular + Bomba Escalera + 2 Flotadores IN488TB0GHR5DLMX-670652697 242851256" ValorUnitario="4818.75" Importe="4818.75" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="4818.75" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="771.00" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="27112703" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Paquete de Esmeriladora 4 1/2 M0901G + Taladro SDS Plus M8701G MTK0005G Makita MA340HL1MDEA2LMX-653144713 253751256" ValorUnitario="3033.72" Importe="3033.72" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="3033.72" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="485.40" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Circular 4485L 305X76 Cm Metal Frame 28200NP Intex IN488TB12945ZLMX-629293730 229151256" ValorUnitario="1785.00" Importe="1785.00" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1785.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="285.60" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="27112000" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Motosierra Gasolina 52 cc Longitud 20&quot; La Leñadora KINM5220 Kingsman KI076HL0AN61DLMX-667494821 214211256" ValorUnitario="909.59" Importe="909.59" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="909.59" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="145.53" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Juego Acuatico Inflable Arcoiris y Tobogan 57453NP Intex IN488TB07PKTZLMX-629296201 233211256" ValorUnitario="1098.41" Importe="1098.41" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1098.41" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="175.75" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49121503" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Toldo Carpa Impermeable Plegable de Acero 3x3 m Naranja con Bolsa KingsHouse KI076HL0BZH4LLMX-662478370 276111256" ValorUnitario="1135.04" Importe="1135.04" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1135.04" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="181.61" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="27112000" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Motosierra Gasolina 52 cc Longitud 20&quot; La Leñadora KINM5220 Kingsman KI076HL0AN61DLMX-667494821 281311256" ValorUnitario="909.59" Importe="909.59" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="909.59" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="145.53" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="40101805" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Enfriador Evaporativo Portatil de 85w 3 Velocidades F950P-CR Frikko FR891HL1E45Q2LMX-649599879 229231256" ValorUnitario="2637.20" Importe="2637.20" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="2637.20" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="421.95" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49121503" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Toldo Carpa Impermeable Plegable de Acero 3x4.5 m Rojo con Bolsa KingsHouse KI218HL115B4BLMX-669647666 256631256" ValorUnitario="1955.00" Importe="1955.00" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1955.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="312.80" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Circular Metal Frame con Bomba 3.05 x 0.76 m 28201 Intex IN488TB0EPGKLLMX-627310673 251631256" ValorUnitario="2153.58" Importe="2153.58" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="2153.58" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="344.57" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Armable Rectangular 220X150X60Cm 1662L 28270NP Intex IN488TB187G7RLMX-629293731 243631256" ValorUnitario="2072.97" Importe="2072.97" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="2072.97" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="331.68" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Armable Rectangular 220X150X60Cm 1662L 28270NP Intex IN488TB187G7RLMX-629293731 269931256" ValorUnitario="2072.97" Importe="2072.97" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="2072.97" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="331.68" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Redonda Desmontable Prism Frame 3 m x 76 cm Intex IN488TB0N0D7XLMX-626962720 292831256" ValorUnitario="2138.19" Importe="2138.19" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="2138.19" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="342.11" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Circular 4485L 305X76 Cm Metal Frame 28200NP Intex IN488TB12945ZLMX-629293730 229531256" ValorUnitario="1785.00" Importe="1785.00" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1785.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="285.60" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49121601" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Silla Mallla GO con Descansa Brazos Roja 2000013881 Coleman CO674SP0DWQIQLMX-8467105 283531256" ValorUnitario="575.95" Importe="575.95" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="575.95" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="92.15" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49121503" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Toldo Carpa Impermeable Plegable de Acero 3x3 m Naranja con Bolsa KingsHouse KI076HL0BZH4LLMX-662478370 222643256" ValorUnitario="1135.04" Importe="1135.04" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1135.04" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="181.61" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Circular 4485L 305X76 Cm Metal Frame 28200NP Intex IN488TB12945ZLMX-629293730 295543256" ValorUnitario="1785.00" Importe="1785.00" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1785.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="285.60" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Kit de Accesorios para Mantenimiento y Limpieza de Alberca Flowclear 58195 Bestway BE930HL14WT10LMX-650150213 282423256" ValorUnitario="512.20" Importe="512.20" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="512.20" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="81.95" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca para Niños Desmontable Mini Small Frame 1.22 x 0.30 m 57173NP Intex IN488TB12ISRPLMX-627310677 268823256" ValorUnitario="681.47" Importe="681.47" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="681.47" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="109.04" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49121503" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Toldo Carpa Impermeable Plegable de Acero 3x3 m Blanco con Bolsa KingsHouse KI218SP15B8F3LMX-669578858 258723256" ValorUnitario="1135.04" Importe="1135.04" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1135.04" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="181.61" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Armable Rectangular 220X150X60Cm 1662L 28270NP Intex IN488TB187G7RLMX-629293731 216523256" ValorUnitario="2072.97" Importe="2072.97" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="2072.97" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="331.68" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="25191700" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Bomba Periferica Igoto QB-80 1 Hp 750w Alcance 60 Metros IG148HL1HNH5ZLMX-670445462 244323256" ValorUnitario="1125.79" Importe="1125.79" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1125.79" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="180.13" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49221500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Hielera Combo 3 Piezas de 48-5-0.3 QT Chiller Celeste 2160829 Coleman CO674SP1NFKZJLMX-669523561 269323256" ValorUnitario="1500.69" Importe="1500.69" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1500.69" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="240.11" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="27112000" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Motosierra Gasolina 52 cc Longitud 20&quot; La Leñadora KINM5220 Kingsman KI076HL0AN61DLMX-667494821 268263256" ValorUnitario="909.59" Importe="909.59" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="909.59" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="145.53" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Estructural Redonda Steel Pro 305x76 cm Con Bomba Y Filtro 56678 Bestway BE930HL1B1Y5KLMX-655051918 233263256" ValorUnitario="2278.15" Importe="2278.15" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="2278.15" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="364.50" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49221500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Hielera Combo 3 Piezas de 48-5-0.3 QT Chiller Azul 2160842 Coleman CO674SP1GADQ7LMX-669523540 232663256" ValorUnitario="1500.69" Importe="1500.69" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1500.69" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="240.11" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Inflable Vida Marina 305X183X56cm 999L 58485NP Intex IN488TB1I9W1ZLMX-629296883 221763256" ValorUnitario="869.78" Importe="869.78" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="869.78" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="139.16" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Armable Rectangular 220X150X60Cm 1662L 28270NP Intex IN488TB187G7RLMX-629293731 219283256" ValorUnitario="2072.97" Importe="2072.97" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="2072.97" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="331.68" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49221500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Hielera 48 Cuartos Azul 2160729 Coleman CO674SP99AJKLMX-1238109 249683256" ValorUnitario="942.33" Importe="942.33" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="942.33" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="150.77" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Juego Acuatico Inflable Arcoiris y Tobogan 57453NP Intex IN488TB07PKTZLMX-629296201 299983256" ValorUnitario="1098.41" Importe="1098.41" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1098.41" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="175.75" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49121503" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Toldo Carpa Impermeable Plegable de Acero 3x4.5 m Verde con Bolsa KingsHouse KI076SP0VKHRBLMX-631257824 245983256" ValorUnitario="1955.00" Importe="1955.00" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1955.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="312.80" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Juego Acuatico Inflable Arcoiris y Tobogan 57453NP Intex IN488TB07PKTZLMX-629296201 254473256" ValorUnitario="1098.41" Importe="1098.41" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1098.41" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="175.75" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Estructural Steel Pro 2.21x1.50x0.43 m 56401 Bestway BE930TB1G94XNLMX-631435359 234473256" ValorUnitario="1756.42" Importe="1756.42" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1756.42" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="281.03" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Juego Acuatico Inflable Arcoiris y Tobogan 57453NP Intex IN488TB07PKTZLMX-629296201 219873256" ValorUnitario="1098.41" Importe="1098.41" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1098.41" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="175.75" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49201513" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Trampolín 36” Plegable en 4 Cap. 100 Kg C/28 Resortes Color Negro KingSports GE598SP1BIM8DLMX-668126512 216573256" ValorUnitario="575.95" Importe="575.95" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="575.95" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="92.15" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49121503" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Toldo Carpa Impermeable Plegable de Acero 3x3 m Negro con Bolsa KingsHouse KI218SP1BX58FLMX-669578870 279373256" ValorUnitario="1135.04" Importe="1135.04" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1135.04" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="181.61" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49221500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Hielera Combo 3 Piezas de 48-5-0.3 QT Chiller Azul 2160842 Coleman CO674SP1GADQ7LMX-669523540 225373256" ValorUnitario="1500.69" Importe="1500.69" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1500.69" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="240.11" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49221500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Hielera 48 Cuartos Azul 2160729 Coleman CO674SP99AJKLMX-1238109 261953256" ValorUnitario="942.33" Importe="942.33" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="942.33" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="150.77" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49201600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Pesas Set Entrenamiento 4 en 1 Mancuernas hasta 15 kg 300245 Kingsman GE598SP1GDO4YLMX-649643948 225753256" ValorUnitario="781.12" Importe="781.12" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="781.12" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="124.98" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Centro de Juegos Alberca Inflable Acuario Fantástico 239x206x86 cm 53052 Bestway BE930HL1JFWDNLMX-669866902 258553256" ValorUnitario="878.58" Importe="878.58" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="878.58" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="140.57" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Rectangular de 4.5 m x 2.2 m x .84 m 7,127 con Bomba Filtrante 28279 INTEX IN488TB0BNFVCLMX-647695999 253213256" ValorUnitario="3882.89" Importe="3882.89" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="3882.89" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="621.26" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49221500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Hielera 48 Cuartos Azul 2160729 Coleman CO674SP99AJKLMX-1238109 263613256" ValorUnitario="942.33" Importe="942.33" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="942.33" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="150.77" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49121503" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Toldo Carpa Impermeable Plegable de Acero 3x3 m Naranja con Bolsa KingsHouse KI076HL0BZH4LLMX-662478370 219813256" ValorUnitario="1135.04" Importe="1135.04" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1135.04" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="181.61" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Juego Acuatico Inflable Arcoiris y Tobogan 57453NP Intex IN488TB07PKTZLMX-629296201 268244656" ValorUnitario="1098.41" Importe="1098.41" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1098.41" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="175.75" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49121503" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Tienda Casa De Campaña Para 4 Personas Pavillo 68091 Bestway BE930SP08TBIRLMX-670317800 287724656" ValorUnitario="1179.01" Importe="1179.01" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1179.01" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="188.64" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Estructural Steel Pro Max 366x76 cm 56417 Bestway BE930HL0VLX6GLMX-655027805 246464656" ValorUnitario="2857.03" Importe="2857.03" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="2857.03" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="457.12" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49221500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Detector De Metales Go Find 44 Minelab MI209SP1409L3LMX-665903374 238494656" ValorUnitario="2270.82" Importe="2270.82" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="2270.82" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="363.33" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49221500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Colchon Inflable Twin Bomba Int Doble Altura 64131EP Intex IN488TB0SO91JLMX-629296952 259294656" ValorUnitario="897.63" Importe="897.63" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="897.63" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="143.62" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49221500" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Colchon Inflable Queen Bomba Int Doble Altura 64123EP Intex IN488TB0GRKXZLMX-629296950 278694656" ValorUnitario="905.69" Importe="905.69" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="905.69" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="144.91" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Juego Acuatico Inflable Arcoiris y Tobogan 57453NP Intex IN488TB07PKTZLMX-629296201 247794656" ValorUnitario="1098.41" Importe="1098.41" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1098.41" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="175.75" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Juego Acuatico Inflable Arcoiris y Tobogan 57453NP Intex IN488TB07PKTZLMX-629296201 218394656" ValorUnitario="1098.41" Importe="1098.41" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1098.41" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="175.75" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="60141012" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Piscina Inflable Cangrejo 183cm + Flotador Infable IN488TB0YY6WHLMX-670652710 277174656" ValorUnitario="963.00" Importe="963.00" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="963.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="154.08" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="49141600" Cantidad="1" ClaveUnidad="H87" Unidad="H87" Descripcion="Alberca Inflable Infantil de Baloncesto Azul 54122 Bestway BE930HL1LLNO3LMX-666748640 291154656" ValorUnitario="691.72" Importe="691.72" Descuento="0" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="691.72" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="110.68" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+  </cfdi:Conceptos>
+  <cfdi:Impuestos TotalImpuestosTrasladados="53008.62">
+    <cfdi:Traslados>
+      <cfdi:Traslado Base="331303.60" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="53008.62" />
+    </cfdi:Traslados>
+  </cfdi:Impuestos>
+  <cfdi:Complemento>
+    <tfd:TimbreFiscalDigital Version="1.1" UUID="07B821B5-99EA-4DFC-BBB7-9B9D2C51DE95" FechaTimbrado="2023-04-15T02:41:37" RfcProvCertif="INT020124V62" SelloCFD="AcpK3NoXEq83mZtGgJ9IExsXhR1CgJIOirI9xpDq+aT35IFM0EPKDHV8B4wamARzXffofDSgH0YsoNqcBViCDBJb0EU+QFbYKaYutAjSMY/LHyDmnaPIWjaAbsRr/Eg+eIaU9uTnVBXnlMlBq0RVl6N4v3mU9ybZU4Thl+HMVUj86QSIfNDf+0yA6H7uHB93ZzrVC8+ttqS40OE2if520IUKVmVjuAErFLRlPtc4j5BFaThhhVcwfn4EcWQZwtdyfIDenYltJQlAdDFmR33ucAfhIUpw02ofUsjwsnQfIRPcyuCdPe+Qdp4G2mWFI8EBhkbEBoJiA8Ll5jWsp2z4CA==" NoCertificadoSAT="00001000000505211329" SelloSAT="ExYjkHbk2dG6VDRMxY1tpxzlNw3CzlMzECJ0i/6wHA0sYnBPf3+9IqDNZ1FXzG8rksXUFboDyXUXxgdVIrdamU6waeaC9WhMmFL74NPRQ4jgQaz8XzGGpAfAjEVZ/dI6AxngVv4Lam/9g3x4QMoMBiaCg8taxSjxHPJtcizDcyfTsb5ZCo8LPSILk2AI9yX2Gp9iTOjepsFPgyReFMnhSFKoks+yx0pdvY8iM3ypxPKsDscXdNcxNK6SRvDJetn57h/jMSNzqfJalr8CpPdzPmJ2Yaq4SeTUw/S+MiMHSD99/fgGIAFbponoDW63MwVnFuP0RhzDuNJ7xRf/CN3PXg==" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" />
+  </cfdi:Complemento>
+</cfdi:Comprobante>

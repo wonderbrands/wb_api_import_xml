@@ -3,6 +3,7 @@ import time
 from flask import Flask, render_template, request, make_response, url_for, session
 from os import listdir
 from os.path import isfile, join
+from datetime import date, datetime, timedelta
 import json
 import jsonrpc
 import jsonrpclib
@@ -56,7 +57,6 @@ sales_order_records = mycursor.fetchall()
 xml_dict = {}
 xml_list = []
 inv_list = []
-value_position = 0
 for row in sales_order_records:
     so_name = row[0]
     xml_name = row[1]
@@ -66,6 +66,7 @@ for row in sales_order_records:
 
     xml_dict[so_name].append(xml_name)
 for so_order, xml_files in xml_dict.items():
+    value_position = 0
     so_domain = ['name', '=', so_order]
     for xml_ids in so_order[1]:
         xml_list.append(xml_ids)
@@ -195,7 +196,7 @@ for so_order, xml_files in xml_dict.items():
                                     edi_document = models.execute_kw(db_name, uid, password, 'account.edi.document', 'create', values)
                                     print('Valores para la tabla Documentos EDI: ', values)
                                     print('Registro account.edi.document creado')
-                                    upd_invoice_state = models.execute_kw(db_name, uid, password, 'account.move', 'write',[[create_inv], {'state': 'posted'}])
+                                    #upd_invoice_state = models.execute_kw(db_name, uid, password, 'account.move', 'write',[[create_inv], {'state': 'posted'}])
                                     print('Se publica la factura: ', create_inv)
                                     value_position += 1
                                     print(f"ESTE ES LA POSICION DEL ARRAY: {value_position}")
@@ -266,4 +267,5 @@ for so_order, xml_files in xml_dict.items():
     except Exception as e:
         print(f"Error al crear la factura de la orden {order_name}: {e}")
 
+mycursor.close()
 mydb.close()

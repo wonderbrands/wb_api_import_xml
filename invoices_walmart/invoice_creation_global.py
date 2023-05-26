@@ -96,4 +96,5 @@ try:
 except Exception as e:
     print(f"Error al crear la factura con error: {e}")
 
+mycursor.close()
 mydb.close()

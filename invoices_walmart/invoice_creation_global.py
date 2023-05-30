@@ -24,8 +24,8 @@ import mysql.connector
 
 #API Configuration
 dir_path = os.path.dirname(os.path.realpath(__file__))
-server_url  ='https://wonderbrands-v3-8429810.dev.odoo.com'
-db_name = 'wonderbrands-v3-8429810'
+server_url  ='https://wonderbrands-v3-8443304.dev.odoo.com'
+db_name = 'wonderbrands-v3-8443304'
 username = 'admin'
 password = 'admin123'
 
@@ -68,7 +68,7 @@ mycursor.execute("""SELECT txn_id
                                             GROUP BY b.order_id)
                     GROUP BY txn_id	
                     ORDER BY out_timestamp_local asc
-                    limit 3""")
+                    limit 10""")
 sales_order_records = mycursor.fetchall()
 order_names = []
 try:
@@ -127,7 +127,7 @@ try:
                 print(f"La factura {order_name} ya tiene una orden creada")
                 continue
         else:
-            print(f"Revise el estatus de la orden {order_name} está en estatus {order_state}")
+            print(f"La orden de venta {order_name} se encuentra en estatus {order_state}")
             print(f"Por lo que esta orden no puede ser facturada")
             continue
     invoice_id = models.execute_kw(db_name, uid, password, 'account.move', 'create', [invoice_vals])

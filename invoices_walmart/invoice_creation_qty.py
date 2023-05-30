@@ -27,19 +27,22 @@ import mysql.connector
 
 #API Configuration
 dir_path = os.path.dirname(os.path.realpath(__file__))
-server_url  ='https://wonderbrands-v3-8038141.dev.odoo.com'
-db_name = 'wonderbrands-v3-8038141'
+server_url  ='https://wonderbrands-v3-8443304.dev.odoo.com'
+db_name = 'wonderbrands-v3-8443304'
 username = 'admin'
 password = 'admin123'
-
-print('-------------------------------------------------------')
+print('----------------------------------------------------------------')
+print('SCRIPT DE CREACIÓN DE FACTURAS POR ITEM')
+print('----------------------------------------------------------------')
 print('Conectando API Odoo')
-print('-------------------------------------------------------')
 common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(server_url))
 uid = common.authenticate(db_name, username, password, {})
 models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(server_url))
+print(common)
+print('Conexión con Odoo establecida')
+print('----------------------------------------------------------------')
 print('Conectando a Mysql')
-print('-------------------------------------------------------')
+print('----------------------------------------------------------------')
 # Connect to MySQL database
 mydb = mysql.connector.connect(
   host="wonderbrands1.cuwd36ifbz5t.us-east-1.rds.amazonaws.com",
@@ -48,10 +51,9 @@ mydb = mysql.connector.connect(
   database="tech"
 )
 mycursor = mydb.cursor()
-#mycursor.execute("SELECT folio, uuid FROM sr_uuid_walmart WHERE id IN %s", [tuple(sales_order_ids)])
-#mycursor.execute("SELECT folio, uuid FROM sr_uuid_walmart limit 3")
 print(f"Leyendo query")
-print('-------------------------------------------------------')
+print('Este proceso tomará algo de tiempo, le recomendamos ir por un café')
+print('----------------------------------------------------------------')
 mycursor.execute("SELECT so_name, uuid FROM sr_so_invoice")
 sales_order_records = mycursor.fetchall()
 xml_dict = {}
@@ -74,7 +76,6 @@ for so_order, xml_files in xml_dict.items():
     order_name = sale_ids[0]['name']
     order_state = sale_ids[0]['state']
     print(f"Orden de venta encontrada en el sistema")
-    print('-------------------------------------------------------')
     try:
         if order_state == 'done':
             if sale_ids:
@@ -197,9 +198,10 @@ for so_order, xml_files in xml_dict.items():
                                     print('Valores para la tabla Documentos EDI: ', values)
                                     print('Registro account.edi.document creado')
                                     #upd_invoice_state = models.execute_kw(db_name, uid, password, 'account.move', 'write',[[create_inv], {'state': 'posted'}])
+                                    upd_invoice_state = models.execute_kw(db_name, uid, password, 'account.move','action_post', [create_inv])
                                     print('Se publica la factura: ', create_inv)
                                     value_position += 1
-                                    print(f"ESTE ES LA POSICION DEL ARRAY: {value_position}")
+                                    #print(f"ESTE ES LA POSICION DEL ARRAY: {value_position}")
                                     print('-------------------------------------------------------')
                                 else:
                                     print(f'La orden: {order_name} no tiene un XML en la carpeta')
@@ -258,6 +260,7 @@ for so_order, xml_files in xml_dict.items():
                                                                   [create_inv], message)
                 else:
                     print(f'La orden de venta: {order_name} ya tiene una factura creada')
+                    print('----------------------------------------------------------------')
             else:
                 print(f'El ID de la orden: {order_name} no coincide con ninguna venta en Odoo')
                 pass

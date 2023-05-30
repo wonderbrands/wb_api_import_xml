@@ -50,14 +50,35 @@
       <recent name="C:\Dev\wb_odoo_API" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Dev\wb_odoo_external_api\old" />
       <recent name="C:\Dev\wb_odoo_external_api\sale_order_functions" />
       <recent name="C:\Dev\wb_odoo_external_api\invoices_walmart" />
-      <recent name="C:\Dev\wb_odoo_external_api\old" />
       <recent name="D:\Dev\wb_api_import_xml\sale_order_functions" />
       <recent name="D:\Dev\wb_api_import_xml\walmart" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.so_line_validation (1)">
+  <component name="RunManager" selected="Python.invoice_creation_qty (1)">
+    <configuration name="invoice_creation_global" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="wb_odoo_API" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/invoices_walmart" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/invoices_walmart/invoice_creation_global.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="invoice_creation_qty (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="wb_odoo_API" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -71,27 +92,6 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/invoices_walmart/invoice_creation_qty.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="invoice_creation_qty" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="wb_odoo_API" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="D:\Dev\wb_api_import_xml\walmart\invoice_creation_qty.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -133,7 +133,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/invoices_walmart/proofs.py" />
+      <option name="SCRIPT_NAME" value="C:\Dev\wb_odoo_external_api\old\proofs.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -187,19 +187,19 @@
     </configuration>
     <list>
       <item itemvalue="Python.wb_odoo_external_api" />
+      <item itemvalue="Python.invoice_creation_global" />
       <item itemvalue="Python.invoice_creation_qty (1)" />
       <item itemvalue="Python.invoice_creation_so" />
       <item itemvalue="Python.proofs" />
       <item itemvalue="Python.so_line_validation (1)" />
-      <item itemvalue="Python.invoice_creation_qty" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.so_line_validation (1)" />
         <item itemvalue="Python.invoice_creation_qty (1)" />
-        <item itemvalue="Python.proofs" />
         <item itemvalue="Python.invoice_creation_so" />
-        <item itemvalue="Python.invoice_creation_qty" />
+        <item itemvalue="Python.invoice_creation_global" />
+        <item itemvalue="Python.so_line_validation (1)" />
+        <item itemvalue="Python.proofs" />
       </list>
     </recent_temporary>
   </component>

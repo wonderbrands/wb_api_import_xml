@@ -57,7 +57,7 @@
       <recent name="D:\Dev\wb_api_import_xml\walmart" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.invoice_creation_qty (1)">
+  <component name="RunManager" selected="Python.invoice_creation_global">
     <configuration name="invoice_creation_global" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="wb_odoo_API" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -195,8 +195,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.invoice_creation_qty (1)" />
         <item itemvalue="Python.invoice_creation_global" />
+        <item itemvalue="Python.invoice_creation_qty (1)" />
         <item itemvalue="Python.invoice_creation_so" />
         <item itemvalue="Python.so_line_validation (1)" />
         <item itemvalue="Python.proofs" />

@@ -24,8 +24,8 @@ import mysql.connector
 
 #API Configuration
 dir_path = os.path.dirname(os.path.realpath(__file__))
-server_url  ='https://wonderbrands-v3-8446313.dev.odoo.com'
-db_name = 'wonderbrands-v3-8446313'
+server_url  ='https://wonderbrands-v3-8446418.dev.odoo.com'
+db_name = 'wonderbrands-v3-8446418'
 username = 'admin'
 password = 'admin123'
 

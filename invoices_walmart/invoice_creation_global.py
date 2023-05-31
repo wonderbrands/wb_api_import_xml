@@ -24,8 +24,8 @@ import mysql.connector
 
 #API Configuration
 dir_path = os.path.dirname(os.path.realpath(__file__))
-server_url  ='https://wonderbrands-v3-8443304.dev.odoo.com'
-db_name = 'wonderbrands-v3-8443304'
+server_url  ='https://wonderbrands-v3-8446313.dev.odoo.com'
+db_name = 'wonderbrands-v3-8446313'
 username = 'admin'
 password = 'admin123'
 
@@ -55,21 +55,24 @@ print('----------------------------------------------------------------')
 print('Vaya por un tecito o un café porque este proceso tomará algo de tiempo')
 print('----------------------------------------------------------------')
 #mycursor.execute("SELECT so_name FROM sr_so_global_invoice")
-mycursor.execute("""SELECT txn_id
-                    FROM bi.sr_master_orders	
-                    WHERE out_ym = 202305	
-                        AND team_name like '%walmart%'
-                        AND txn_id NOT IN (SELECT b.order_id
-                                            FROM finance.sr_sat_emitidas a
-                                            LEFT JOIN somos_reyes.odoo_master_txns_c b
-                                                ON a.folio = b.marketplace_order_id
-                                            WHERE a.serie = 'PGA'
-                                                AND date(a.fecha) BETWEEN '2023-04-01' AND '2023-05-30'
-                                            GROUP BY b.order_id)
-                    GROUP BY txn_id	
-                    ORDER BY out_timestamp_local asc
-                    limit 10""")
-sales_order_records = mycursor.fetchall()
+#mycursor.execute("""SELECT txn_id
+#                    FROM bi.sr_master_orders
+#                    WHERE out_ym = 202305
+#                        AND team_name like '%walmart%'
+#                        AND txn_id NOT IN (SELECT b.order_id
+#                                            FROM finance.sr_sat_emitidas a
+#                                            LEFT JOIN somos_reyes.odoo_master_txns_c b
+#                                                ON a.folio = b.marketplace_order_id
+#                                            WHERE a.serie = 'PGA'
+#                                                AND date(a.fecha) BETWEEN '2023-04-01' AND '2023-05-30'
+#                                            GROUP BY b.order_id)
+#                    GROUP BY txn_id
+#                    ORDER BY out_timestamp_local asc
+#                    limit 10""")
+excel_file_path = dir_path + '/files/so_invoices.xlsx'
+sale_file = pd.read_excel(excel_file_path, usecols=['so_name'])
+sales_order_records = sale_file['so_name'].tolist()
+#sales_order_records = mycursor.fetchall()
 order_names = []
 try:
     for order in sales_order_records:

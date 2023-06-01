@@ -24,10 +24,15 @@ import mysql.connector
 
 #API Configuration
 dir_path = os.path.dirname(os.path.realpath(__file__))
-server_url  ='https://wonderbrands-v3-8446418.dev.odoo.com'
-db_name = 'wonderbrands-v3-8446418'
+server_url  ='https://wonderbrands.odoo.com'
+db_name = 'wonderbrands-main-4539884'
 username = 'admin'
 password = 'admin123'
+
+#server_url  ='https://wonderbrands-v3-8462662.dev.odoo.com'
+#db_name = 'wonderbrands-v3-8462662'
+#username = 'admin'
+#password = 'admin123'
 
 print('----------------------------------------------------------------')
 print('SCRIPT DE CREACIÓN DE FACTURAS GLOBALES')

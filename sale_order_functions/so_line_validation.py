@@ -1,6 +1,6 @@
 import time
-
 from flask import Flask, render_template, request, make_response, url_for, session
+from datetime import date, datetime, timedelta
 from os import listdir
 from os.path import isfile, join
 import json
@@ -31,9 +31,8 @@ db_name = 'wonderbrands-main-4539884'
 username = 'admin'
 password = 'admin123'
 
-#dir_path = os.path.dirname(os.path.realpath(__file__))
-#server_url  ='https://wonderbrands-v3-8038141.dev.odoo.com'
-#db_name = 'wonderbrands-v3-8038141'
+#server_url  ='https://wonderbrands-v3-8446418.dev.odoo.com'
+#db_name = 'wonderbrands-v3-8446418'
 #username = 'admin'
 #password = 'admin123'
 
@@ -96,13 +95,14 @@ if sale_ids:
             line_qty_invoiced = order_line['qty_invoiced']
             line_price_unit = order_line['price_unit']
             line_price_subtotal = order_line['price_subtotal']
+            date_now = datetime.now()
             if order_line['product_id']:
                 line_product_id = order_line['product_id'][0]
                 line_product_name = order_line['product_id'][1]
             else:
                 line_product_id = ''
                 line_product_name = ''
-            sql_data = (sale_id,sale_name,sale_state,line_product_id,line_product_name,line_product_uom_qty,line_qty_delivered,line_qty_invoiced,line_price_unit,line_price_subtotal,sale_partner_id,sale_partner,sale_date,order_id)
+            sql_data = (sale_id,sale_name,sale_state,line_product_id,line_product_name,line_product_uom_qty,line_qty_delivered,line_qty_invoiced,line_price_unit,line_price_subtotal,sale_partner_id,sale_partner,sale_date,order_id, date_now)
             #sql_data = {
             #    'order_id': sale_id,
             #    'name': sale_name,
@@ -120,7 +120,7 @@ if sale_ids:
             #    'order_line': order_id,
             #}
             print('Insertando datos a la tabla: sr_sale_order_qty_log')
-            insert_query = "INSERT INTO sr_sale_order_qty_log (order_id, name, state, product_id, product_name, product_uom_qty, qty_delivered, qty_invoiced, price_unit, price_subtotal, partner_id, partner_name, date_order, order_line) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            insert_query = "INSERT INTO sr_sale_order_qty_log (order_id, name, state, product_id, product_name, product_uom_qty, qty_delivered, qty_invoiced, price_unit, price_subtotal, partner_id, partner_name, date_order, order_line, date_modified) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
             mycursor.execute(insert_query, sql_data)
             print(f"Se realizó el INSERT de manera correcta")
 

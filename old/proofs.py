@@ -25,8 +25,8 @@ import mysql.connector
 
 #API Configuration
 dir_path = os.path.dirname(os.path.realpath(__file__))
-server_url  ='https://wonderbrands-v3-8038141.dev.odoo.com'
-db_name = 'wonderbrands-v3-8038141'
+server_url  ='https://wonderbrands-v3-8462601.dev.odoo.com'
+db_name = 'wonderbrands-v3-8462601'
 username = 'admin'
 password = 'admin123'
 
@@ -36,10 +36,21 @@ uid = common.authenticate(db_name, username, password, {})
 models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(server_url))
 print(common)
 
-today = datetime.today().date()
-start_date = (today + relativedelta(day=1)).strftime('%Y-%m-%d')
-end_date = (today + relativedelta(day=1, months=+1)).strftime('%Y-%m-%d')
+id = 521346
+search_inv = models.execute_kw(db_name, uid, password, 'account.move', 'search_read', [[['id', '=', id]]])
 
-print(today)
-print(start_date)
-print(end_date)
+folio = search_inv[0]['l10n_mx_edi_cfdi_uuid']
+
+file_name = '0e485015-bd53-5e45-8127-ce671e185e02'
+
+
+
+file_name_mayus = file_name.upper()
+
+print(f"XML en minusculas {file_name}")
+print(f"XML en mayusculas {file_name_mayus}")
+upd_folio_fiscal = models.execute_kw(db_name, uid, password, 'account.move','write', [[521346], {'l10n_mx_edi_cfdi_uuid': file_name_mayus}])
+
+fecha = datetime.now()
+
+print(fecha)

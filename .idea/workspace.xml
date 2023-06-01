@@ -19,8 +19,8 @@
     <setting file="file://$PROJECT_DIR$/invoices_walmart/invoice_creation_global.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/invoices_walmart/invoice_creation_qty.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/invoices_walmart/invoice_creation_so.py" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/invoices_walmart/proofs.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/old/app4.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/old/proofs.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/sale_order_functions/so_line_validation.py" root0="SKIP_INSPECTION" />
     <setting file="file://$USER_HOME$/AppData/Local/Programs/Python/Python310/Lib/xmlrpc/client.py" root0="SKIP_INSPECTION" />
   </component>
@@ -57,7 +57,7 @@
       <recent name="D:\Dev\wb_api_import_xml\walmart" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.invoice_creation_global">
+  <component name="RunManager" selected="Python.invoice_creation_qty (1)">
     <configuration name="invoice_creation_global" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="wb_odoo_API" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -121,7 +121,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="proofs" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="proofs (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="wb_odoo_API" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -129,11 +129,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/invoices_walmart" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/old" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="C:\Dev\wb_odoo_external_api\old\proofs.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/old/proofs.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -187,19 +187,19 @@
     </configuration>
     <list>
       <item itemvalue="Python.wb_odoo_external_api" />
+      <item itemvalue="Python.proofs (1)" />
       <item itemvalue="Python.invoice_creation_global" />
       <item itemvalue="Python.invoice_creation_qty (1)" />
       <item itemvalue="Python.invoice_creation_so" />
-      <item itemvalue="Python.proofs" />
       <item itemvalue="Python.so_line_validation (1)" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.invoice_creation_global" />
         <item itemvalue="Python.invoice_creation_qty (1)" />
-        <item itemvalue="Python.invoice_creation_so" />
+        <item itemvalue="Python.invoice_creation_global" />
+        <item itemvalue="Python.proofs (1)" />
         <item itemvalue="Python.so_line_validation (1)" />
-        <item itemvalue="Python.proofs" />
+        <item itemvalue="Python.invoice_creation_so" />
       </list>
     </recent_temporary>
   </component>
@@ -227,6 +227,13 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/old/proofs.py</url>
+          <line>41</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">

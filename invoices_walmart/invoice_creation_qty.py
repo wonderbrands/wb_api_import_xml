@@ -28,15 +28,15 @@ import mysql.connector
 #API Configuration
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
-#server_url  ='https://wonderbrands.odoo.com'
-#db_name = 'wonderbrands-main-4539884'
-#username = 'admin'
-#password = 'admin123'
-
-server_url  ='https://wonderbrands-v3-8474788.dev.odoo.com'
-db_name = 'wonderbrands-v3-8474788'
+server_url  ='https://wonderbrands.odoo.com'
+db_name = 'wonderbrands-main-4539884'
 username = 'admin'
 password = 'admin123'
+
+#server_url  ='https://wonderbrands-v3-8474788.dev.odoo.com'
+#db_name = 'wonderbrands-v3-8474788'
+#username = 'admin'
+#password = 'admin123'
 
 print('----------------------------------------------------------------')
 print('SCRIPT DE CREACIÓN DE FACTURAS POR ITEM')
@@ -80,6 +80,7 @@ sales_w_inv = []
 sales_no_xml = []
 sales_mod = []
 inv_names = []
+inv_ids = []
 date_year = '20'
 for row in sales_order_records:
     so_name = row[0]
@@ -183,6 +184,7 @@ for so_order, xml_files in xml_dict.items():
                                 #Busca la factura para agregar mensaje en el chatter
                                 print(f"Agregando mensaje a la factura")
                                 search_inv = models.execute_kw(db_name, uid, password, 'account.move', 'search_read', [[['id', '=', create_inv]]])
+                                inv_ids.append(create_inv)
                                 message = {
                                     'body': 'Esta factura fue creada por el equipo de Tech vía API',
                                     'message_type': 'comment',
@@ -374,12 +376,13 @@ for so_order, xml_files in xml_dict.items():
     except Exception as e:
         print(f"Error al crear la factura de la orden {order_name}: {e}")
 
-print(f"Ordenes que tienen no están en done {sales_error_state}")
+print(f"Ordenes que no están en done {sales_error_state}")
 print(f"Ordenes que no existen en Odoo {sales_no_exist}")
 print(f"Ordenes que ya tenían una factura {sales_w_inv}")
 print(f"Ordenes sin XML {sales_no_xml}")
 print(f"Ordenes a las que se les creo factura: {sales_mod}")
 print(f"Nombre de las facturas creadas: {inv_names}")
+print(f"IDs de las facturas creadas: {inv_ids}")
 
 mycursor.close()
 mydb.close()

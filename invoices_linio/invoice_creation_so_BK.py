@@ -29,8 +29,8 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 #username = 'admin'
 #password = 'admin123'
 
-server_url  ='https://wonderbrands-v3-8796195.dev.odoo.com'
-db_name = 'wonderbrands-v3-8796195'
+server_url  ='https://wonderbrands-v3-8795112.dev.odoo.com'
+db_name = 'wonderbrands-v3-8795112'
 username = 'admin'
 password = 'admin123'
 
@@ -167,13 +167,68 @@ for so_order, xml_files in xml_dict.items():
                         'message_type': 'comment',
                     }
                     write_msg_tech = models.execute_kw(db_name, uid, password, 'account.move', 'message_post', [create_inv],message)
-                    search_inv_name = models.execute_kw(db_name, uid, password, 'account.move', 'search_read', [[['id', '=', create_inv]]])
-                    inv_name = search_inv_name[0]['name']
-                    value_position += 2
-                    value_position_date += 2
-                    sales_mod.append(order_name)
-                    inv_names.append(inv_name)
-                    print('----------------------------------------------------------------')
+                    if xml_files:
+                        #Determina la posición del uuid y la fecha de factura en el diccionario xml_dict
+                        file_name = xml_files[value_position]
+                        file_date = xml_files[value_position_date]
+                        file_name_mayus = file_name.upper()
+                        print(f"AGREGANDO ARCHIVO XML A LA FACTURA")
+                        invoices_folder = 'G:/Mi unidad/xml_linio_invoices/'
+                        print(f"El xml {file_name} será agregado a la factura")
+                        #Busca el XML en la carpeta previamente definida
+                        xml_file = file_name + '.xml'
+                        xml_file_path = os.path.join(invoices_folder, xml_file)
+                        with open(xml_file_path, 'rb') as f:
+                            xml_data = f.read()
+                        xml_base64 = base64.b64encode(xml_data).decode('utf-8')
+                        #Crea una lista para agregar el archivo XML al attachment de la factura
+                        attachment_data = {
+                            'name': xml_file,
+                            'datas': xml_base64,
+                            'res_model': 'account.move',
+                            'res_id': create_inv,
+                        }
+                        #Agrega la lista al attachment
+                        attachment_ids = models.execute_kw(db_name, uid, password, 'ir.attachment', 'create',[attachment_data])
+                        attachment_id = int(attachment_ids)
+                        #Crea una lista para agregar el nombre del UUID a la tabla EDI document (esta tabla solo se puede ver en modo Debug en Odoo)
+                        values = [{
+                            'move_id': create_inv,
+                            'edi_format_id': 2,
+                            'attachment_id': attachment_id,
+                            'state': 'sent',
+                            'create_uid': 1,
+                            'write_uid': 2,
+                        }]
+                        print('AGREGANDO REGISTRO XML A LA TABLA DOCUMENTOS EDI')
+                        edi_document = models.execute_kw(db_name, uid, password, 'account.edi.document', 'create',values)
+                        print('Valores para la tabla Documentos EDI: ', values)
+                        print('Registro account.edi.document creado')
+                        print("Actualizando estado de la factura")
+                        #Se actualiza el estado de la factura a done llamando al botón "Confirmar"
+                        upd_invoice_state = models.execute_kw(db_name, uid, password, 'account.move', 'action_post',[create_inv])
+                        print('Se publica la factura: ', create_inv)
+                        print(f"Se agrega el folio fiscal: {file_name_mayus}")
+                        #Actuaiza el campo de folio fiscal
+                        upd_folio_fiscal = models.execute_kw(db_name, uid, password, 'account.move', 'write',[[create_inv], {'l10n_mx_edi_cfdi_uuid': file_name_mayus}])
+                        # Parche momentaneo ya que el folio fiscal no funciona por ahora
+                        upd_folio_fiscal_narr = models.execute_kw(db_name, uid, password, 'account.move', 'write',[[create_inv], {'narration': file_name_mayus}])
+                        # Actualiza Fecha de factura
+                        print(f"Se Modifica la fecha de factura: {file_date}")
+                        upd_inv_date = models.execute_kw(db_name, uid, password, 'account.move', 'write',[[create_inv], {'invoice_date': file_date}])
+                        #Busca el nombre de la factura como referencia una vez publicada
+                        search_inv_name = models.execute_kw(db_name, uid, password, 'account.move', 'search_read',[[['id', '=', create_inv]]])
+                        inv_name = search_inv_name[0]['name']
+                        #Posiciones de los array por si las SO tienen más de un UUID
+                        value_position += 2
+                        value_position_date += 2
+                        sales_mod.append(order_name)
+                        inv_names.append(inv_name)
+                        print('----------------------------------------------------------------')
+                    else:
+                        print(f'La orden: {order_name} no tiene un XML en la carpeta')
+                        sales_no_xml.append(order_name)
+                        continue
                 else:
                     print(f'La orden de venta: {order_name} ya tiene una factura creada')
                     print('----------------------------------------------------------------')

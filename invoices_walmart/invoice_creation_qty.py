@@ -241,8 +241,8 @@ for so_order, xml_files in xml_dict.items():
                                     search_inv_name = models.execute_kw(db_name, uid, password, 'account.move','search_read', [[['id', '=', create_inv]]])
                                     inv_name = search_inv_name[0]['name']
                                     # Actualiza Fecha de vencimiento
-                                    #print(f"Se Modifica la fecha de factura: {file_date}")
-                                    #upd_inv_date = models.execute_kw(db_name, uid, password, 'account.move', 'write',[[create_inv], {'invoice_payment_term_id': file_date}])
+                                    print(f"Se Modifica la fecha de factura: {file_date}")
+                                    upd_inv_date = models.execute_kw(db_name, uid, password, 'account.move', 'write',[[create_inv], {'invoice_payment_term_id': file_date}])
                                     #posiciones de los array
                                     value_position += 2
                                     value_position_date += 2

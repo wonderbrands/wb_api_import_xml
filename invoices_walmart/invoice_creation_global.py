@@ -79,15 +79,16 @@ sale_file = pd.read_excel(excel_file_path, usecols=['so_name'])
 sales_order_records = sale_file['so_name'].tolist()
 #sales_order_records = mycursor.fetchall()
 order_names = []
+order_diff_status = []
+order_w_inv = []
+order_no_exist = []
 try:
-    for order in sales_order_records:
-        order_id = models.execute_kw(db_name, uid, password, 'sale.order', 'search_read', [[['name', '=', order]]])
+    for rec in sales_order_records:
+        order_id = models.execute_kw(db_name, uid, password, 'sale.order', 'search_read', [[['name', '=', rec]]])
         order_names.append(order_id[0]['name'])
 
         #Se crea el cuerpo de la factura con los campos necesarios
     #so_domain = ['name', 'in', order_names]
-    print('----------------------------------------------------------------')
-    print(f"Se creará la factura global para las siguientes SO: {order_names}")
     print('----------------------------------------------------------------')
     print('Definiendo valores de la factura global')
     print('----------------------------------------------------------------')
@@ -104,40 +105,47 @@ try:
     for sale_order in order_names:
         so_domain = ['name', '=', sale_order]
         order = models.execute_kw(db_name, uid, password, 'sale.order', 'search_read', [[so_domain]])
-
-        #print(f"Orden de venta encontrada")
-        order_line_id = order[0]['order_line']
-        order_name = order[0]['name']
-        order_state = order[0]['state']
-        order_inv_count = order[0]['invoice_count']
-        if order_state == 'done':
-            if order_inv_count < 1:
-                #for line in order_line_id:
-                #print(f"Tomando las lineas de la orden")
-                sale_order_line = models.execute_kw(db_name, uid, password, 'sale.order.line', 'search_read', [[['id', '=', order_line_id]]])
-                for line in sale_order_line:
-                    line_id = line['id']
-                    invoice_line_vals = {
-                        'display_type': line['display_type'],
-                        'sequence': int(line['sequence']),
-                        'name': line['name'],
-                        'product_uom_id': line['product_uom'][0],
-                        'product_id': line['product_id'][0],
-                        'quantity': line['qty_delivered'],
-                        'discount': line['discount'],
-                        'price_unit': line['price_unit'],
-                        'tax_ids': [(6, 0, [line['tax_id'][0]])],
-                        'analytic_tag_ids': [(6, 0, line['analytic_tag_ids'])],
-                        'sale_line_ids': [(4, line_id)],
-                    }
-                    invoice_vals['invoice_line_ids'].append((0, 0, invoice_line_vals))
+        if order:
+            # print(f"Orden de venta encontrada")
+            order_line_id = order[0]['order_line']
+            order_name = order[0]['name']
+            order_state = order[0]['state']
+            order_inv_count = order[0]['invoice_count']
+            if order_state == 'done':
+                if order_inv_count < 1:
+                    #for line in order_line_id:
+                    #print(f"Tomando las lineas de la orden")
+                    sale_order_line = models.execute_kw(db_name, uid, password, 'sale.order.line', 'search_read', [[['id', '=', order_line_id]]])
+                    for line in sale_order_line:
+                        line_id = line['id']
+                        invoice_line_vals = {
+                            'display_type': line['display_type'],
+                            'sequence': int(line['sequence']),
+                            'name': line['name'],
+                            'product_uom_id': line['product_uom'][0],
+                            'product_id': line['product_id'][0],
+                            'quantity': line['qty_delivered'],
+                            'discount': line['discount'],
+                            'price_unit': line['price_unit'],
+                            'tax_ids': [(6, 0, [line['tax_id'][0]])],
+                            'analytic_tag_ids': [(6, 0, line['analytic_tag_ids'])],
+                            'sale_line_ids': [(4, line_id)],
+                        }
+                        invoice_vals['invoice_line_ids'].append((0, 0, invoice_line_vals))
+                else:
+                    print(f"La factura {order_name} ya tiene una factura creada")
+                    order_w_inv.append(order_name)
+                    continue
             else:
-                print(f"La factura {order_name} ya tiene una orden creada")
+                print(f"La orden de venta {order_name} se encuentra en estatus {order_state}")
+                print(f"Por lo que esta orden no puede ser facturada")
+                order_diff_status.append(order_name)
                 continue
         else:
-            print(f"La orden de venta {order_name} se encuentra en estatus {order_state}")
-            print(f"Por lo que esta orden no puede ser facturada")
+            print(f"No existe una SO que corresponda a {sale_order}")
+            order_no_exist.append(sale_order)
             continue
+
     invoice_id = models.execute_kw(db_name, uid, password, 'account.move', 'create', [invoice_vals])
     print(f"Agregando mensaje a la factura")
     #Mensaje con ordenes de venta como referencia en el chatter
@@ -156,6 +164,10 @@ try:
     print(f"Se creó la factura correctamente")
     print(f"El ID de la factura es el siguiente: {invoice_id}")
     print('----------------------------------------------------------------')
+    print(f"Ordenes pertenecientes a la factura global: {order_names}")
+    print(f"Ordenes con estatus diferente: {order_diff_status}")
+    print(f"Ordenes con factura: {order_w_inv}")
+    print(f"Ordenes no encontradas: {order_no_exist}")
 except Exception as e:
     print(f"Error al crear la factura con error: {e}")
 

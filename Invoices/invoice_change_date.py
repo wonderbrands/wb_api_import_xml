@@ -29,8 +29,8 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 #username = 'admin'
 #password = 'admin123'
 
-server_url  ='https://wonderbrands-v3-8850165.dev.odoo.com'
-db_name = 'wonderbrands-v3-8850165'
+server_url  ='https://wonderbrands-v3-8866939.dev.odoo.com'
+db_name = 'wonderbrands-v3-8866939'
 username = 'admin'
 password = 'nK738*rxc#nd'
 
@@ -56,7 +56,7 @@ for row in inv_ids:
     inv_name = search_inv[0]['name']
     inv_date = search_inv[0]['invoice_date']
     print(f"Factura publicada: {inv_name}")
-    upd_inv_date = models.execute_kw(db_name, uid, password, 'account.move', 'write',[[row], {'invoice_payment_term_id': inv_date}])
+    upd_inv_date = models.execute_kw(db_name, uid, password, 'account.move', 'write',[[row], {'invoice_payment_term_id': 1}])
     inv_names.append(inv_name)
     print('----------------------------------------------------------------')
 

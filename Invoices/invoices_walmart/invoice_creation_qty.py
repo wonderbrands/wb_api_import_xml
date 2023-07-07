@@ -228,7 +228,7 @@ for so_order, xml_files in xml_dict.items():
                                     #Modifica la fecha de la factura por la del xml
                                     print(f"Se Modifica la fecha de factura: {file_date}")
                                     upd_inv_date = models.execute_kw(db_name, uid, password, 'account.move', 'write',[[create_inv], {'invoice_date': file_date}])
-                                    upd_inv_date = models.execute_kw(db_name, uid, password, 'account.move', 'write',[[create_inv], {'invoice_payment_term_id': 1}])
+                                    upd_inv_date_term = models.execute_kw(db_name, uid, password, 'account.move', 'write',[[create_inv], {'invoice_payment_term_id': 1}])
                                     #Valida la factura llamando al botón "Confirmar"
                                     upd_invoice_state = models.execute_kw(db_name, uid, password, 'account.move','action_post', [create_inv])
                                     print('Se publica la factura: ', create_inv)

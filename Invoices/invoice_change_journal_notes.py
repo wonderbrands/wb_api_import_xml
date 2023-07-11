@@ -29,8 +29,8 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 #username = 'admin'
 #password = 'admin123'
 
-server_url  ='https://wonderbrands-v3-8866939.dev.odoo.com'
-db_name = 'wonderbrands-v3-8866939'
+server_url  ='https://wonderbrands-v3-8915998.dev.odoo.com'
+db_name = 'wonderbrands-v3-8915998'
 username = 'admin'
 password = 'nK738*rxc#nd'
 
@@ -46,9 +46,9 @@ print('Conexión con Odoo establecida')
 print('----------------------------------------------------------------')
 print('Obteniendo información')
 print('----------------------------------------------------------------')
-inv_ids = [604317,603512]
+inv_ids = [611313]
 inv_names = []
-inv_real_date = '2023-06-16 15:22:12'
+inv_real_date = '2023-06-28 15:22:12'
 inv_line_ids = []
 try:
     for row in inv_ids:

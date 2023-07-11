@@ -33,8 +33,8 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 #username = 'admin'
 #password = 'nK738*rxc#nd'
 
-server_url  ='https://wonderbrands-v3-8866939.dev.odoo.com'
-db_name = 'wonderbrands-v3-8866939'
+server_url  ='https://wonderbrands-v3-8917917.dev.odoo.com'
+db_name = 'wonderbrands-v3-8917917'
 username = 'admin'
 password = 'nK738*rxc#nd'
 
@@ -225,10 +225,6 @@ for so_order, xml_files in xml_dict.items():
                                     print('AGREGANDO REGISTRO XML A LA TABLA DOCUMENTOS EDI')
                                     edi_document = models.execute_kw(db_name, uid, password, 'account.edi.document', 'create', values)
                                     print('Registro account.edi.document creado')
-                                    #Modifica la fecha de la factura por la del xml
-                                    print(f"Se Modifica la fecha de factura: {file_date}")
-                                    upd_inv_date = models.execute_kw(db_name, uid, password, 'account.move', 'write',[[create_inv], {'invoice_date': file_date}])
-                                    upd_inv_date_term = models.execute_kw(db_name, uid, password, 'account.move', 'write',[[create_inv], {'invoice_payment_term_id': 1}])
                                     #Valida la factura llamando al botón "Confirmar"
                                     upd_invoice_state = models.execute_kw(db_name, uid, password, 'account.move','action_post', [create_inv])
                                     print('Se publica la factura: ', create_inv)
@@ -236,9 +232,26 @@ for so_order, xml_files in xml_dict.items():
                                     print(f"Se agrega el folio fiscal: {file_name_mayus}")
                                     upd_folio_fiscal = models.execute_kw(db_name, uid, password, 'account.move','write', [[create_inv], {'l10n_mx_edi_cfdi_uuid': file_name_mayus}])
                                     upd_folio_fiscal_narr = models.execute_kw(db_name, uid, password, 'account.move','write', [[create_inv], {'narration': file_name_mayus}])
+                                    # Modifica la fecha de la factura por la del xml y la fecha vencida por "Pago único"
+                                    print(f"Se Modifica la fecha de factura: {file_date}")
+                                    upd_inv_date = models.execute_kw(db_name, uid, password, 'account.move', 'write',[[create_inv], {'invoice_date': file_date}])
+                                    upd_inv_date_term = models.execute_kw(db_name, uid, password, 'account.move','write', [[create_inv],{'invoice_payment_term_id': 1}])
                                     #Busca el nombre de la factura una vez publicada meramente infomativo
                                     search_inv_name = models.execute_kw(db_name, uid, password, 'account.move','search_read', [[['id', '=', create_inv]]])
                                     inv_name = search_inv_name[0]['name']
+
+                                    # Busca los asientos de diario relacionados a la factura
+                                    #account_line_ids = models.execute_kw(db_name, uid, password, 'account.move.line','search_read', [[['move_id', '=', inv_name]]])
+                                    #for each in account_line_ids:
+                                    #    move_id = each['id']
+                                    #    name_move_id = each['account_id'][1]
+                                    #    if name_move_id == '107.05.01 Mercancías Enviadas - No Facturas' or name_move_id == '501-001-001 COSTO DE VENTA':
+                                    #        # change_journal_date = models.execute_kw(db_name, uid, password, 'account.move.line', 'write',[[move_id], {'date': inv_date}])
+                                    #        change_journal_mat = models.execute_kw(db_name, uid, password,'account.move.line', 'write',[[move_id],{'date_maturity': file_date}])
+                                    #    else:
+                                    #        change_journal_date = models.execute_kw(db_name, uid, password,'account.move.line', 'write',[[move_id], {'date': file_date}])
+                                    #        change_journal_mat = models.execute_kw(db_name, uid, password,'account.move.line', 'write',[[move_id],{'date_maturity': file_date}])
+                                    #    print(f"Nombre del Apunte de diario: {name_move_id}")
                                     #posiciones de los array
                                     value_position += 2
                                     value_position_date += 2
@@ -309,27 +322,28 @@ for so_order, xml_files in xml_dict.items():
                                                                   'message_post', [create_inv], message)
                                 # Busca si hay un UUID relacionada con la factura
                                 if xml_files:
+                                    # Obtiene el nombre del XML y la fecha, modifica el nombre del XML y lo pone en mayúsculas
                                     file_name = xml_files[value_position]
+                                    file_date = xml_files[value_position_date]
                                     file_name_mayus = file_name.upper()
                                     print(f"AGREGANDO ARCHIVO XML A LA FACTURA")
-                                    # invoices_folder = dir_path + '/xml/'
                                     invoices_folder = 'G:/Mi unidad/xml_sr_mkp_invoices/Junio/'
                                     print(f"El xml {file_name} será agregado a la factura")
-
                                     xml_file = file_name + '.xml'
                                     xml_file_path = os.path.join(invoices_folder, xml_file)
                                     with open(xml_file_path, 'rb') as f:
                                         xml_data = f.read()
                                     xml_base64 = base64.b64encode(xml_data).decode('utf-8')
-
+                                    # Define los valores del attachment para agregarl el XML
                                     attachment_data = {
                                         'name': xml_file,
                                         'datas': xml_base64,
                                         'res_model': 'account.move',
                                         'res_id': create_inv,
                                     }
-
-                                    attachment_ids = models.execute_kw(db_name, uid, password, 'ir.attachment', 'create', [attachment_data])
+                                    # Busca el id del attachment relacionado a la factura
+                                    attachment_ids = models.execute_kw(db_name, uid, password, 'ir.attachment',
+                                                                       'create', [attachment_data])
                                     attachment_id = int(attachment_ids)
                                     values = [{
                                         'move_id': create_inv,
@@ -339,17 +353,41 @@ for so_order, xml_files in xml_dict.items():
                                         'create_uid': 1,
                                         'write_uid': 2,
                                     }]
+                                    # Agrega el nombre de la factura a la tabla documentos EDI (solo se ve con debug, conta no la usa)
                                     print('AGREGANDO REGISTRO XML A LA TABLA DOCUMENTOS EDI')
-                                    edi_document = models.execute_kw(db_name, uid, password, 'account.edi.document',
-                                                                     'create', values)
-                                    print('Valores para la tabla Documentos EDI: ', values)
+                                    edi_document = models.execute_kw(db_name, uid, password, 'account.edi.document','create', values)
                                     print('Registro account.edi.document creado')
-                                    # upd_invoice_state = models.execute_kw(db_name, uid, password, 'account.move', 'write',[[create_inv], {'state': 'posted'}])
-                                    upd_invoice_state = models.execute_kw(db_name, uid, password, 'account.move', 'action_post', [create_inv])
-                                    print(f"Se publica la factura: {create_inv}")
-                                    value_position += 1
+                                    # Valida la factura llamando al botón "Confirmar"
+                                    upd_invoice_state = models.execute_kw(db_name, uid, password, 'account.move','action_post', [create_inv])
+                                    print('Se publica la factura: ', create_inv)
+                                    # Agrega el folio fiscal del XML a la factura y al campo de narration (parche realizado momentaneamente)
                                     print(f"Se agrega el folio fiscal: {file_name_mayus}")
                                     upd_folio_fiscal = models.execute_kw(db_name, uid, password, 'account.move','write', [[create_inv], {'l10n_mx_edi_cfdi_uuid': file_name_mayus}])
+                                    upd_folio_fiscal_narr = models.execute_kw(db_name, uid, password, 'account.move','write', [[create_inv],{'narration': file_name_mayus}])
+                                    # Modifica la fecha de la factura por la del xml y la fecha vencida por "Pago único"
+                                    print(f"Se Modifica la fecha de factura: {file_date}")
+                                    upd_inv_date = models.execute_kw(db_name, uid, password, 'account.move', 'write',[[create_inv], {'invoice_date': file_date}])
+                                    upd_inv_date_term = models.execute_kw(db_name, uid, password, 'account.move','write', [[create_inv],{'invoice_payment_term_id': 1}])
+                                    # Busca el nombre de la factura una vez publicada meramente infomativo
+                                    search_inv_name = models.execute_kw(db_name, uid, password, 'account.move','search_read', [[['id', '=', create_inv]]])
+                                    inv_name = search_inv_name[0]['name']
+                                    # Busca los asientos de diario relacionados a la factura
+                                    #account_line_ids = models.execute_kw(db_name, uid, password, 'account.move.line','search_read', [[['move_id', '=', inv_name]]])
+                                    #for each in account_line_ids:
+                                    #    move_id = each['id']
+                                    #    name_move_id = each['account_id'][1]
+                                    #    if name_move_id == '107.05.01 Mercancías Enviadas - No Facturas' or name_move_id == '501-001-001 COSTO DE VENTA':
+                                    #        # change_journal_date = models.execute_kw(db_name, uid, password, 'account.move.line', 'write',[[move_id], {'date': inv_date}])
+                                    #        change_journal_mat = models.execute_kw(db_name, uid, password,'account.move.line', 'write',[[move_id],{'date_maturity': file_date}])
+                                    #    else:
+                                    #        change_journal_date = models.execute_kw(db_name, uid, password,'account.move.line', 'write',[[move_id], {'date': file_date}])
+                                    #        change_journal_mat = models.execute_kw(db_name, uid, password,'account.move.line', 'write',[[move_id],{'date_maturity': file_date}])
+                                    #    print(f"Nombre del Apunte de diario: {name_move_id}")
+                                    # posiciones de los array
+                                    value_position += 2
+                                    value_position_date += 2
+                                    sales_mod.append(order_name)
+                                    inv_names.append(inv_name)
                                     # print(f"ESTE ES LA POSICION DEL ARRAY: {value_position}")
                                     print('-------------------------------------------------------')
                                 else:

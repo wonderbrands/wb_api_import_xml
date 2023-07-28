@@ -1,9 +1,12 @@
-import time
-
 from flask import Flask, render_template, request, make_response, url_for, session
-from os import listdir
-from os.path import isfile, join
-from datetime import date, datetime, timedelta
+from email.message import EmailMessage
+from email.utils import make_msgid
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email.mime.text import MIMEText
+from pprint import pprint
+from email import encoders
+import time
 import json
 import jsonrpc
 import jsonrpclib
@@ -12,31 +15,39 @@ import urllib.request
 import getpass
 import http
 import requests
-from pprint import pprint
 import logging
 import zipfile
 import socket
 import os
+import locale
 import xmlrpc.client
 import base64
 import openpyxl
 import xlrd
 import pandas as pd
-#import MySQLdb
+import MySQLdb
 import mysql.connector
+import smtplib
+import ssl
+import email
+import datetime
 
+print('----------------------------------------------------------------')
+print('Bienvenido al proceso de facturación Walmart')
+today_date = datetime.datetime.now()
+print('Fecha:' + today_date.strftime("%Y%m%d"))
 #API Configuration
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
-server_url  ='https://wonderbrands.odoo.com'
-db_name = 'wonderbrands-main-4539884'
-username = 'admin'
-password = 'nK738*rxc#nd'
-
-#server_url  ='https://wonderbrands-v3-8917917.dev.odoo.com'
-#db_name = 'wonderbrands-v3-8917917'
+#server_url  ='https://wonderbrands.odoo.com'
+#db_name = 'wonderbrands-main-4539884'
 #username = 'admin'
-#password = '9Lh5Z0x*bCqV'
+#password = 'nK738*rxc#nd'
+
+server_url  ='https://wonderbrands-v3-8917917.dev.odoo.com'
+db_name = 'wonderbrands-v3-8917917'
+username = 'admin'
+password = '9Lh5Z0x*bCqV'
 
 print('----------------------------------------------------------------')
 print('SCRIPT DE CREACIÓN DE FACTURAS POR ITEM')
@@ -102,11 +113,11 @@ for so_order, xml_files in xml_dict.items():
     order_state = sale_ids[0]['state']
     print(f"Orden de venta encontrada en el sistema")
     try:
-        if order_state == 'done':
-            if sale_ids:
+        if sale_ids:
+            if order_state == 'done':
                 invoice_count = sale_ids[0]['invoice_count']
                 if invoice_count < 1:
-                    # Create invoice for sales order
+                    #Crea una factura para cada orden y para cada item
                     sale_id = int(sale_ids[0]['id'])
                     #for sale_order in sale_ids:
                     #sale_id = int(sale_order['id'])
@@ -130,13 +141,14 @@ for so_order, xml_files in xml_dict.items():
                     company_id = 1
                     sale_order_line_id = sale_ids[0]['order_line']
                     #sale_order_line_change =  sale_ids[0]['order_line'][0]
-                    # Call to sale order line to get order line data
+                    #Busca el sale_order_line para obtener los datos
                     sol_domain = ['id', 'in', sale_order_line_id]
                     sale_order_line = models.execute_kw(db_name, uid, password, 'sale.order.line', 'search_read', [[sol_domain]])
                     for inv_lines in sale_order_line:
                         qty_delivered = round(inv_lines['qty_delivered'])
                         qty_uom = round(inv_lines['product_uom_qty'])
                         if qty_delivered != 0:
+                            # Inicia un ciclo para cada item en la columna qty_delivered
                             for qty in range(qty_delivered):
                                 print("DATOS DE FACTURA")
                                 invoice = {
@@ -178,6 +190,7 @@ for so_order, xml_files in xml_dict.items():
                                                  'sale_line_ids': [(4, line_id)],
                                                  }
                                 invoice['invoice_line_ids'].append((0, 0, invoice_lines))
+                                #Crea la factura con el SKU del line_id
                                 create_inv = models.execute_kw(db_name, uid, password, 'account.move', 'create', [invoice])
                                 print('La factura de la orden: ', invoice_origin, 'fue creada con ID: ', create_inv)
                                 #Busca la factura para agregar mensaje en el chatter
@@ -266,6 +279,7 @@ for so_order, xml_files in xml_dict.items():
                         else:
                             print(f"La cantidad entregada es igual a {qty_delivered}")
                             print(f"Se tomará en cuenta el campo qty_uom")
+                            #Inicia un ciclo para cada item en la columna qty_uom
                             for qty in range(qty_uom):
                                 print("DATOS DE FACTURA")
                                 invoice = {
@@ -399,16 +413,100 @@ for so_order, xml_files in xml_dict.items():
                     sales_w_inv.append(order_name)
                     continue
             else:
-                print(f'El ID de la orden: {order_name} no coincide con ninguna venta en Odoo')
-                sales_no_exist.append(order_name)
+                print(f"Revise el estatus de la orden {order_name} se encuentra en estatus {order_state}")
+                print(f"Por lo que esta orden no puede ser facturada")
+                sales_error_state.append(order_name)
                 continue
         else:
-            print(f"Revise el estatus de la orden {order_name} se encuentra en estatus {order_state}")
-            print(f"Por lo que esta orden no puede ser facturada")
-            sales_error_state.append(order_name)
+            print(f'El ID de la orden: {order_name} no coincide con ninguna venta en Odoo')
+            sales_no_exist.append(order_name)
             continue
     except Exception as e:
         print(f"Error al crear la factura de la orden {order_name}: {e}")
+
+print('Definiendo correo para contabilidad')
+msg = MIMEMultipart()
+body = '''\
+<html>
+  <head></head>
+  <body>
+    <p>Buenas tardes</p>
+    <p>Hola a todos, espero que estén muy bien. Les comento que acabamos de correr el script de autofacturación Walmart.</p>
+    <p>Adjunto encontrarán el archivo generado por el script en el cual se encuentran las órdenes a las cuales se les creó una factura, órdenes que no se pudieron facturar, nombre de las facturas creadas y su ids correspondientes.</p>
+    </br>
+    <p>Sin más por el momento quedo al pendiente para resolver cualquier duda o comentario.</p>
+    </br>
+    <p>Muchas gracias</p>
+    </br>
+    <p>Un abrazo</p>
+  </body>
+</html>
+'''
+print('Creando archivo Excel')
+print('----------------------------------------------------------------')
+# Crear el archivo Excel y agregar los nombres de los arrays y los resultados
+workbook = openpyxl.Workbook()
+sheet = workbook.active
+sheet['A1'] = 'sales_error_state'
+sheet['B1'] = 'sales_no_exist'
+sheet['C1'] = 'sales_w_inv'
+sheet['D1'] = 'sales_no_xml'
+sheet['E1'] = 'sales_mod'
+sheet['F1'] = 'inv_names'
+sheet['G1'] = 'inv_ids'
+# Agregar los resultados de los arrays
+for i in range(len(sales_error_state)):
+    sheet['A{}'.format(i+2)] = sales_error_state[i]
+for i in range(len(sales_no_exist)):
+    sheet['B{}'.format(i+2)] = sales_no_exist[i]
+for i in range(len(sales_w_inv)):
+    sheet['C{}'.format(i+2)] = sales_w_inv[i]
+for i in range(len(sales_no_xml)):
+    sheet['D{}'.format(i+2)] = sales_no_xml[i]
+for i in range(len(sales_mod)):
+    sheet['E{}'.format(i+2)] = sales_mod[i]
+for i in range(len(inv_names)):
+    sheet['F{}'.format(i+2)] = inv_names[i]
+for i in range(len(inv_ids)):
+    sheet['G{}'.format(i+2)] = inv_ids[i]
+# Guardar el archivo Excel en disco
+excel_file = 'balance_general_' + today_date.strftime("%Y%m%d") + '.xlsx'
+workbook.save(excel_file)
+# Leer el contenido del archivo Excel
+with open(excel_file, 'rb') as file:
+    file_data = file.read()
+file_data_encoded = base64.b64encode(file_data).decode('utf-8')
+#Define el encabezado y las direcciones del remitente y destinatarios
+print('Definiendo remitente y destinatarios')
+print('----------------------------------------------------------------')
+msg = MIMEMultipart()
+msg['From'] = 'Tech anibal@wonderbrands.co'
+msg['To'] = ', '.join(['rosalba@wonderbrands.co','natalia@wonderbrands.co','greta@somos-reyes.com','contabilidad@somos-reyes.com','alex@wonderbrands.co','will@wonderbrands.co'])
+msg['Subject'] = 'Cierre de facturación - Walmart'
+# Adjuntar el cuerpo del correo
+msg.attach(MIMEText(body, 'html'))
+# Adjuntar el archivo Excel al mensaje
+attachment = MIMEBase('application', 'octet-stream')
+attachment.set_payload(file_data)
+encoders.encode_base64(attachment)
+attachment.add_header('Content-Disposition', 'attachment', filename=excel_file)
+msg.attach(attachment)
+
+#Define variables del servidor de correo
+smtp_server = 'smtp.gmail.com'
+smtp_port = 587
+smtp_username = 'anibal@wonderbrands.co'
+smtp_password = 'iwvrlrxkiydxueer'
+print('Enviando correo con listas de ordenes y facturas')
+print('----------------------------------------------------------------')
+try:
+   smtpObj = smtplib.SMTP(smtp_server, smtp_port)
+   smtpObj.starttls()
+   smtpObj.login(smtp_username, smtp_password)
+   smtpObj.sendmail(smtp_username, msg['To'], msg.as_string())
+   print("Correo enviado correctamente")
+except Exception as e:
+   print(f"Error: no se pudo enviar el correo: {e}")
 
 print(f"Ordenes que no están en done {sales_error_state}")
 print(f"Ordenes que no existen en Odoo {sales_no_exist}")

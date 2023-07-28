@@ -481,7 +481,7 @@ print('Definiendo remitente y destinatarios')
 print('----------------------------------------------------------------')
 msg = MIMEMultipart()
 msg['From'] = 'Tech anibal@wonderbrands.co'
-msg['To'] = ', '.join(['rosalba@wonderbrands.co','natalia@wonderbrands.co','greta@somos-reyes.com','contabilidad@somos-reyes.com','alex@wonderbrands.co','will@wonderbrands.co'])
+msg['To'] = ', '.join(['anibal@wonderbrands.co','rosalba@wonderbrands.co','natalia@wonderbrands.co','greta@somos-reyes.com','contabilidad@somos-reyes.com','alex@wonderbrands.co','will@wonderbrands.co'])
 msg['Subject'] = 'Cierre de facturación - Walmart'
 # Adjuntar el cuerpo del correo
 msg.attach(MIMEText(body, 'html'))
@@ -518,3 +518,4 @@ print(f"IDs de las facturas creadas: {inv_ids}")
 
 mycursor.close()
 mydb.close()
+smtp.quit()

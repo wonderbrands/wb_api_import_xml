@@ -16,6 +16,7 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Invoices/invoice_change_date.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/Invoices/invoice_change_journal_notes.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Invoices/invoice_creation_global.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/Invoices/invoices_walmart/invoice_creation_qty.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/Invoices/invoices_walmart/invoice_creation_qty_w_restrictions.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/README.md" root0="FORCE_HIGHLIGHTING" root1="SKIP_INSPECTION" />
@@ -189,12 +190,12 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.wb_odoo_external_api" />
-      <item itemvalue="Python.send_email" />
-      <item itemvalue="Python.invoice_creation_qty_w_restrictions" />
-      <item itemvalue="Python.invoice_change_journal_notes" />
       <item itemvalue="Python.invoice_change_date" />
+      <item itemvalue="Python.invoice_change_journal_notes" />
       <item itemvalue="Python.invoice_creation_qty" />
+      <item itemvalue="Python.invoice_creation_qty_w_restrictions" />
+      <item itemvalue="Python.send_email" />
+      <item itemvalue="Python.wb_odoo_external_api" />
     </list>
     <recent_temporary>
       <list>

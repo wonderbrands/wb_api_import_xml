@@ -36,13 +36,17 @@ print('----------------------------------------------------------------')
 print('Bienvenido al proceso de facturación Walmart global')
 #API Configuration
 dir_path = os.path.dirname(os.path.realpath(__file__))
+print('----------------------------------------------------------------')
+print('Bienvenido al proceso de facturación')
+today_date = datetime.datetime.now()
+print('Fecha:' + today_date.strftime("%Y%m%d"))
 #server_url  ='https://wonderbrands.odoo.com'
 #db_name = 'wonderbrands-main-4539884'
 #username = 'admin'
 #password = 'nK738*rxc#nd'
 
-server_url  ='https://wonderbrands-v3-8917917.dev.odoo.com'
-db_name = 'wonderbrands-v3-8917917'
+server_url  ='https://wonderbrands-vobitest-9144251.dev.odoo.com'
+db_name = 'wonderbrands-vobitest-9144251'
 username = 'admin'
 password = '9Lh5Z0x*bCqV'
 
@@ -184,8 +188,11 @@ body = '''\
   <head></head>
   <body>
     <p>Buenas noches</p>
-    <p>Hola a todos, espero que estén muy bien. Les comento que acabamos de correr el script de autofacturación Walmart.</p>
-    <p>Adjunto encontrarán el archivo generado por el script en el cual se encuentran las órdenes a las cuales se les creó una factura, órdenes que no se pudieron facturar, nombre de las facturas creadas y su ids correspondientes.</p>
+    <p>Hola a todos, espero que estén muy bien. Les comento que acabamos de correr el script para creación de facturas 
+    globales de Walmart.</p>
+    <p>Adjunto encontrarán el archivo generado por el script en el cual se encuentran las órdenes que se agregaron a la 
+    factura global, órdenes que no se pudieron facturar debido a un estatus diferente de Done, órdenes que ya tienen una 
+    factura creada y órdenes que no se encontraron.</p>
     </br>
     <p>Sin más por el momento quedo al pendiente para resolver cualquier duda o comentario.</p>
     </br>
@@ -200,23 +207,20 @@ print('----------------------------------------------------------------')
 # Crear el archivo Excel y agregar los nombres de los arrays y los resultados
 workbook = openpyxl.Workbook()
 sheet = workbook.active
-sheet['A1'] = 'invoice_id'
-sheet['B1'] = 'order_add_to_inv'
-sheet['C1'] = 'order_diff_status'
-sheet['D1'] = 'order_w_inv'
-sheet['E1'] = 'order_no_exist'
+sheet['A1'] = 'order_add_to_inv'
+sheet['B1'] = 'order_diff_status'
+sheet['C1'] = 'order_w_inv'
+sheet['D1'] = 'order_no_exist'
 
 # Agregar los resultados de los arrays
-for i in range(len(invoice_id)):
-    sheet['A{}'.format(i+2)] = invoice_id[i]
 for i in range(len(order_add_to_inv)):
-    sheet['B{}'.format(i+2)] = order_add_to_inv[i]
+    sheet['A{}'.format(i+2)] = order_add_to_inv[i]
 for i in range(len(order_diff_status)):
-    sheet['C{}'.format(i+2)] = order_diff_status[i]
+    sheet['B{}'.format(i+2)] = order_diff_status[i]
 for i in range(len(order_w_inv)):
-    sheet['D{}'.format(i+2)] = order_w_inv[i]
+    sheet['C{}'.format(i+2)] = order_w_inv[i]
 for i in range(len(order_no_exist)):
-    sheet['E{}'.format(i+2)] = order_no_exist[i]
+    sheet['D{}'.format(i+2)] = order_no_exist[i]
 # Guardar el archivo Excel en disco
 excel_file = 'factura_global_' + today_date.strftime("%Y%m%d") + '.xlsx'
 workbook.save(excel_file)
@@ -267,4 +271,4 @@ print(f"Ordenes no encontradas: {order_no_exist}")
 
 mycursor.close()
 mydb.close()
-smtp.quit()
+smtpObj.quit()

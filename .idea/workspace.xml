@@ -62,7 +62,7 @@
       <recent name="D:\Dev\wb_api_import_xml\sale_order_functions" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.invoice_validation">
+  <component name="RunManager" selected="Python.invoice_creation_qty">
     <configuration name="invoice_creation_global" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="wb_odoo_API" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -200,9 +200,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.invoice_creation_qty" />
         <item itemvalue="Python.invoice_validation" />
         <item itemvalue="Python.invoice_creation_global" />
-        <item itemvalue="Python.invoice_creation_qty" />
         <item itemvalue="Python.send_email" />
         <item itemvalue="Python.invoice_creation_qty_w_restrictions" />
       </list>

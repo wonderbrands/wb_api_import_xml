@@ -20,6 +20,7 @@
     <setting file="file://$PROJECT_DIR$/Invoices/invoices_walmart/invoice_creation_qty.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/Invoices/invoices_walmart/invoice_creation_qty_w_restrictions.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/README.md" root0="FORCE_HIGHLIGHTING" root1="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/excel_split.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/insert_file_aws.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/invoice_validation.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/old/app4.py" root0="SKIP_INSPECTION" />
@@ -42,16 +43,16 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;15.0&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Dev/wb_odoo_external_api/Invoices/invoices_walmart&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Dev/wb_odoo_external_api&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Dev\wb_odoo_external_api" />
       <recent name="C:\Dev\wb_odoo_external_api\Invoices\invoices_walmart" />
       <recent name="C:\Dev\wb_odoo_external_api\Invoices" />
       <recent name="C:\Dev\wb_odoo_external_api\invoices_linio" />
-      <recent name="C:\Dev\wb_odoo_external_api" />
       <recent name="C:\Dev\wb_odoo_external_api\invoices_walmart" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -62,7 +63,28 @@
       <recent name="D:\Dev\wb_api_import_xml\sale_order_functions" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.invoice_creation_qty">
+  <component name="RunManager" selected="Python.excel_split">
+    <configuration name="excel_split" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="wb_odoo_API" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/excel_split.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="invoice_creation_global" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="wb_odoo_API" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -97,27 +119,6 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Invoices/invoices_walmart/invoice_creation_qty.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="invoice_creation_qty_w_restrictions" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="wb_odoo_API" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Invoices/invoices_walmart" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Invoices/invoices_walmart/invoice_creation_qty_w_restrictions.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -192,19 +193,19 @@
     </configuration>
     <list>
       <item itemvalue="Python.wb_odoo_external_api" />
+      <item itemvalue="Python.excel_split" />
       <item itemvalue="Python.invoice_creation_global" />
+      <item itemvalue="Python.invoice_creation_qty" />
       <item itemvalue="Python.invoice_validation" />
       <item itemvalue="Python.send_email" />
-      <item itemvalue="Python.invoice_creation_qty_w_restrictions" />
-      <item itemvalue="Python.invoice_creation_qty" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.invoice_creation_qty" />
+        <item itemvalue="Python.excel_split" />
         <item itemvalue="Python.invoice_validation" />
         <item itemvalue="Python.invoice_creation_global" />
+        <item itemvalue="Python.invoice_creation_qty" />
         <item itemvalue="Python.send_email" />
-        <item itemvalue="Python.invoice_creation_qty_w_restrictions" />
       </list>
     </recent_temporary>
   </component>
@@ -242,6 +243,11 @@
           <url>file://$PROJECT_DIR$/Invoices/invoice_change_date.py</url>
           <line>58</line>
           <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/excel_split.py</url>
+          <line>60</line>
+          <option name="timeStamp" value="28" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

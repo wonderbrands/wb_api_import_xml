@@ -39,15 +39,15 @@ print('Fecha:' + today_date.strftime("%Y%m%d"))
 #API Configuration
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
-#server_url  ='https://wonderbrands.odoo.com'
-#db_name = 'wonderbrands-main-4539884'
-#username = 'admin'
-#password = 'nK738*rxc#nd'
-
-server_url  ='https://wonderbrands-vobitest-9144251.dev.odoo.com'
-db_name = 'wonderbrands-vobitest-9144251'
+server_url  ='https://wonderbrands.odoo.com'
+db_name = 'wonderbrands-main-4539884'
 username = 'admin'
 password = '9Lh5Z0x*bCqV'
+
+#server_url  ='https://wonderbrands-vobitest-9144251.dev.odoo.com'
+#db_name = 'wonderbrands-vobitest-9144251'
+#username = 'admin'
+#password = '9Lh5Z0x*bCqV'
 
 print('----------------------------------------------------------------')
 print('SCRIPT DE CREACIÓN DE FACTURAS POR ITEM')

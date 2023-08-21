@@ -24,18 +24,18 @@ import mysql.connector
 
 #API Configuration
 dir_path = os.path.dirname(os.path.realpath(__file__))
-#server_url  ='https://wonderbrands-v3-8443304.dev.odoo.com'
-#db_name = 'wonderbrands-v3-8443304'
-#username = 'admin'
-#password = 'admin123'
-
-server_url  ='https://wonderbrands-vobitest-9144251.dev.odoo.com'
-db_name = 'wonderbrands-vobitest-9144251'
+server_url  ='https://wonderbrands.odoo.com'
+db_name = 'wonderbrands-main-4539884'
 username = 'admin'
 password = '9Lh5Z0x*bCqV'
 
+#server_url  ='https://wonderbrands-vobitest-9144251.dev.odoo.com'
+#db_name = 'wonderbrands-vobitest-9144251'
+#username = 'admin'
+#password = '9Lh5Z0x*bCqV'
+
 print('----------------------------------------------------------------')
-print('SCRIPT DE CREACIÓN DE FACTURAS POR SO')
+print('SCRIPT DE VALIDACIÓN DE FACTURAS')
 print('----------------------------------------------------------------')
 print('Conectando API Odoo')
 common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(server_url))
@@ -46,7 +46,7 @@ print('Conexión con Odoo establecida')
 print('----------------------------------------------------------------')
 print('Obteniendo información')
 print('----------------------------------------------------------------')
-inv_ids = [665952, 665951, 665950]
+inv_ids = [670396]
 inv_names = []
 #Ciclo que ordena las SO, los UUIDS y las fechas en un diccionario
 for row in inv_ids:

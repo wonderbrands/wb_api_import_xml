@@ -46,7 +46,7 @@ print('Conexión con Odoo establecida')
 print('----------------------------------------------------------------')
 print('Obteniendo información')
 print('----------------------------------------------------------------')
-inv_ids = [670396]
+inv_ids = [729381,729409,729425]
 inv_names = []
 #Ciclo que ordena las SO, los UUIDS y las fechas en un diccionario
 for row in inv_ids:

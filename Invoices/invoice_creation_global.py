@@ -45,8 +45,8 @@ db_name = 'wonderbrands-main-4539884'
 username = 'admin'
 password = '9Lh5Z0x*bCqV'
 
-#server_url  ='https://wonderbrands-vobitest-9144251.dev.odoo.com'
-#db_name = 'wonderbrands-vobitest-9144251'
+#server_url  ='https://wonderbrands-vobitest-9523648.dev.odoo.com'
+#db_name = 'wonderbrands-vobitest-9523648'
 #username = 'admin'
 #password = '9Lh5Z0x*bCqV'
 
@@ -104,7 +104,7 @@ try:
         order_id = models.execute_kw(db_name, uid, password, 'sale.order', 'search_read', [[['name', '=', rec]]])
         order_names.append(order_id[0]['name'])
 
-        #Se crea el cuerpo de la factura con los campos necesarios
+    #Se crea el cuerpo de la factura con los campos necesarios
     #so_domain = ['name', 'in', order_names]
     print('----------------------------------------------------------------')
     print('Definiendo valores de la factura global')

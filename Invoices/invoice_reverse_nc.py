@@ -105,21 +105,32 @@ try:
         invoice = models.execute_kw(db_name, uid, password, 'account.move', 'search_read', [[['id', '=', inv]]])
         inv_names.append(invoice[0]['name'])
         if invoice:
-            print(f"Número de registros devueltos: {len(invoice)}")
             if len(invoice) == 1:
                 inv_name = invoice[0]['name']
                 inv_origin = invoice[0]['invoice_origin']
                 inv_narration = invoice[0]['narration']
                 inv_uuid = inv_narration[3:-4]
-                #Crea la nota de crédito mediante la función action_reverse el botón de Odoo
-                create_nc = models.execute_kw(db_name, uid, password, 'account.move', 'action_reverse', [inv])
-                #Agrega un mensaje específico a la nota de crédito
+                inv_journal_id = invoice[0]['journal_id'][0]
+                # Crea la nota de crédito mediante el módulo account.move.reversal
+                credit_note_wizard = models.execute_kw(db_name,uid,password,'account.move.reversal','create',[{
+                    'refund_method': 'refund',
+                    'reason': 'Por efectos de devolución o retorno de una orden',
+                    'journal_id': inv_journal_id,}],
+                        {'context': {
+                            'active_ids': [inv],
+                            'active_id': inv,
+                            'active_model': 'account.move',
+                        }}
+                    )
+                nc_inv_create = models.execute_kw(db_name,uid,password,'account.move.reversal','reverse_moves',[credit_note_wizard])
+                # Agrega un mensaje específico a la nota de crédito
                 message = {
                     'body': f"Esta nota de crédito fue creada a partir de la factura: {inv_name}, de la órden {inv_origin}, con UUID {inv_uuid}, a solicitud del equipo de Contabilidad, por el equipo de Tech.",
                     'message_type': 'comment',
                 }
-                #write_msg_tech = models.execute_kw(db_name, uid, password, 'account.move', 'message_post', [create_nc],message)
-                nc_ids_created.append(create_nc)
+                write_msg_tech = models.execute_kw(db_name, uid, password, 'account.move', 'message_post', [nc_inv_create],message)
+                search_inv_name = models.execute_kw(db_name, uid, password, 'account.move', 'search_read',[[['id', '=', nc_inv_create]]])
+                nc_ids_created.append(nc_inv_create)
             else:
                 print(f"Se encontraron múltiples registros para la factura con ID {inv}")
         else:

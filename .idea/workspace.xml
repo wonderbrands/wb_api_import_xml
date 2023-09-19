@@ -245,11 +245,6 @@
           <line>58</line>
           <option name="timeStamp" value="24" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Invoices/invoice_reverse_nc.py</url>
-          <line>106</line>
-          <option name="timeStamp" value="27" />
-        </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">

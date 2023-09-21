@@ -1,4 +1,3 @@
-from flask import Flask, render_template, request, make_response, url_for, session
 from email.message import EmailMessage
 from email.utils import make_msgid
 from email.mime.multipart import MIMEMultipart
@@ -93,34 +92,36 @@ inv_names = []
 inv_ids = []
 date_year = '20'
 for row in sales_order_records:
-    so_name = row[0]
-    xml_name = row[1]
-    xml_date = date_year + row[2].strftime("%y-%m-%d %H:%M:%S")
+    so_name = row[0] #Del query obtiene el nombre de la SO
+    xml_name = row[1] #Del query obtiene el nombre del XML o UUID
+    xml_date = date_year + row[2].strftime("%y-%m-%d %H:%M:%S") #Del query obtiene también la fecha de la factura
 
     if so_name not in xml_dict:
-        xml_dict[so_name] = []
+        xml_dict[so_name] = [] #si una SO está repetida le agrega multiples xml y fechas correspondientes
 
-    xml_dict[so_name].append(xml_name)
-    xml_dict[so_name].append(xml_date)
+    xml_dict[so_name].append(xml_name) #agrega el nombre del xml a una tabla
+    xml_dict[so_name].append(xml_date) #agrega la fecha de factura a una tabla
 for so_order, xml_files in xml_dict.items():
     value_position = 0
     value_position_date = 1
     so_domain = ['name', '=', so_order]
     for xml_ids in so_order[1]:
         xml_list.append(xml_ids)
+    #busca la orden de venta y obtiene el nombre y el estado de SO
     sale_ids = models.execute_kw(db_name, uid, password,'sale.order', 'search_read', [[so_domain]])
     order_name = sale_ids[0]['name']
     order_state = sale_ids[0]['state']
-    print(f"Orden de venta encontrada en el sistema")
     try:
+        #Si existe una orden de venta
         if sale_ids:
+            #Si la orden está en Done o bloqueada
             if order_state == 'done':
                 invoice_count = sale_ids[0]['invoice_count']
+                #Si la cantidad de facturas es menor a 1, ya que si tiene más podría presentar un retorno
                 if invoice_count < 1:
                     #Crea una factura para cada orden y para cada item
+                    #Obtiene los datos necesarios directo de la SO
                     sale_id = int(sale_ids[0]['id'])
-                    #for sale_order in sale_ids:
-                    #sale_id = int(sale_order['id'])
                     currency_id = sale_ids[0]['currency_id'][0]
                     narration = sale_ids[0]['note']
                     campaign_id = False
@@ -147,10 +148,10 @@ for so_order, xml_files in xml_dict.items():
                     for inv_lines in sale_order_line:
                         qty_delivered = round(inv_lines['qty_delivered'])
                         qty_uom = round(inv_lines['product_uom_qty'])
+                        #Si al cantidad entregada es diferente de 0
                         if qty_delivered != 0:
                             # Inicia un ciclo para cada item en la columna qty_delivered
                             for qty in range(qty_delivered):
-                                print("DATOS DE FACTURA")
                                 invoice = {
                                     'ref': '',
                                     'move_type': 'out_invoice',
@@ -174,7 +175,6 @@ for so_order, xml_files in xml_dict.items():
                                     'invoice_line_ids': [],
                                     'company_id': company_id,
                                 }
-                                #line_id = sale_order_line[0]['id']
                                 line_id = inv_lines['id']
                                 invoice_lines = {'display_type': inv_lines['display_type'],
                                                  'sequence': inv_lines['sequence'],
@@ -192,10 +192,11 @@ for so_order, xml_files in xml_dict.items():
                                 invoice['invoice_line_ids'].append((0, 0, invoice_lines))
                                 #Crea la factura con el SKU del line_id
                                 create_inv = models.execute_kw(db_name, uid, password, 'account.move', 'create', [invoice])
-                                print('La factura de la orden: ', invoice_origin, 'fue creada con ID: ', create_inv)
+                                #print('La factura de la orden: ', invoice_origin, 'fue creada con ID: ', create_inv)
                                 #Busca la factura para agregar mensaje en el chatter
-                                print(f"Agregando mensaje a la factura")
+                                #print(f"Agregando mensaje a la factura")
                                 search_inv = models.execute_kw(db_name, uid, password, 'account.move', 'search_read', [[['id', '=', create_inv]]])
+                                #agrega el id de la factura creada a una tabla
                                 inv_ids.append(create_inv)
                                 message = {
                                     'body': 'Esta factura fue creada por el equipo de Tech vía API',
@@ -203,14 +204,13 @@ for so_order, xml_files in xml_dict.items():
                                 }
                                 write_msg_inv = models.execute_kw(db_name, uid, password, 'account.move', 'message_post', [create_inv], message)
                                 # Busca el UUID relacionada con la factura
+                                #si existe un archivo XML
                                 if xml_files:
                                     #Obtiene el nombre del XML y la fecha, modifica el nombre del XML y lo pone en mayúsculas
-                                    file_name = xml_files[value_position]
-                                    file_date = xml_files[value_position_date]
-                                    file_name_mayus = file_name.upper()
-                                    print(f"AGREGANDO ARCHIVO XML A LA FACTURA")
-                                    invoices_folder = 'G:/Mi unidad/xml_sr_mkp_invoices/Agosto/'
-                                    print(f"El xml {file_name} será agregado a la factura")
+                                    file_name = xml_files[value_position] #utliza la posición que asignamos anteriormente
+                                    file_date = xml_files[value_position_date] #utliza la posición que asignamos anteriormente
+                                    file_name_mayus = file_name.upper() #Pone en mayúsculas el nombre del XML
+                                    invoices_folder = 'G:/Mi unidad/xml_sr_mkp_invoices/Agosto/' #carpeta en la que se encuentran los xmls
                                     xml_file = file_name + '.xml'
                                     xml_file_path = os.path.join(invoices_folder, xml_file)
                                     with open(xml_file_path, 'rb') as f:
@@ -235,24 +235,18 @@ for so_order, xml_files in xml_dict.items():
                                         'write_uid': 2,
                                     }]
                                     #Agrega el nombre de la factura a la tabla documentos EDI (solo se ve con debug, conta no la usa)
-                                    print('AGREGANDO REGISTRO XML A LA TABLA DOCUMENTOS EDI')
                                     edi_document = models.execute_kw(db_name, uid, password, 'account.edi.document', 'create', values)
-                                    print('Registro account.edi.document creado')
                                     #Valida la factura llamando al botón "Confirmar"
                                     upd_invoice_state = models.execute_kw(db_name, uid, password, 'account.move','action_post', [create_inv])
-                                    print('Se publica la factura: ', create_inv)
                                     #Agrega el folio fiscal del XML a la factura y al campo de narration (parche realizado momentaneamente)
-                                    print(f"Se agrega el folio fiscal: {file_name_mayus}")
                                     upd_folio_fiscal = models.execute_kw(db_name, uid, password, 'account.move','write', [[create_inv], {'l10n_mx_edi_cfdi_uuid': file_name_mayus}])
                                     upd_folio_fiscal_narr = models.execute_kw(db_name, uid, password, 'account.move','write', [[create_inv], {'narration': file_name_mayus}])
                                     # Modifica la fecha de la factura por la del xml y la fecha vencida por "Pago único"
-                                    print(f"Se Modifica la fecha de factura: {file_date}")
                                     upd_inv_date = models.execute_kw(db_name, uid, password, 'account.move', 'write',[[create_inv], {'invoice_date': file_date}])
                                     upd_inv_date_term = models.execute_kw(db_name, uid, password, 'account.move','write', [[create_inv],{'invoice_payment_term_id': 1}])
                                     #Busca el nombre de la factura una vez publicada meramente infomativo
                                     search_inv_name = models.execute_kw(db_name, uid, password, 'account.move','search_read', [[['id', '=', create_inv]]])
                                     inv_name = search_inv_name[0]['name']
-
                                     # Busca los asientos de diario relacionados a la factura
                                     #account_line_ids = models.execute_kw(db_name, uid, password, 'account.move.line','search_read', [[['move_id', '=', inv_name]]])
                                     #for each in account_line_ids:
@@ -268,20 +262,17 @@ for so_order, xml_files in xml_dict.items():
                                     #posiciones de los array
                                     value_position += 2
                                     value_position_date += 2
-                                    sales_mod.append(order_name)
-                                    inv_names.append(inv_name)
+                                    sales_mod.append(order_name) #agrega el nombre de la orden a otra tabla
+                                    inv_names.append(inv_name) #agrega el nombre que se le asignó a la factura
                                     #print(f"ESTE ES LA POSICION DEL ARRAY: {value_position}")
-                                    print('-------------------------------------------------------')
                                 else:
                                     print(f'La orden: {order_name} no tiene un XML en la carpeta')
                                     sales_no_xml.append(order_name)
                                     continue
                         else:
-                            print(f"La cantidad entregada es igual a {qty_delivered}")
-                            print(f"Se tomará en cuenta el campo qty_uom")
+                            print("Se encontró una factura con cantidad entregada en 0, se tomará en cuenta solo la cantidad")
                             #Inicia un ciclo para cada item en la columna qty_uom
                             for qty in range(qty_uom):
-                                print("DATOS DE FACTURA")
                                 invoice = {
                                     'ref': '',
                                     'move_type': 'out_invoice',
@@ -323,9 +314,7 @@ for so_order, xml_files in xml_dict.items():
                                 invoice['invoice_line_ids'].append((0, 0, invoice_lines))
                                 create_inv = models.execute_kw(db_name, uid, password, 'account.move', 'create',
                                                                [invoice])
-                                print('La factura de la orden: ', invoice_origin, 'fue creada con ID: ', create_inv)
                                 # Busca la factura para agregar mensaje en el chatter
-                                print(f"Agregando mensaje a la factura")
                                 search_inv = models.execute_kw(db_name, uid, password, 'account.move', 'search_read',
                                                                [[['id', '=', create_inv]]])
                                 message = {
@@ -340,9 +329,7 @@ for so_order, xml_files in xml_dict.items():
                                     file_name = xml_files[value_position]
                                     file_date = xml_files[value_position_date]
                                     file_name_mayus = file_name.upper()
-                                    print(f"AGREGANDO ARCHIVO XML A LA FACTURA")
                                     invoices_folder = 'G:/Mi unidad/xml_sr_mkp_invoices/Agosto/'
-                                    print(f"El xml {file_name} será agregado a la factura")
                                     xml_file = file_name + '.xml'
                                     xml_file_path = os.path.join(invoices_folder, xml_file)
                                     with open(xml_file_path, 'rb') as f:
@@ -368,18 +355,13 @@ for so_order, xml_files in xml_dict.items():
                                         'write_uid': 2,
                                     }]
                                     # Agrega el nombre de la factura a la tabla documentos EDI (solo se ve con debug, conta no la usa)
-                                    print('AGREGANDO REGISTRO XML A LA TABLA DOCUMENTOS EDI')
                                     edi_document = models.execute_kw(db_name, uid, password, 'account.edi.document','create', values)
-                                    print('Registro account.edi.document creado')
                                     # Valida la factura llamando al botón "Confirmar"
                                     upd_invoice_state = models.execute_kw(db_name, uid, password, 'account.move','action_post', [create_inv])
-                                    print('Se publica la factura: ', create_inv)
                                     # Agrega el folio fiscal del XML a la factura y al campo de narration (parche realizado momentaneamente)
-                                    print(f"Se agrega el folio fiscal: {file_name_mayus}")
                                     upd_folio_fiscal = models.execute_kw(db_name, uid, password, 'account.move','write', [[create_inv], {'l10n_mx_edi_cfdi_uuid': file_name_mayus}])
                                     upd_folio_fiscal_narr = models.execute_kw(db_name, uid, password, 'account.move','write', [[create_inv],{'narration': file_name_mayus}])
                                     # Modifica la fecha de la factura por la del xml y la fecha vencida por "Pago único"
-                                    print(f"Se Modifica la fecha de factura: {file_date}")
                                     upd_inv_date = models.execute_kw(db_name, uid, password, 'account.move', 'write',[[create_inv], {'invoice_date': file_date}])
                                     upd_inv_date_term = models.execute_kw(db_name, uid, password, 'account.move','write', [[create_inv],{'invoice_payment_term_id': 1}])
                                     # Busca el nombre de la factura una vez publicada meramente infomativo
@@ -403,7 +385,6 @@ for so_order, xml_files in xml_dict.items():
                                     sales_mod.append(order_name)
                                     inv_names.append(inv_name)
                                     # print(f"ESTE ES LA POSICION DEL ARRAY: {value_position}")
-                                    print('-------------------------------------------------------')
                                 else:
                                     print(f'La orden: {order_name} no tiene un XML en la carpeta')
                                     continue

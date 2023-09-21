@@ -6,6 +6,7 @@ from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from pprint import pprint
 from email import encoders
+from tqdm import tqdm
 import time
 import json
 import jsonrpc
@@ -33,12 +34,11 @@ import email
 import datetime
 
 print('----------------------------------------------------------------')
-print('Bienvenido al proceso de facturación Walmart para notas de crédito')
+print('Bienvenido al proceso para creación de notas de crédito')
 dir_path = os.path.dirname(os.path.realpath(__file__))
-print('----------------------------------------------------------------')
-print('Bienvenido al proceso de facturación')
 today_date = datetime.datetime.now()
-print('Fecha:' + today_date.strftime("%Y%m%d"))
+print('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
+
 #Configuración de la API
 #server_url  ='https://wonderbrands.odoo.com'
 #db_name = 'wonderbrands-main-4539884'
@@ -51,13 +51,10 @@ username = 'admin'
 password = '9Lh5Z0x*bCqV'
 
 print('----------------------------------------------------------------')
-print('SCRIPT DE CREACIÓN DE FACTURAS GLOBALES')
-print('----------------------------------------------------------------')
 print('Conectando API Odoo')
 common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(server_url))
 uid = common.authenticate(db_name, username, password, {})
 models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(server_url))
-print(common)
 print('Conexión con Odoo establecida')
 print('----------------------------------------------------------------')
 print('Conectando a Mysql')
@@ -73,7 +70,6 @@ mycursor = mydb.cursor()
 print(f"Leyendo query")
 print('----------------------------------------------------------------')
 print('Vaya por un tecito o un café porque este proceso tomará algo de tiempo')
-print('----------------------------------------------------------------')
 
 mycursor.execute("""SELECT c.name,
                            b.id 'account_move_id',
@@ -95,8 +91,7 @@ mycursor.execute("""SELECT c.name,
                     ON c.name = e.invoice_origin
                     WHERE d.order_id is not null
                     AND e.invoice_origin is null
-                    AND refunded_amt - a.total < 1 AND refunded_amt - a.total > -1
-                    limit 1""")
+                    AND refunded_amt - a.total < 1 AND refunded_amt - a.total > -1""")
 #excel_file_path = dir_path + '/files/NC/nc_invoices.xlsx'
 #sale_file = pd.read_excel(excel_file_path, usecols=['so_origin'])
 #invoice_records = sale_file['so_origin'].tolist()
@@ -111,6 +106,7 @@ print('Creando notas de crédito')
 print('Este proceso tomará unos minutos')
 print('----------------------------------------------------------------')
 try:
+    progress_bar = tqdm(total=len(invoice_records), desc="Procesando")
     for each in invoice_records:
         inv_origin_name = each[0]
         inv_id = each[1]
@@ -154,7 +150,7 @@ try:
                         'message_type': 'comment',
                     }
                     write_msg_tech = models.execute_kw(db_name, uid, password, 'account.move', 'message_post',[nc_id], message)
-                    print("oli")
+                    progress_bar.update(1)
             else:
                 print(f"La órden {inv_origin_name} ya tiene una nota de crédito creada")
                 so_w_refund.append(inv_origin_name)
@@ -170,14 +166,14 @@ print('Proceso completado')
 print('Este arroz ya se coció :)')
 print('----------------------------------------------------------------')
 print('Ordenes')
+print(f"SO que no tienen una factura en Odoo: {so_no_exist}")
 print(f"SO a las que se les creó nota de crédito: {so_names}")
-print(f"SO que no existen en Odoo: {so_no_exist}")
 print(f"SO que ya tienen una nota de crédito: {so_w_refund}")
 print('Facturas')
 print(f"Facturas a las que se les creó nota de crédito: {inv_names}")
 
+progress_bar.close()
 
-
-
+#Cierre de conexiones
 mycursor.close()
 mydb.close()

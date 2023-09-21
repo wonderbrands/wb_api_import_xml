@@ -6,6 +6,7 @@ from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from pprint import pprint
 from email import encoders
+from tqdm import tqdm
 import time
 import json
 import jsonrpc

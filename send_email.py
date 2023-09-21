@@ -117,3 +117,5 @@ try:
    print("Correo enviado correctamente")
 except Exception as e:
    print(f"Error: no se pudo enviar el correo: {e}")
+
+smtpObj.quit()

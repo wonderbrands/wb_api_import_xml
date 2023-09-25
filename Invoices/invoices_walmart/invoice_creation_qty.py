@@ -5,6 +5,7 @@ from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from pprint import pprint
 from email import encoders
+from tqdm import tqdm
 import time
 import json
 import jsonrpc
@@ -34,14 +35,14 @@ import datetime
 print('----------------------------------------------------------------')
 print('Bienvenido al proceso de facturación Walmart')
 today_date = datetime.datetime.now()
-print('Fecha:' + today_date.strftime("%Y%m%d"))
+print('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
 #API Configuration
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
-server_url  ='https://wonderbrands.odoo.com'
-db_name = 'wonderbrands-main-4539884'
-username = 'admin'
-password = '9Lh5Z0x*bCqV'
+#server_url  ='https://wonderbrands.odoo.com'
+#db_name = 'wonderbrands-main-4539884'
+#username = 'admin'
+#password = '9Lh5Z0x*bCqV'
 
 #server_url  ='https://wonderbrands-vobitest-9523648.dev.odoo.com'
 #db_name = 'wonderbrands-vobitest-9523648'
@@ -101,6 +102,7 @@ for row in sales_order_records:
 
     xml_dict[so_name].append(xml_name) #agrega el nombre del xml a una tabla
     xml_dict[so_name].append(xml_date) #agrega la fecha de factura a una tabla
+
 for so_order, xml_files in xml_dict.items():
     value_position = 0
     value_position_date = 1

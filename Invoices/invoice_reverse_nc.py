@@ -119,7 +119,11 @@ try:
                 exist_nc_type = type['move_type']
                 inv_move_types.append(exist_nc_type)
 
-            if 'out_refund' not in inv_move_types:
+            # Se verifica si ya existe una nota de crédito para esta orden de venta
+
+            existing_credit_note = models.execute_kw(db_name, uid, password, 'account.move', 'search', [[['invoice_origin', '=', inv_origin_name], ['move_type', '=', 'out_refund']]])
+            if not existing_credit_note:
+            #if 'out_refund' not in inv_move_types:
                 for inv in invoice:
                     inv_id = inv['id'] # ID de la factura
                     inv_name = inv['name'] # Nombre de la factura

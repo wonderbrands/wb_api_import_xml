@@ -1,0 +1,20 @@
+{
+  "odoo": {
+    "odoouser": "admin",
+    "odoopassword": "9Lh5Z0x*bCqV",
+    "odoodb": "wonderbrands-v1-10054195",
+    "odoourl": "https://wonderbrands-v1-10054195.dev.odoo.com"
+  },
+  "psql": {
+    "dbuser": "anibal",
+    "dbpassword": "Tuy0TEZOcXAwBgtb",
+    "dbhost": "wonderbrands1.cuwd36ifbz5t.us-east-1.rds.amazonaws.com",
+    "database": "tech"
+  },
+  "email": {
+    "smtp_server": "smtp.gmail.com",
+    "smtp_port": 587,
+    "smtp_username": "anibal@wonderbrands.co",
+    "smtp_password": "iwvrlrxkiydxueer"
+  }
+}

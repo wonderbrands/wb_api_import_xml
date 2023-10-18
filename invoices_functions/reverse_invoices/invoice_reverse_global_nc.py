@@ -95,27 +95,27 @@ def reverse_invoice_global():
     print('----------------------------------------------------------------')
     print('Vaya por un tecito o un café porque este proceso tomará algo de tiempo')
 
-    mycursor.execute("""SELECT c.name, b.id 'account_move_id', b.name/*d.order_id, a.total, a.subtotal, d.refunded_amt,b.invoice_partner_display_name*/
-                        FROM finance.sr_sat_emitidas a
-                        LEFT JOIN somos_reyes.odoo_new_account_move_aux b
-                        ON a.uuid = b.l10n_mx_edi_cfdi_uuid
-                        LEFT JOIN somos_reyes.odoo_new_sale_order c
-                        ON SUBSTRING_INDEX(SUBSTRING_INDEX(invoice_ids, ']', 1), '[', -1) = b.id
-                        LEFT JOIN (SELECT order_id, status_detail, pay_status, SUM(paid_amt) 'paid_amt', SUM(refunded_amt) 'refunded_amt' 
-                                    FROM somos_reyes.ml_order_payments 
-                                    WHERE refunded_amt > 0 
-                                    GROUP BY 1,2,3) d
-                        ON c.channel_order_id = d.order_id
-                        LEFT JOIN (SELECT distinct invoice_origin 
-                                    FROM somos_reyes.odoo_new_account_move_aux 
-                                    WHERE name like '%RINV%') e
-                        ON c.name = e.invoice_origin
-                        WHERE d.order_id is not null
-                            AND e.invoice_origin is null
-                            #AND refunded_amt - a.total > 1 OR refunded_amt - a.total < -1
-                            AND invoice_partner_display_name = 'PÚBLICO EN GENERAL'
-                            limit 10""")
-    invoice_records = mycursor.fetchall()
+    #mycursor.execute("""SELECT c.name, b.id 'account_move_id', b.name/*d.order_id, a.total, a.subtotal, d.refunded_amt,b.invoice_partner_display_name*/
+    #                    FROM finance.sr_sat_emitidas a
+    #                    LEFT JOIN somos_reyes.odoo_new_account_move_aux b
+    #                    ON a.uuid = b.l10n_mx_edi_cfdi_uuid
+    #                    LEFT JOIN somos_reyes.odoo_new_sale_order c
+    #                    ON SUBSTRING_INDEX(SUBSTRING_INDEX(invoice_ids, ']', 1), '[', -1) = b.id
+    #                    LEFT JOIN (SELECT order_id, status_detail, pay_status, SUM(paid_amt) 'paid_amt', SUM(refunded_amt) 'refunded_amt'
+    #                                FROM somos_reyes.ml_order_payments
+    #                                WHERE refunded_amt > 0
+    #                                GROUP BY 1,2,3) d
+    #                    ON c.channel_order_id = d.order_id
+    #                    LEFT JOIN (SELECT distinct invoice_origin
+    #                                FROM somos_reyes.odoo_new_account_move_aux
+    #                                WHERE name like '%RINV%') e
+    #                    ON c.name = e.invoice_origin
+    #                    WHERE d.order_id is not null
+    #                        AND e.invoice_origin is null
+    #                        #AND refunded_amt - a.total > 1 OR refunded_amt - a.total < -1
+    #                        AND invoice_partner_display_name = 'PÚBLICO EN GENERAL'
+    #                        limit 10""")
+    #invoice_records = mycursor.fetchall()
     so_no_exist = []
     so_w_refund = []
     inv_names = []
@@ -125,6 +125,7 @@ def reverse_invoice_global():
     print('----------------------------------------------------------------')
     print('Creando notas de crédito')
     print('Este proceso tomará unos minutos')
+    invoice_records = [('SO2479520', '821764', 'INV/8202/40340'), ('SO2474777', '821764', 'INV/8202/40340')]
     try:
         progress_bar = tqdm(total=len(invoice_records), desc="Procesando")
         for each in invoice_records:
@@ -144,39 +145,38 @@ def reverse_invoice_global():
                             sale_order = models.execute_kw(db_name, uid, password, 'sale.order', 'search_read',[[['name', '=', inv_origin_name]]], {'fields': ['order_line']})
                             if sale_order:
                                 order_lines = sale_order[0]['order_line']
-                                # Filtra las líneas de factura que corresponden a la orden de venta actual
-                                #invoice_lines = [line for line in inv['invoice_line_ids'] if line[1] in order_lines]
-                                invoice_lines = [line for line in inv['invoice_line_ids'] if
-                                                 models.execute_kw(db_name, uid, password, 'account.move.line', 'read',[line], {'fields': ['product_id']})[0]['product_id'] in order_lines]
-
-                                #if 'out_refund' not in inv_move_types:
-                                #for inv in invoice:
-                                if invoice_lines:
-                                    credit_note_wizard = models.execute_kw(db_name, uid, password, 'account.move.reversal',
-                                                                           'create', [{
-                                            'refund_method': 'refund',
-                                            'reason': 'Por efectos de devolución o retorno de una orden',
-                                            'journal_id': inv_journal_id,
-                                            'invoice_ids': [(6, 0, [inv_id])],
-                                            # Incluye solo la factura actual en la nota de crédito
-                                        }], {'context': {
-                                            'active_ids': [inv_id],
-                                            'active_id': inv_id,
-                                            'active_model': 'account.move',
-                                        }})
-                                    #Se crea la nota de crédito con la info anterior y se usa la función reverse_moves del botón revertir en el wizard
-                                    nc_inv_create = models.execute_kw(db_name, uid, password, 'account.move.reversal', 'reverse_moves',[credit_note_wizard])
-                                    nc_id = nc_inv_create['res_id'] # Obtiene el id de la nota de crédito
-                                    # Agrega un mensaje al chatter de la nota de crédito
-                                    message = {
-                                        'body': f"Esta nota de crédito fue creada a partir de la factura: {inv_name}, de la órden {inv_origin}, con folio fiscal {inv_uuid}, a solicitud del equipo de Contabilidad, por el equipo de Tech mediante API.",
-                                        'message_type': 'comment',
+                                inv_uuid = inv['l10n_mx_edi_cfdi_uuid']  # Folio fiscal de la factura
+                                inv_journal_id = inv['journal_id'][0]
+                                #invoice_lines = models.execute_kw(db_name, uid, password, 'account.move.line','search_read',[[['move_id', '=', inv['id']]]], {'fields': ['sale_line_ids']})
+                                # Obtener las líneas de factura relacionadas con la orden de venta actual
+                                #order_invoice_lines = [line['sale_line_ids'][0] for line in invoice_lines if line['sale_line_ids']]
+                                create_wizard = {
+                                        'refund_method': 'refund',
+                                        'reason': 'Por efectos de devolución o retorno de una orden',
+                                        'journal_id': inv_journal_id,
+                                        'line_ids': [],
                                     }
-                                    write_msg_tech = models.execute_kw(db_name, uid, password, 'account.move', 'message_post',[nc_id], message)
-                                    nc_created.append(inv_origin_name)
-                                    progress_bar.update(1)
-                                else:
-                                    print(f"No hay líneas de factura correspondientes a la orden de venta {inv_origin_name}")
+                                for ids in order_lines:
+                                    create_wizard['line_ids'].append((6, 0, ids))
+                                credit_note_wizard = models.execute_kw(db_name, uid, password,
+                                                                       'account.move.reversal',
+                                                                       'create', [create_wizard],
+                                                                       {'context': {
+                                                                           'active_ids': [inv_id],
+                                                                           'active_id': inv_id,
+                                                                           'active_model': 'account.move',
+                                                                       }}
+                                                                       )
+                                # Se crea la nota de crédito con la info anterior y se usa la función reverse_moves del botón revertir en el wizard
+                                nc_inv_create = models.execute_kw(db_name, uid, password, 'account.move.reversal','reverse_moves', [credit_note_wizard])
+                                nc_id = nc_inv_create['res_id']  # Obtiene el id de la nota de crédito
+                                # Agrega un mensaje al chatter de la nota de crédito
+                                message = {
+                                    'body': f"Esta nota de crédito fue creada a partir de la factura: {inv_name}, de la órden {inv_origin}, con folio fiscal {inv_uuid}, a solicitud del equipo de Contabilidad, por el equipo de Tech mediante API.",
+                                    'message_type': 'comment',
+                                }
+                                write_msg_tech = models.execute_kw(db_name, uid, password, 'account.move','message_post', [nc_id], message)
+                                progress_bar.update(1)
                             else:
                                 print(f"No se encontró la orden de venta {inv_origin_name}")
                         else:

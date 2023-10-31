@@ -23,7 +23,6 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/README.md" root0="FORCE_HIGHLIGHTING" root1="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/config.json" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/config.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/config_dev.json" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/invoices_functions/invoice_creation_global.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/invoices_functions/invoices_walmart/invoice_creation_qty.py" root0="SKIP_INSPECTION" />
@@ -32,6 +31,7 @@
     <setting file="file://$PROJECT_DIR$/invoices_functions/reverse_invoices/invoice_reverse_nc.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/proofs_functions/code_with_functions.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/proofs_functions/excel_split.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/proofs_functions/extract_files.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/proofs_functions/insert_file_aws.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/proofs_functions/invoice_change_date.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/proofs_functions/invoice_change_journal_notes.py" root0="SKIP_INSPECTION" />
@@ -59,14 +59,14 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "15.0",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Dev/wb_odoo_external_api",
+    "last_opened_file_path": "C:/Dev/wb_odoo_external_api/proofs_functions",
     "settings.editor.selected.configurable": "debugger.dataViews.python.type.renderers"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Dev\wb_odoo_external_api" />
       <recent name="C:\Dev\wb_odoo_external_api\proofs_functions" />
+      <recent name="C:\Dev\wb_odoo_external_api" />
       <recent name="C:\Dev\wb_odoo_external_api\Invoices" />
       <recent name="C:\Dev\wb_odoo_external_api\Invoices\invoices_walmart" />
       <recent name="C:\Dev\wb_odoo_external_api\invoices_linio" />
@@ -79,7 +79,49 @@
       <recent name="C:\Dev\wb_odoo_external_api\Proofs" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.invoice_reverse_global_nc">
+  <component name="RunManager" selected="Python.invoice_creation_qty">
+    <configuration name="extract_files" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="wb_odoo_API" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proofs_functions" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proofs_functions/extract_files.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="invoice_creation_global" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="wb_odoo_API" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/invoices_functions" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/invoices_functions/invoice_creation_global.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="invoice_creation_qty" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="wb_odoo_API" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -143,48 +185,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="proofs" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="wb_odoo_API" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proofs_functions" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proofs_functions/proofs.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="stock_validation" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="wb_odoo_API" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/proofs_functions" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proofs_functions/stock_validation.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="wb_odoo_external_api" type="PythonConfigurationType" factoryName="Python" singleton="false" nameIsGenerated="true">
       <module name="wb_odoo_API" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -209,19 +209,19 @@
     </configuration>
     <list>
       <item itemvalue="Python.wb_odoo_external_api" />
+      <item itemvalue="Python.extract_files" />
+      <item itemvalue="Python.invoice_creation_global" />
       <item itemvalue="Python.invoice_reverse_global_nc" />
       <item itemvalue="Python.invoice_reverse_nc (1)" />
-      <item itemvalue="Python.proofs" />
-      <item itemvalue="Python.stock_validation" />
       <item itemvalue="Python.invoice_creation_qty" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.invoice_creation_qty" />
+        <item itemvalue="Python.invoice_creation_global" />
+        <item itemvalue="Python.extract_files" />
         <item itemvalue="Python.invoice_reverse_global_nc" />
         <item itemvalue="Python.invoice_reverse_nc (1)" />
-        <item itemvalue="Python.proofs" />
-        <item itemvalue="Python.stock_validation" />
-        <item itemvalue="Python.invoice_creation_qty" />
       </list>
     </recent_temporary>
   </component>

@@ -42,7 +42,7 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 print('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
 #Archivo de configuración - Use config_dev.json si está haciendo pruebas
 #Archivo de configuración - Use config.json cuando los cambios vayan a producción
-config_file_name = r'C:\Dev\wb_odoo_external_api\config_dev.json'
+config_file_name = r'C:\Dev\wb_odoo_external_api\config.json'
 
 def get_odoo_access():
     with open(config_file_name, 'r') as config_file:

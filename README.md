@@ -14,7 +14,13 @@ Este módulo contiene funciones para consulta e inserción de información al si
         El programa crea una factura por cada item en qty_delivered para cada SKU
     -Facturas creadas por SKU
         El programa crea una factura por cada SKU en la orden de venta
+    -Facturas globales
+        -El programa agrega múltiples órdenes de venta a una misma factura y la publica a "Público en general"
 
 -Inserción de archivos dentro del modelo ir.attachment 
     
     -Adjunta de manera automática archivos dentro de la sección ir.attachment
+
+-Creación de notas de crédito a partir de una factura ya publicada
+    
+    -Crea notas de crédito haciendo una consulta mediante SQL

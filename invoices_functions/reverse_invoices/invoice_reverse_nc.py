@@ -1,4 +1,3 @@
-from flask import Flask, render_template, request, make_response, url_for, session
 from email.message import EmailMessage
 from email.utils import make_msgid
 from email.mime.multipart import MIMEMultipart

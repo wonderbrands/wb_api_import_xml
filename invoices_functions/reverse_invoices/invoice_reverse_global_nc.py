@@ -1,4 +1,3 @@
-from flask import Flask, render_template, request, make_response, url_for, session
 from email.message import EmailMessage
 from email.utils import make_msgid
 from email.mime.multipart import MIMEMultipart
@@ -95,27 +94,28 @@ def reverse_invoice_global():
     print('----------------------------------------------------------------')
     print('Vaya por un tecito o un café porque este proceso tomará algo de tiempo')
 
-    #mycursor.execute("""SELECT c.name, b.id 'account_move_id', b.name/*d.order_id, a.total, a.subtotal, d.refunded_amt,b.invoice_partner_display_name*/
-    #                    FROM finance.sr_sat_emitidas a
-    #                    LEFT JOIN somos_reyes.odoo_new_account_move_aux b
-    #                    ON a.uuid = b.l10n_mx_edi_cfdi_uuid
-    #                    LEFT JOIN somos_reyes.odoo_new_sale_order c
-    #                    ON SUBSTRING_INDEX(SUBSTRING_INDEX(invoice_ids, ']', 1), '[', -1) = b.id
-    #                    LEFT JOIN (SELECT order_id, status_detail, pay_status, SUM(paid_amt) 'paid_amt', SUM(refunded_amt) 'refunded_amt'
-    #                                FROM somos_reyes.ml_order_payments
-    #                                WHERE refunded_amt > 0
-    #                                GROUP BY 1,2,3) d
-    #                    ON c.channel_order_id = d.order_id
-    #                    LEFT JOIN (SELECT distinct invoice_origin
-    #                                FROM somos_reyes.odoo_new_account_move_aux
-    #                                WHERE name like '%RINV%') e
-    #                    ON c.name = e.invoice_origin
-    #                    WHERE d.order_id is not null
-    #                        AND e.invoice_origin is null
-    #                        #AND refunded_amt - a.total > 1 OR refunded_amt - a.total < -1
-    #                        AND invoice_partner_display_name = 'PÚBLICO EN GENERAL'
-    #                        limit 10""")
-    #invoice_records = mycursor.fetchall()
+    mycursor.execute("""SELECT c.name, b.id 'account_move_id', b.name/*d.order_id, a.total, a.subtotal, d.refunded_amt,b.invoice_partner_display_name*/
+                        FROM finance.sr_sat_emitidas a
+                        LEFT JOIN somos_reyes.odoo_new_account_move_aux b
+                        ON a.uuid = b.l10n_mx_edi_cfdi_uuid
+                        LEFT JOIN somos_reyes.odoo_new_sale_order c
+                        ON SUBSTRING_INDEX(SUBSTRING_INDEX(invoice_ids, ']', 1), '[', -1) = b.id
+                        LEFT JOIN (SELECT order_id, status_detail, pay_status, SUM(paid_amt) 'paid_amt', SUM(refunded_amt) 'refunded_amt' 
+                                    FROM somos_reyes.ml_order_payments 
+                                    WHERE refunded_amt > 0 
+                                    GROUP BY 1,2,3) d
+                        ON c.channel_order_id = d.order_id
+                        LEFT JOIN (SELECT distinct invoice_origin 
+                                    FROM somos_reyes.odoo_new_account_move_aux 
+                                    WHERE name like '%RINV%') e
+                        ON c.name = e.invoice_origin
+                        WHERE d.order_id is not null
+                            AND e.invoice_origin is null
+                            #AND refunded_amt - a.total > 1 OR refunded_amt - a.total < -1
+                            AND invoice_partner_display_name = 'PÚBLICO EN GENERAL'
+                            and b.name = 'INV/8202/05535'
+                            limit 10""")
+    invoice_records = mycursor.fetchall()
     so_no_exist = []
     so_w_refund = []
     inv_names = []
@@ -125,7 +125,7 @@ def reverse_invoice_global():
     print('----------------------------------------------------------------')
     print('Creando notas de crédito')
     print('Este proceso tomará unos minutos')
-    invoice_records = [('SO2479520', '821764', 'INV/8202/40340'), ('SO2474777', '821764', 'INV/8202/40340')]
+    #invoice_records = [('SO2479520', '821764', 'INV/8202/40340'), ('SO2474777', '821764', 'INV/8202/40340')]
     try:
         progress_bar = tqdm(total=len(invoice_records), desc="Procesando")
         for each in invoice_records:
@@ -194,80 +194,6 @@ def reverse_invoice_global():
     except Exception as e:
        print(f"Error: no se pudo crear la nota de crédito: {e}")
 
-    # Define el cuerpo del correo
-    print('Creando correo y excel')
-    msg = MIMEMultipart()
-    body = '''\
-    <html>
-      <head></head>
-      <body>
-        <p>Buenas tardes</p>
-        <p>Hola a todos, espero que estén muy bien. Les comento que acabamos de correr el script de notas de crédito.</p>
-        <p>Adjunto encontrarán el archivo generado por el script en el cual se encuentran las órdenes a las cuales se les creó una nota de crédito, órdenes que no se les pudo crear una NC y nombre de las notas de crédito creadas.</p>
-        </br>
-        <p>Sin más por el momento quedo al pendiente para resolver cualquier duda o comentario.</p>
-        </br>
-        <p>Muchas gracias</p>
-        </br>
-        <p>Un abrazo</p>
-      </body>
-    </html>
-    '''
-
-    # Crear el archivo Excel y agregar los nombres de los arrays y los resultados
-    workbook = openpyxl.Workbook()
-    sheet = workbook.active
-    sheet['A1'] = 'so_names'
-    sheet['B1'] = 'nc_created'
-    sheet['C1'] = 'inv_names'
-    sheet['D1'] = 'so_w_refund'
-    sheet['E1'] = 'so_no_exist'
-
-    # Agregar los resultados de los arrays
-    for i in range(len(so_names)):
-        sheet['A{}'.format(i + 2)] = so_names[i]
-    for i in range(len(nc_created)):
-        sheet['B{}'.format(i + 2)] = nc_created[i]
-    for i in range(len(inv_names)):
-        sheet['C{}'.format(i + 2)] = inv_names[i]
-    for i in range(len(so_w_refund)):
-        sheet['D{}'.format(i + 2)] = so_w_refund[i]
-    for i in range(len(so_no_exist)):
-        sheet['E{}'.format(i + 2)] = so_no_exist[i]
-
-    # Guardar el archivo Excel en disco
-    excel_file = 'notas_credito_' + today_date.strftime("%Y%m%d") + '.xlsx'
-    workbook.save(excel_file)
-
-    # Leer el contenido del archivo Excel
-    with open(excel_file, 'rb') as file:
-        file_data = file.read()
-    file_data_encoded = base64.b64encode(file_data).decode('utf-8')
-
-    # Define remitente y destinatario
-    msg = MIMEMultipart()
-    msg['From'] = 'Tech anibal@wonderbrands.co'
-    msg['To'] = ', '.join(
-        ['anibal@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co', 'greta@somos-reyes.com',
-         'contabilidad@somos-reyes.com', 'alex@wonderbrands.co', 'will@wonderbrands.co'])
-    msg['Subject'] = 'Creación de notas de crédito mediante script automático'
-    # Adjuntar el cuerpo del correo
-    msg.attach(MIMEText(body, 'html'))
-    # Adjuntar el archivo Excel al mensaje
-    attachment = MIMEBase('application', 'octet-stream')
-    attachment.set_payload(file_data)
-    encoders.encode_base64(attachment)
-    attachment.add_header('Content-Disposition', 'attachment', filename=excel_file)
-    msg.attach(attachment)
-    print("Enviando correo")
-    try:
-        smtpObj = smtplib.SMTP(smtp_server, smtp_port)
-        smtpObj.starttls()
-        smtpObj.login(smtp_username, smtp_password)
-        smtpObj.sendmail(smtp_username, msg['To'], msg.as_string())
-    except Exception as e:
-        print(f"Error: no se pudo enviar el correo: {e}")
-
     print('----------------------------------------------------------------')
     print('Proceso completado')
     print('Este arroz ya se coció :)')
@@ -275,7 +201,7 @@ def reverse_invoice_global():
 
     # Cierre de conexiones
     progress_bar.close()
-    smtpObj.quit()
+    #smtpObj.quit()
     mycursor.close()
     mydb.close()
 

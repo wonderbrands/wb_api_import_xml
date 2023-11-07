@@ -136,11 +136,11 @@ def invoice_create_qty():
             xml_list.append(xml_ids)
         #busca la orden de venta y obtiene el nombre y el estado de SO
         sale_ids = models.execute_kw(db_name, uid, password,'sale.order', 'search_read', [[so_domain]])
-        order_name = sale_ids[0]['name']
-        order_state = sale_ids[0]['state']
         try:
             #Si existe una orden de venta
             if sale_ids:
+                order_name = sale_ids[0]['name']
+                order_state = sale_ids[0]['state']
                 #Si la orden está en Done o bloqueada
                 if order_state == 'done':
                     invoice_count = sale_ids[0]['invoice_count']

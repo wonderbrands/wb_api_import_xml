@@ -114,7 +114,7 @@ def reverse_invoice_global():
                             #AND refunded_amt - a.total > 1 OR refunded_amt - a.total < -1
                             AND invoice_partner_display_name = 'PÚBLICO EN GENERAL'
                             and b.name = 'INV/8202/05535'
-                            limit 10""")
+                            limit 1""")
     invoice_records = mycursor.fetchall()
     so_no_exist = []
     so_w_refund = []
@@ -137,55 +137,52 @@ def reverse_invoice_global():
             invoice = models.execute_kw(db_name, uid, password, 'account.move', 'search_read', [[['id', '=', inv_id]]])
             if invoice:
                 for inv in invoice:
+                    inv_uuid = inv['l10n_mx_edi_cfdi_uuid']  # Folio fiscal de la factura
+                    inv_usage = inv['l10n_mx_edi_usage']  # Folio fiscal de la factura
+                    inv_journal_id = inv['journal_id'][0]
                     if inv_origin_name in inv['invoice_origin']:
-                        # ID de la factura
-                        # Se verifica si ya existe una nota de crédito para esta orden de venta
-                        existing_credit_note = models.execute_kw(db_name, uid, password, 'account.move', 'search', [[['invoice_origin', '=', inv_origin_name], ['move_type', '=', 'out_refund']]])
-                        if not existing_credit_note:
-                            # Obtiene los detalles de la orden de venta actual
-                            sale_order = models.execute_kw(db_name, uid, password, 'sale.order', 'search_read',[[['name', '=', inv_origin_name]]], {'fields': ['order_line']})
-                            if sale_order:
-                                order_lines = sale_order[0]['order_line']
-                                inv_id = inv['id']  # ID de la factura
-                                inv_name = inv['name']
-                                inv_origin = inv['invoice_origin']
-                                inv_uuid = inv['l10n_mx_edi_cfdi_uuid']  # Folio fiscal de la factura
-                                inv_journal_id = inv['journal_id'][0]
-                                #invoice_lines = models.execute_kw(db_name, uid, password, 'account.move.line','search_read',[[['move_id', '=', inv['id']]]], {'fields': ['sale_line_ids']})
-                                # Obtener las líneas de factura relacionadas con la orden de venta actual
-                                #order_invoice_lines = [line['sale_line_ids'][0] for line in invoice_lines if line['sale_line_ids']]
-                                create_wizard = {
-                                        'refund_method': 'refund',
-                                        'reason': 'Por efectos de devolución o retorno de una orden',
-                                        'journal_id': inv_journal_id,
-                                        #'line_ids': [],
-                                    }
-                                #for ids in order_lines:
-                                #    create_wizard['line_ids'].append((6, 0, ids))
-                                credit_note_wizard = models.execute_kw(db_name, uid, password,'account.move.reversal','create',
-                                                                       [create_wizard],
-                                                                       {'context': {
-                                                                           'active_ids': [inv_id],
-                                                                           'active_id': inv_id,
-                                                                           'active_model': 'account.move',
-                                                                       }}
-                                                                       )
-                                # Se crea la nota de crédito con la info anterior y se usa la función reverse_moves del botón revertir en el wizard
-                                nc_inv_create = models.execute_kw(db_name, uid, password, 'account.move.reversal','reverse_moves', [credit_note_wizard])
-                                nc_id = nc_inv_create['res_id']  # Obtiene el id de la nota de crédito
-                                # Agrega un mensaje al chatter de la nota de crédito
-                                message = {
-                                    'body': f"Esta nota de crédito fue creada a partir de la factura: {inv_name}, de la órden {inv_origin}, con folio fiscal {inv_uuid}, a solicitud del equipo de Contabilidad, por el equipo de Tech mediante API.",
-                                    'message_type': 'comment',
-                                }
-                                write_msg_tech = models.execute_kw(db_name, uid, password, 'account.move','message_post', [nc_id], message)
-                                progress_bar.update(1)
-                            else:
-                                print(f"No se encontró la orden de venta {inv_origin_name}")
-                        else:
-                            print(f"La órden {inv_origin_name} ya tiene una nota de crédito creada")
-                            so_w_refund.append(inv_origin_name)
-                            continue
+                        #Busca la órden de venta
+                        sale_order = models.execute_kw(db_name, uid, password, 'sale.order', 'search_read', [[['name', '=', inv_origin_name]]])[0]
+                        # Obtiene los datos necesarios directo de la SO
+                        sale_id = sale_order['id']
+                        sale_name = sale_order['name']
+                        #Busca el order line correspondiente de la orden de venta
+                        sale_line_id = models.execute_kw(db_name, uid, password, 'sale.order.line', 'search_read', [[['order_id', '=', sale_id]]])
+                        #Define los valores de la nota de crédito
+                        inv_int = int(inv_id)
+                        sale_int = int(sale_id)
+                        refund_vals = {
+                            'ref': f'Reversión de: {inv_name}',
+                            'journal_id': inv_journal_id,
+                            'invoice_origin': sale_name,
+                            'payment_reference': inv_name,
+                            'invoice_date': datetime.datetime.now().strftime('%Y-%m-%d'),
+                            # Puedes ajustar la fecha según tus necesidades
+                            'partner_id': inv['partner_id'][0],
+                            'l10n_mx_edi_usage': inv_usage,
+                            'reversed_entry_id': inv_int,
+                            'move_type': 'out_refund',  # Este campo indica que es una nota de crédito
+                            'invoice_line_ids': []
+                        }
+                        for lines in sale_line_id:
+                            nc_lines = {'product_id': lines['product_id'][0],
+                                        'quantity': lines['product_uom_qty'],
+                                        'name': lines['name'],  # Puedes ajustar esto según tus necesidades
+                                        'price_unit': lines['price_unit'],
+                                        }
+                            refund_vals['invoice_line_ids'].append((0, 0, nc_lines))
+                        #Crea la nota de crédito
+                        create_nc = models.execute_kw(db_name, uid, password, 'account.move', 'create', [refund_vals])
+                        #Actualiza la nota de crédito
+                        upd_nc_move = models.execute_kw(db_name, uid, password, 'account.move', 'write',[[create_nc], {'reversal_move_id': sale_int}])
+                        #Agrega mensaje al Attachment de la nota de crédito
+                        message = {
+                            'body': f"Esta nota de crédito fue creada a partir de la factura: {inv_name}, de la órden {sale_name}, con folio fiscal {inv_uuid}, a solicitud del equipo de Contabilidad, por el equipo de Tech mediante API.",
+                            'message_type': 'comment',
+                        }
+                        write_msg_inv = models.execute_kw(db_name, uid, password, 'account.move', 'message_post',[create_nc], message)
+                        nc = models.execute_kw(db_name, uid, password, 'account.move', 'search_read',[[['id', '=', create_nc]]])
+                        print('listo man')
                     else:
                         print(f"La órden {inv_origin_name} no se encontró en la factura global")
                         so_no_exist_in_invoice.append(inv_origin_name)

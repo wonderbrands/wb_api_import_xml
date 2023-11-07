@@ -31,6 +31,7 @@ import smtplib
 import ssl
 import email
 import datetime
+import traceback
 
 print('----------------------------------------------------------------')
 print('Bienvenido al proceso para creación de notas de crédito')
@@ -51,17 +52,35 @@ def get_psql_access():
         config = json.load(config_file)
 
     return config['psql']
+def get_email_access():
+    with open(config_file_name, 'r') as config_file:
+        config = json.load(config_file)
+
+    return config['email']
 def autoinvoice():
-    # Obtener credenciales
     odoo_keys = get_odoo_access()
     psql_keys = get_psql_access()
+    email_keys = get_email_access()
+    # odoo
+    server_url = odoo_keys['odoourl']
+    db_name = odoo_keys['odoodb']
+    username = odoo_keys['odoouser']
+    password = odoo_keys['odoopassword']
+    # correo
+    smtp_server = email_keys['smtp_server']
+    smtp_port = email_keys['smtp_port']
+    smtp_username = email_keys['smtp_username']
+    smtp_password = email_keys['smtp_password']
 
-    common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(odoo_keys['odoourl']))
-    uid = common.authenticate(odoo_keys['odoodb'], odoo_keys['odoouser'], odoo_keys['odoopassword'], {})
-    models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(odoo_keys['odoourl']))
-
-    print(common)
-
+    print('----------------------------------------------------------------')
+    print('Conectando API Odoo')
+    common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(server_url))
+    uid = common.authenticate(db_name, username, password, {})
+    models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(server_url))
+    print('Conexión con Odoo establecida')
+    print('----------------------------------------------------------------')
+    print('Conectando a Mysql')
+    # Connect to MySQL database
     mydb = mysql.connector.connect(
         host=psql_keys['dbhost'],
         user=psql_keys['dbuser'],
@@ -70,10 +89,24 @@ def autoinvoice():
     )
     mycursor = mydb.cursor()
 
-    mycursor.execute("""SELECT folio FROM finance.sr_sat_emitidas WHERE serie = 'PGA' limit 10""")
-    invoice_records = mycursor.fetchall()
-    for each in invoice_records:
-        print(f"Folio de venta: {each}")
+    inv_id = 868162
+    sale_id = 173425
+    invoice_array = []
+
+    sale_order = models.execute_kw(db_name, uid, password, 'sale.order', 'search_read', [[['id', '=', sale_id]]])[0]
+    invoice_ids = sale_order['invoice_ids']
+    print(f"Invoice ids antes de ejecutar: {invoice_ids}")
+    for inv in invoice_ids:
+        invoice_array.append(inv)
+    invoice_array.append(inv_id)
+    try:
+        upd_sale = models.execute_kw(db_name, uid, password, 'sale.order', 'write', [[sale_id], {'invoice_ids': invoice_array}])
+        sale_order_new = models.execute_kw(db_name, uid, password, 'sale.order', 'search_read', [[['id', '=', sale_id]]])[0]
+        invoice_ids_new = sale_order_new['invoice_ids']
+        print(f"Invoice ids después de ejecutar: {invoice_ids_new}")
+    except Exception as e:
+        print(f"Error en: {e}")
+        traceback.print_exc()
 
 if __name__ == "__main__":
     autoinvoice()

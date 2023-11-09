@@ -120,14 +120,18 @@ def reverse_invoice():
                             AND refunded_amt - a.total < 1 AND refunded_amt - a.total > -1
                             limit 1""")
     invoice_records = mycursor.fetchall()
-    so_no_exist = []
-    so_w_refund = []
-    inv_names = []
-    so_names = []
+    # Lista de SO a las que se les creó una credit_notes
+    so_modified = []
+    # Lista de las facturas enlazadas a la SO y no existen
+    inv_no_exist = []
+    # Lista de SO que ya contaban con credit_notes antes del script
+    so_with_refund = []
+    # Lista de nombres de las notas de crédito creadas
     nc_created = []
     print('----------------------------------------------------------------')
     print('Creando notas de crédito')
     print('Este proceso tomará unos minutos')
+    # Creación de notas de crédito
     try:
         progress_bar = tqdm(total=len(invoice_records), desc="Procesando")
         for each in invoice_records:
@@ -151,7 +155,6 @@ def reverse_invoice():
                         inv_name = inv['name'] # Nombre de la factura
                         inv_names.append(inv_name) # Agrega la factura a una tabla
                         inv_origin = inv['invoice_origin'] # Nombre de la SO ligada a la factura
-                        so_names.append(inv_origin)
                         #inv_narration = inv['narration']
                         #inv_uuid = inv_narration[3:-4]
                         inv_uuid = inv['l10n_mx_edi_cfdi_uuid'] # Folio fiscal de la factura
@@ -177,89 +180,97 @@ def reverse_invoice():
                             'message_type': 'comment',
                         }
                         write_msg_tech = models.execute_kw(db_name, uid, password, 'account.move', 'message_post',[nc_id], message)
+                        upd_nc_state = models.execute_kw(db_name, uid, password, 'account.move', 'action_post',[nc_id])
+                        search_nc_name = models.execute_kw(db_name, uid, password, 'account.move', 'search_read',[[['id', '=', nc_id]]])
+                        nc_name = search_nc_name[0]['name']
+                        nc_created.append(nc_name)
+                        so_modified.append(inv_origin)
                         progress_bar.update(1)
                 else:
                     print(f"La órden {inv_origin_name} ya tiene una nota de crédito creada")
-                    so_w_refund.append(inv_origin_name)
+                    so_with_refund.append(inv_origin_name)
                     continue
+            else:
+                print(f"No hay una factura en la SO {inv_origin_name} por la cual se pueda crear una nota de crédito")
+                inv_no_exist.append(inv_origin_name)
+                continue
     except Exception as e:
         print(f"Error: no se pudo crear la nota de crédito: {e}")
-
-    """
-    # Define el cuerpo del correo
-    print('Creando correo y excel')
-    msg = MIMEMultipart()
-    body = '''\
-        <html>
-          <head></head>
-          <body>
-            <p>Buenas tardes</p>
-            <p>Hola a todos, espero que estén muy bien. Les comento que acabamos de correr el script de notas de crédito.</p>
-            <p>Adjunto encontrarán el archivo generado por el script en el cual se encuentran las órdenes a las cuales se les creó una nota de crédito, órdenes que no se les pudo crear una credit_notes y nombre de las notas de crédito creadas.</p>
-            </br>
-            <p>Sin más por el momento quedo al pendiente para resolver cualquier duda o comentario.</p>
-            </br>
-            <p>Muchas gracias</p>
-            </br>
-            <p>Un abrazo</p>
-          </body>
-        </html>
-        '''
-
-    # Crear el archivo Excel y agregar los nombres de los arrays y los resultados
-    workbook = openpyxl.Workbook()
-    sheet = workbook.active
-    sheet['A1'] = 'so_names'
-    sheet['B1'] = 'nc_created'
-    sheet['C1'] = 'inv_names'
-    sheet['D1'] = 'so_w_refund'
-    sheet['E1'] = 'so_no_exist'
-
-    # Agregar los resultados de los arrays
-    for i in range(len(so_names)):
-        sheet['A{}'.format(i + 2)] = so_names[i]
-    for i in range(len(nc_created)):
-        sheet['B{}'.format(i + 2)] = nc_created[i]
-    for i in range(len(inv_names)):
-        sheet['C{}'.format(i + 2)] = inv_names[i]
-    for i in range(len(so_w_refund)):
-        sheet['D{}'.format(i + 2)] = so_w_refund[i]
-    for i in range(len(so_no_exist)):
-        sheet['E{}'.format(i + 2)] = so_no_exist[i]
-
-    # Guardar el archivo Excel en disco
-    excel_file = 'notas_credito_' + today_date.strftime("%Y%m%d") + '.xlsx'
-    workbook.save(excel_file)
-
-    # Leer el contenido del archivo Excel
-    with open(excel_file, 'rb') as file:
-        file_data = file.read()
-    file_data_encoded = base64.b64encode(file_data).decode('utf-8')
-
-    # Define remitente y destinatario
-    msg = MIMEMultipart()
-    msg['From'] = 'Tech anibal@wonderbrands.co'
-    msg['To'] = ', '.join(
-        ['anibal@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co', 'greta@somos-reyes.com',
-         'contabilidad@somos-reyes.com', 'alex@wonderbrands.co', 'will@wonderbrands.co'])
-    msg['Subject'] = 'Creación de notas de crédito mediante script automático'
-    # Adjuntar el cuerpo del correo
-    msg.attach(MIMEText(body, 'html'))
-    # Adjuntar el archivo Excel al mensaje
-    attachment = MIMEBase('application', 'octet-stream')
-    attachment.set_payload(file_data)
-    encoders.encode_base64(attachment)
-    attachment.add_header('Content-Disposition', 'attachment', filename=excel_file)
-    msg.attach(attachment)
-    print("Enviando correo")
+    # Excel
     try:
+        # Crear el archivo Excel y agregar los nombres de los arrays y los resultados
+        workbook = openpyxl.Workbook()
+        sheet = workbook.active
+        sheet['A1'] = 'so_modified'
+        sheet['B1'] = 'nc_created'
+        sheet['C1'] = 'inv_no_exist'
+        sheet['D1'] = 'so_with_refund'
+
+        # Agregar los resultados de los arrays
+        for i in range(len(so_modified)):
+            sheet['A{}'.format(i + 2)] = so_modified[i]
+        for i in range(len(nc_created)):
+            sheet['B{}'.format(i + 2)] = nc_created[i]
+        for i in range(len(inv_no_exist)):
+            sheet['C{}'.format(i + 2)] = inv_no_exist[i]
+        for i in range(len(so_with_refund)):
+            sheet['D{}'.format(i + 2)] = so_with_refund[i]
+
+        # Guardar el archivo Excel en disco
+        excel_file = 'notas_credito_individuales_' + today_date.strftime("%Y%m%d") + '.xlsx'
+        workbook.save(excel_file)
+
+        # Leer el contenido del archivo Excel
+        with open(excel_file, 'rb') as file:
+            file_data = file.read()
+        file_data_encoded = base64.b64encode(file_data).decode('utf-8')
+    except Exception as a:
+        print(f"Error: no se pudo crear el archivo de excel: {a}")
+    # Correo
+    try:
+        msg = MIMEMultipart()
+        body = '''\
+                <html>
+                  <head></head>
+                  <body>
+                    <p>Buenas</p>
+                    <p>Hola a todos, espero que estén muy bien. Les comento que acabamos de correr el script de notas de crédito.</p>
+                    <p>Adjunto encontrarán el archivo generado por el script en el cual se encuentran las órdenes a las cuales 
+                    se les creó una nota de crédito, órdenes que no se les pudo crear una credit_notes, nombre de las notas de crédito 
+                    creadas, órdenes que ya contaban con una nota de crédito antes de correr el script y órdenes que tuvieron 
+                    algún error, por ejemplo que no existieran dentro de la factura global o no tuvieran una factura creada por la cual se pueda emitir una nota de crédito.</p>
+                    </br>
+                    <p>Sin más por el momento quedo al pendiente para resolver cualquier duda o comentario.</p>
+                    </br>
+                    <p>Muchas gracias</p>
+                    </br>
+                    <p>Un abrazo</p>
+                  </body>
+                </html>
+                '''
+        # Define remitente y destinatario
+        msg = MIMEMultipart()
+        msg['From'] = 'Tech anibal@wonderbrands.co'
+        msg['To'] = ', '.join(
+            ['anibal@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co', 'greta@somos-reyes.com',
+             'contabilidad@somos-reyes.com', 'alex@wonderbrands.co', 'will@wonderbrands.co'])
+        msg['Subject'] = 'Script Automático - Creación de notas de crédito para facturas individuales'
+        # Adjuntar el cuerpo del correo
+        msg.attach(MIMEText(body, 'html'))
+        # Adjuntar el archivo Excel al mensaje
+        attachment = MIMEBase('application', 'octet-stream')
+        attachment.set_payload(file_data)
+        encoders.encode_base64(attachment)
+        attachment.add_header('Content-Disposition', 'attachment', filename=excel_file)
+        msg.attach(attachment)
+        print("Enviando correo")
         smtpObj = smtplib.SMTP(smtp_server, smtp_port)
         smtpObj.starttls()
         smtpObj.login(smtp_username, smtp_password)
         smtpObj.sendmail(smtp_username, msg['To'], msg.as_string())
-    except Exception as e:
-        print(f"Error: no se pudo enviar el correo: {e}")
-    """
+    except Exception as i:
+        print(f"Error: no se pudo enviar el correo: {i}")
+
     print('----------------------------------------------------------------')
     print('Proceso completado')
     print('Este arroz ya se coció :)')
@@ -267,7 +278,7 @@ def reverse_invoice():
 
     # Cierre de conexiones
     progress_bar.close()
-    #smtpObj.quit()
+    smtpObj.quit()
     mycursor.close()
     mydb.close()
 

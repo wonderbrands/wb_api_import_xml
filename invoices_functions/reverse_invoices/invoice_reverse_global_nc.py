@@ -116,10 +116,12 @@ def reverse_invoice_global():
                             and b.name = 'INV/8202/05535'
                             limit 1""")
     invoice_records = mycursor.fetchall()
-    so_no_exist = []
-    so_w_refund = []
-    inv_names = []
-    so_names = []
+    #Lista de notas de crédito creadas
+    inv_created = []
+    #Lista de SO a las que se les creó una NC
+    so_modified = []
+    inv_no_exist = []
+    so_with_refund = []
     nc_created = []
     so_no_exist_in_invoice = []
     print('----------------------------------------------------------------')
@@ -129,10 +131,9 @@ def reverse_invoice_global():
     try:
         progress_bar = tqdm(total=len(invoice_records), desc="Procesando")
         for each in invoice_records:
-            inv_origin_name = each[0]
-            inv_id = each[1]
-            inv_name = each[2]
-            inv_move_types = [] # Lista en la que se almacenan los tipos de factura para la orden en curso
+            inv_origin_name = each[0] # Almacena el nombre de la SO
+            inv_id = each[1] # Almacena el ID de la factura
+            inv_name = each[2] # Almacena el nombre de la factura
             #Busca la factura que contenga el nombre de la SO
             invoice = models.execute_kw(db_name, uid, password, 'account.move', 'search_read', [[['id', '=', inv_id]]])
             if invoice:
@@ -141,60 +142,155 @@ def reverse_invoice_global():
                     inv_usage = inv['l10n_mx_edi_usage']  # Folio fiscal de la factura
                     inv_journal_id = inv['journal_id'][0]
                     if inv_origin_name in inv['invoice_origin']:
-                        #Busca la órden de venta
-                        sale_order = models.execute_kw(db_name, uid, password, 'sale.order', 'search_read', [[['name', '=', inv_origin_name]]])[0]
-                        # Obtiene los datos necesarios directo de la SO
-                        sale_id = sale_order['id']
-                        sale_name = sale_order['name']
-                        #Busca el order line correspondiente de la orden de venta
-                        sale_line_id = models.execute_kw(db_name, uid, password, 'sale.order.line', 'search_read', [[['order_id', '=', sale_id]]])
-                        #Define los valores de la nota de crédito
-                        inv_int = int(inv_id)
-                        sale_int = int(sale_id)
-                        refund_vals = {
-                            'ref': f'Reversión de: {inv_name}',
-                            'journal_id': inv_journal_id,
-                            'invoice_origin': sale_name,
-                            'payment_reference': inv_name,
-                            'invoice_date': datetime.datetime.now().strftime('%Y-%m-%d'),
-                            # Puedes ajustar la fecha según tus necesidades
-                            'partner_id': inv['partner_id'][0],
-                            'l10n_mx_edi_usage': inv_usage,
-                            'reversed_entry_id': inv_int,
-                            'move_type': 'out_refund',  # Este campo indica que es una nota de crédito
-                            'invoice_line_ids': []
-                        }
-                        for lines in sale_line_id:
-                            nc_lines = {'product_id': lines['product_id'][0],
-                                        'quantity': lines['product_uom_qty'],
-                                        'name': lines['name'],  # Puedes ajustar esto según tus necesidades
-                                        'price_unit': lines['price_unit'],
-                                        }
-                            refund_vals['invoice_line_ids'].append((0, 0, nc_lines))
-                        #Crea la nota de crédito
-                        create_nc = models.execute_kw(db_name, uid, password, 'account.move', 'create', [refund_vals])
-                        #Actualiza la nota de crédito
-                        #upd_nc_move = models.execute_kw(db_name, uid, password, 'account.move', 'write',[[create_nc], {'reversal_move_id': sale_int}])
-                        #Agrega mensaje al Attachment de la nota de crédito
-                        message = {
-                            'body': f"Esta nota de crédito fue creada a partir de la factura: {inv_name}, de la órden {sale_name}, con folio fiscal {inv_uuid}, a solicitud del equipo de Contabilidad, por el equipo de Tech mediante API.",
-                            'message_type': 'comment',
-                        }
-                        write_msg_inv = models.execute_kw(db_name, uid, password, 'account.move', 'message_post',[create_nc], message)
-                        #nc = models.execute_kw(db_name, uid, password, 'account.move', 'search_read',[[['id', '=', create_nc]]])
-                        #Enlazamos la venta con la nueva factura
-                        upd_sale = models.execute_kw(db_name, uid, password, 'sale.order', 'write', [[sale_id], {'invoice_ids': [(4, 0, create_nc)]}])
-                        print('listo man')
+                        #--------------------------AGREGAR CONDICIONAL PARA SABER SI TIENE NOTA DE CREDITO--------------------------
+                        #Validamos si la SO ya tiene una nota de crédito creada
+                        existing_credit_note = models.execute_kw(db_name, uid, password, 'account.move', 'search', [[['invoice_origin', '=', inv_origin_name], ['move_type', '=', 'out_refund']]])
+                        if not existing_credit_note:
+                            #Busca la órden de venta
+                            sale_order = models.execute_kw(db_name, uid, password, 'sale.order', 'search_read', [[['name', '=', inv_origin_name]]])[0]
+                            # Obtiene los datos necesarios directo de la SO
+                            sale_id = sale_order['id']
+                            sale_name = sale_order['name']
+                            #Busca el order line correspondiente de la orden de venta
+                            sale_line_id = models.execute_kw(db_name, uid, password, 'sale.order.line', 'search_read', [[['order_id', '=', sale_id]]])
+                            #Define los valores de la nota de crédito
+                            inv_int = int(inv_id)
+                            sale_int = int(sale_id)
+                            refund_vals = {
+                                'ref': f'Reversión de: {inv_name}',
+                                'journal_id': inv_journal_id,
+                                'invoice_origin': sale_name,
+                                'payment_reference': inv_name,
+                                'invoice_date': datetime.datetime.now().strftime('%Y-%m-%d'),
+                                # Puedes ajustar la fecha según tus necesidades
+                                'partner_id': inv['partner_id'][0],
+                                'l10n_mx_edi_usage': inv_usage,
+                                'reversed_entry_id': inv_int,
+                                'move_type': 'out_refund',  # Este campo indica que es una nota de crédito
+                                'invoice_line_ids': []
+                            }
+                            for lines in sale_line_id:
+                                nc_lines = {'product_id': lines['product_id'][0],
+                                            'quantity': lines['product_uom_qty'],
+                                            'name': lines['name'],  # Puedes ajustar esto según tus necesidades
+                                            'price_unit': lines['price_unit'],
+                                            'product_uom_id': lines['product_uom'][0],
+                                            'tax_ids': [(6, 0, [lines['tax_id'][0]])],
+                                            }
+                                refund_vals['invoice_line_ids'].append((0, 0, nc_lines))
+                            #Crea la nota de crédito
+                            create_nc = models.execute_kw(db_name, uid, password, 'account.move', 'create', [refund_vals])
+                            #Actualiza la nota de crédito
+                            #Agrega mensaje al Attachment de la nota de crédito
+                            message = {
+                                'body': f"Esta nota de crédito fue creada a partir de la factura: {inv_name}, de la órden {sale_name}, con folio fiscal {inv_uuid}, a solicitud del equipo de Contabilidad, por el equipo de Tech mediante API.",
+                                'message_type': 'comment',
+                            }
+                            write_msg_nc = models.execute_kw(db_name, uid, password, 'account.move', 'message_post',[create_nc], message)
+                            #Enlazamos la venta con la nueva factura
+                            upd_sale = models.execute_kw(db_name, uid, password, 'sale.order', 'write', [[sale_id], {'invoice_ids': [(4, 0, create_nc)]}])
+                            #Publicamos la nota de crédito
+                            upd_nc_state = models.execute_kw(db_name, uid, password, 'account.move', 'action_post', [create_nc])
+                            #Timbramos la nota de crédito
+                            #upd_nc_stamp = models.execute_kw(db_name, uid, password, 'account.move', 'button_process_edi_web_services',[create_nc])
+                            search_nc_name = models.execute_kw(db_name, uid, password, 'account.move', 'search_read',[[['id', '=', create_nc]]])
+                            nc_name = search_nc_name[0]['name']
+                            so_modified.append(sale_name)
+                            nc_created.append(nc_name)
+                            progress_bar.update(1)
+                        else:
+                            print(f"La órden {inv_origin_name} ya tiene una nota de crédito creada")
+                            so_with_refund.append(inv_origin_name)
+                            continue
                     else:
                         print(f"La órden {inv_origin_name} no se encontró en la factura global")
                         so_no_exist_in_invoice.append(inv_origin_name)
                         continue
             else:
                 print(f"No hay una factura en la SO {inv_origin_name} por la cual se pueda crear una nota de crédito")
-                so_no_exist.append(inv_origin_name)
+                inv_no_exist.append(inv_origin_name)
                 continue
     except Exception as e:
        print(f"Error: no se pudo crear la nota de crédito: {e}")
+
+
+    # Define el cuerpo del correo
+    print('Creando correo y excel')
+    msg = MIMEMultipart()
+    body = '''\
+        <html>
+          <head></head>
+          <body>
+            <p>Buenas</p>
+            <p>Hola a todos, espero que estén muy bien. Les comento que acabamos de correr el script de notas de crédito.</p>
+            <p>Adjunto encontrarán el archivo generado por el script en el cual se encuentran las órdenes a las cuales 
+            se les creó una nota de crédito, órdenes que no se les pudo crear una NC, nombre de las notas de crédito 
+            creadas, órdenes que ya contaban con una nota de crédito antes de correr el script y órdenes que tuvieron 
+            algún error, por ejemplo que no existieran dentro de la factura global o no tuvieran una factura creada por la cual se pueda emitir una nota de crédito.</p>
+            </br>
+            <p>Sin más por el momento quedo al pendiente para resolver cualquier duda o comentario.</p>
+            </br>
+            <p>Muchas gracias</p>
+            </br>
+            <p>Un abrazo</p>
+          </body>
+        </html>
+        '''
+
+    # Crear el archivo Excel y agregar los nombres de los arrays y los resultados
+    workbook = openpyxl.Workbook()
+    sheet = workbook.active
+    sheet['A1'] = 'so_names'
+    sheet['B1'] = 'nc_created'
+    sheet['C1'] = 'inv_names'
+    sheet['D1'] = 'so_w_refund'
+    sheet['E1'] = 'so_no_exist'
+
+    # Agregar los resultados de los arrays
+    for i in range(len(so_names)):
+        sheet['A{}'.format(i + 2)] = so_names[i]
+    for i in range(len(nc_created)):
+        sheet['B{}'.format(i + 2)] = nc_created[i]
+    for i in range(len(inv_names)):
+        sheet['C{}'.format(i + 2)] = inv_names[i]
+    for i in range(len(so_w_refund)):
+        sheet['D{}'.format(i + 2)] = so_w_refund[i]
+    for i in range(len(so_no_exist)):
+        sheet['E{}'.format(i + 2)] = so_no_exist[i]
+
+    # Guardar el archivo Excel en disco
+    excel_file = 'notas_credito_' + today_date.strftime("%Y%m%d") + '.xlsx'
+    workbook.save(excel_file)
+
+    # Leer el contenido del archivo Excel
+    with open(excel_file, 'rb') as file:
+        file_data = file.read()
+    file_data_encoded = base64.b64encode(file_data).decode('utf-8')
+
+    # Define remitente y destinatario
+    msg = MIMEMultipart()
+    msg['From'] = 'Tech anibal@wonderbrands.co'
+    msg['To'] = ', '.join(
+        ['anibal@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co', 'greta@somos-reyes.com',
+         'contabilidad@somos-reyes.com', 'alex@wonderbrands.co', 'will@wonderbrands.co'])
+    msg['Subject'] = 'Creación de notas de crédito mediante script automático'
+    # Adjuntar el cuerpo del correo
+    msg.attach(MIMEText(body, 'html'))
+    # Adjuntar el archivo Excel al mensaje
+    attachment = MIMEBase('application', 'octet-stream')
+    attachment.set_payload(file_data)
+    encoders.encode_base64(attachment)
+    attachment.add_header('Content-Disposition', 'attachment', filename=excel_file)
+    msg.attach(attachment)
+    print("Enviando correo")
+    try:
+        smtpObj = smtplib.SMTP(smtp_server, smtp_port)
+        smtpObj.starttls()
+        smtpObj.login(smtp_username, smtp_password)
+        smtpObj.sendmail(smtp_username, msg['To'], msg.as_string())
+    except Exception as e:
+        print(f"Error: no se pudo enviar el correo: {e}")
+
 
     print('----------------------------------------------------------------')
     print('Proceso completado')

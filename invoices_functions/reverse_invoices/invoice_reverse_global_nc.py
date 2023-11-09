@@ -42,7 +42,8 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 print('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
 #Archivo de configuración - Use config_dev.json si está haciendo pruebas
 #Archivo de configuración - Use config.json cuando los cambios vayan a producción
-config_file_name = r'C:\Dev\wb_odoo_external_api\config_dev.json'
+config_file_name = r'D:\Dev\wb_odoo_external_api\config\config_dev.json'
+files = 'D:/Dev/wb_odoo_external_api/invoices_functions/files/credit_notes/'
 
 def get_odoo_access():
     with open(config_file_name, 'r') as config_file:
@@ -116,13 +117,15 @@ def reverse_invoice_global():
                             and b.name = 'INV/8202/05535'
                             limit 1""")
     invoice_records = mycursor.fetchall()
-    #Lista de notas de crédito creadas
-    inv_created = []
-    #Lista de SO a las que se les creó una NC
+    #Lista de SO a las que se les creó una credit_notes
     so_modified = []
+    #Lista de las facturas enlazadas a la SO y no existen
     inv_no_exist = []
+    #Lista de SO que ya contaban con credit_notes antes del script
     so_with_refund = []
+    #Lista de nombres de las notas de crédito creadas
     nc_created = []
+    #Lista de SO que no existen en la factura global que tienen enlazada
     so_no_exist_in_invoice = []
     print('----------------------------------------------------------------')
     print('Creando notas de crédito')
@@ -215,6 +218,7 @@ def reverse_invoice_global():
 
 
     # Define el cuerpo del correo
+    print('----------------------------------------------------------------')
     print('Creando correo y excel')
     msg = MIMEMultipart()
     body = '''\
@@ -224,7 +228,7 @@ def reverse_invoice_global():
             <p>Buenas</p>
             <p>Hola a todos, espero que estén muy bien. Les comento que acabamos de correr el script de notas de crédito.</p>
             <p>Adjunto encontrarán el archivo generado por el script en el cual se encuentran las órdenes a las cuales 
-            se les creó una nota de crédito, órdenes que no se les pudo crear una NC, nombre de las notas de crédito 
+            se les creó una nota de crédito, órdenes que no se les pudo crear una credit_notes, nombre de las notas de crédito 
             creadas, órdenes que ya contaban con una nota de crédito antes de correr el script y órdenes que tuvieron 
             algún error, por ejemplo que no existieran dentro de la factura global o no tuvieran una factura creada por la cual se pueda emitir una nota de crédito.</p>
             </br>
@@ -240,23 +244,23 @@ def reverse_invoice_global():
     # Crear el archivo Excel y agregar los nombres de los arrays y los resultados
     workbook = openpyxl.Workbook()
     sheet = workbook.active
-    sheet['A1'] = 'so_names'
+    sheet['A1'] = 'so_modified'
     sheet['B1'] = 'nc_created'
-    sheet['C1'] = 'inv_names'
-    sheet['D1'] = 'so_w_refund'
-    sheet['E1'] = 'so_no_exist'
+    sheet['C1'] = 'inv_no_exist'
+    sheet['D1'] = 'so_with_refund'
+    sheet['E1'] = 'so_no_exist_in_invoice'
 
     # Agregar los resultados de los arrays
-    for i in range(len(so_names)):
-        sheet['A{}'.format(i + 2)] = so_names[i]
+    for i in range(len(so_modified)):
+        sheet['A{}'.format(i + 2)] = so_modified[i]
     for i in range(len(nc_created)):
         sheet['B{}'.format(i + 2)] = nc_created[i]
-    for i in range(len(inv_names)):
-        sheet['C{}'.format(i + 2)] = inv_names[i]
-    for i in range(len(so_w_refund)):
-        sheet['D{}'.format(i + 2)] = so_w_refund[i]
-    for i in range(len(so_no_exist)):
-        sheet['E{}'.format(i + 2)] = so_no_exist[i]
+    for i in range(len(inv_no_exist)):
+        sheet['C{}'.format(i + 2)] = inv_no_exist[i]
+    for i in range(len(so_with_refund)):
+        sheet['D{}'.format(i + 2)] = so_with_refund[i]
+    for i in range(len(so_no_exist_in_invoice)):
+        sheet['E{}'.format(i + 2)] = so_no_exist_in_invoice[i]
 
     # Guardar el archivo Excel en disco
     excel_file = 'notas_credito_' + today_date.strftime("%Y%m%d") + '.xlsx'
@@ -266,14 +270,13 @@ def reverse_invoice_global():
     with open(excel_file, 'rb') as file:
         file_data = file.read()
     file_data_encoded = base64.b64encode(file_data).decode('utf-8')
-
     # Define remitente y destinatario
     msg = MIMEMultipart()
     msg['From'] = 'Tech anibal@wonderbrands.co'
     msg['To'] = ', '.join(
         ['anibal@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co', 'greta@somos-reyes.com',
          'contabilidad@somos-reyes.com', 'alex@wonderbrands.co', 'will@wonderbrands.co'])
-    msg['Subject'] = 'Creación de notas de crédito mediante script automático'
+    msg['Subject'] = 'Script Automático - Creación de notas de crédito para facturas globales'
     # Adjuntar el cuerpo del correo
     msg.attach(MIMEText(body, 'html'))
     # Adjuntar el archivo Excel al mensaje
@@ -291,7 +294,6 @@ def reverse_invoice_global():
     except Exception as e:
         print(f"Error: no se pudo enviar el correo: {e}")
 
-
     print('----------------------------------------------------------------')
     print('Proceso completado')
     print('Este arroz ya se coció :)')
@@ -299,7 +301,7 @@ def reverse_invoice_global():
 
     # Cierre de conexiones
     progress_bar.close()
-    #smtpObj.quit()
+    smtpObj.quit()
     mycursor.close()
     mydb.close()
 

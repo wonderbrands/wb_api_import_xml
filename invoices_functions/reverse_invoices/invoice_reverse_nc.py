@@ -195,7 +195,7 @@ def reverse_invoice():
           <body>
             <p>Buenas tardes</p>
             <p>Hola a todos, espero que estén muy bien. Les comento que acabamos de correr el script de notas de crédito.</p>
-            <p>Adjunto encontrarán el archivo generado por el script en el cual se encuentran las órdenes a las cuales se les creó una nota de crédito, órdenes que no se les pudo crear una NC y nombre de las notas de crédito creadas.</p>
+            <p>Adjunto encontrarán el archivo generado por el script en el cual se encuentran las órdenes a las cuales se les creó una nota de crédito, órdenes que no se les pudo crear una credit_notes y nombre de las notas de crédito creadas.</p>
             </br>
             <p>Sin más por el momento quedo al pendiente para resolver cualquier duda o comentario.</p>
             </br>

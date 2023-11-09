@@ -23,4 +23,5 @@ Este módulo contiene funciones para consulta e inserción de información al si
 
 -Creación de notas de crédito a partir de una factura ya publicada
     
-    -Crea notas de crédito haciendo una consulta mediante SQL
+    -Para facturas globales y para facturas individuales.
+    -Crea notas de crédito haciendo una consulta mediante SQL.

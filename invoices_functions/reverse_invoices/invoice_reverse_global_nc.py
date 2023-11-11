@@ -113,7 +113,8 @@ def reverse_invoice_global():
                         WHERE d.order_id is not null
                             AND e.invoice_origin is null
                             #AND refunded_amt - a.total > 1 OR refunded_amt - a.total < -1
-                            AND invoice_partner_display_name = 'PÚBLICO EN GENERAL'""")
+                            AND invoice_partner_display_name = 'PÚBLICO EN GENERAL'
+                            limit 20""")
     invoice_records = mycursor.fetchall()
     #Lista de SO a las que se les creó una credit_notes
     so_modified = []
@@ -125,6 +126,10 @@ def reverse_invoice_global():
     nc_created = []
     #Lista de SO que no existen en la factura global que tienen enlazada
     so_no_exist_in_invoice = []
+    #Lista de facturas origen
+    so_origin_invoice = []
+    #Lista de referencias MKP para cada SO
+    so_mkp_reference = []
     print('----------------------------------------------------------------')
     print('Creando notas de crédito')
     print('Este proceso tomará unos minutos')
@@ -152,6 +157,7 @@ def reverse_invoice_global():
                             # Obtiene los datos necesarios directo de la SO
                             sale_id = sale_order['id']
                             sale_name = sale_order['name']
+                            sale_ref = sale_order['channel_order_reference']
                             #Busca el order line correspondiente de la orden de venta
                             sale_line_id = models.execute_kw(db_name, uid, password, 'sale.order.line', 'search_read', [[['order_id', '=', sale_id]]])
                             #Define los valores de la nota de crédito
@@ -194,22 +200,29 @@ def reverse_invoice_global():
                             upd_nc_state = models.execute_kw(db_name, uid, password, 'account.move', 'action_post', [create_nc])
                             #Timbramos la nota de crédito
                             #upd_nc_stamp = models.execute_kw(db_name, uid, password, 'account.move', 'button_process_edi_web_services',[create_nc])
+                            #Buscamos el nombre de la factura ya creada
                             search_nc_name = models.execute_kw(db_name, uid, password, 'account.move', 'search_read',[[['id', '=', create_nc]]])
                             nc_name = search_nc_name[0]['name']
+                            #Agregamos a las listas
                             so_modified.append(sale_name)
                             nc_created.append(nc_name)
+                            so_origin_invoice.append(inv_name)
+                            so_mkp_reference.append(sale_ref)
                             progress_bar.update(1)
                         else:
                             print(f"La órden {inv_origin_name} ya tiene una nota de crédito creada")
                             so_with_refund.append(inv_origin_name)
+                            progress_bar.update(1)
                             continue
                     else:
                         print(f"La órden {inv_origin_name} no se encontró en la factura global")
                         so_no_exist_in_invoice.append(inv_origin_name)
+                        progress_bar.update(1)
                         continue
             else:
                 print(f"No hay una factura en la SO {inv_origin_name} por la cual se pueda crear una nota de crédito")
                 inv_no_exist.append(inv_origin_name)
+                progress_bar.update(1)
                 continue
     except Exception as e:
        print(f"Error: no se pudo crear la nota de crédito: {e}")
@@ -222,25 +235,31 @@ def reverse_invoice_global():
         workbook = openpyxl.Workbook()
         sheet = workbook.active
         sheet['A1'] = 'so_modified'
-        sheet['B1'] = 'nc_created'
-        sheet['C1'] = 'inv_no_exist'
-        sheet['D1'] = 'so_with_refund'
-        sheet['E1'] = 'so_no_exist_in_invoice'
+        sheet['B1'] = 'so_mkp_reference'
+        sheet['C1'] = 'nc_created'
+        sheet['D1'] = 'so_origin_invoice'
+        sheet['E1'] = 'inv_no_exist'
+        sheet['F1'] = 'so_with_refund'
+        sheet['G1'] = 'so_no_exist_in_invoice'
 
         # Agregar los resultados de los arrays
         for i in range(len(so_modified)):
             sheet['A{}'.format(i + 2)] = so_modified[i]
+        for i in range(len(so_mkp_reference)):
+            sheet['B{}'.format(i + 2)] = so_mkp_reference[i]
         for i in range(len(nc_created)):
-            sheet['B{}'.format(i + 2)] = nc_created[i]
+            sheet['C{}'.format(i + 2)] = nc_created[i]
+        for i in range(len(so_origin_invoice)):
+            sheet['D{}'.format(i + 2)] = so_origin_invoice[i]
         for i in range(len(inv_no_exist)):
-            sheet['C{}'.format(i + 2)] = inv_no_exist[i]
+            sheet['E{}'.format(i + 2)] = inv_no_exist[i]
         for i in range(len(so_with_refund)):
-            sheet['D{}'.format(i + 2)] = so_with_refund[i]
+            sheet['F{}'.format(i + 2)] = so_with_refund[i]
         for i in range(len(so_no_exist_in_invoice)):
-            sheet['E{}'.format(i + 2)] = so_no_exist_in_invoice[i]
+            sheet['G{}'.format(i + 2)] = so_no_exist_in_invoice[i]
 
         # Guardar el archivo Excel en disco
-        excel_file = 'notas_credito_globales' + today_date.strftime("%Y%m%d") + '.xlsx'
+        excel_file = 'notas_credito_globales_' + today_date.strftime("%Y%m%d") + '.xlsx'
         workbook.save(excel_file)
 
         # Leer el contenido del archivo Excel
@@ -249,7 +268,7 @@ def reverse_invoice_global():
         file_data_encoded = base64.b64encode(file_data).decode('utf-8')
     except Exception as a:
         print(f"Error: no se pudo crear el archivo de excel: {a}")
-    #Correo
+    # Correo
     try:
         msg = MIMEMultipart()
         body = '''\
@@ -275,7 +294,8 @@ def reverse_invoice_global():
         msg = MIMEMultipart()
         msg['From'] = 'Tech anibal@wonderbrands.co'
         msg['To'] = ', '.join(
-            ['anibal@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co', 'greta@somos-reyes.com',
+            ['anibal@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co',
+             'greta@somos-reyes.com',
              'contabilidad@somos-reyes.com', 'alex@wonderbrands.co', 'will@wonderbrands.co'])
         msg['Subject'] = 'Script Automático - Creación de notas de crédito para facturas globales'
         # Adjuntar el cuerpo del correo
@@ -301,7 +321,7 @@ def reverse_invoice_global():
 
     # Cierre de conexiones
     progress_bar.close()
-    smtpObj.quit()
+    #smtpObj.quit()
     mycursor.close()
     mydb.close()
 

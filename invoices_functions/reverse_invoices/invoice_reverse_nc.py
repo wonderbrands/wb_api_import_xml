@@ -45,7 +45,7 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 print('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
 #Archivo de configuración - Use config_dev.json si está haciendo pruebas
 #Archivo de configuración - Use config.json cuando los cambios vayan a producción
-config_file_name = r'C:\Dev\wb_odoo_external_api\config_dev.json'
+config_file_name = r'D:\Dev\wb_odoo_external_api\config\config_dev.json'
 
 def get_odoo_access():
     with open(config_file_name, 'r') as config_file:
@@ -118,7 +118,7 @@ def reverse_invoice():
                         WHERE d.order_id is not null
                             AND e.invoice_origin is null
                             AND refunded_amt - a.total < 1 AND refunded_amt - a.total > -1
-                            limit 1""")
+                            limit 20""")
     invoice_records = mycursor.fetchall()
     # Lista de SO a las que se les creó una credit_notes
     so_modified = []
@@ -128,6 +128,10 @@ def reverse_invoice():
     so_with_refund = []
     # Lista de nombres de las notas de crédito creadas
     nc_created = []
+    # Lista de facturas origen
+    so_origin_invoice = []
+    # Lista de referencias MKP para cada SO
+    so_mkp_reference = []
     print('----------------------------------------------------------------')
     print('Creando notas de crédito')
     print('Este proceso tomará unos minutos')
@@ -153,7 +157,6 @@ def reverse_invoice():
                     for inv in invoice:
                         inv_id = inv['id'] # ID de la factura
                         inv_name = inv['name'] # Nombre de la factura
-                        inv_names.append(inv_name) # Agrega la factura a una tabla
                         inv_origin = inv['invoice_origin'] # Nombre de la SO ligada a la factura
                         #inv_narration = inv['narration']
                         #inv_uuid = inv_narration[3:-4]
@@ -180,19 +183,30 @@ def reverse_invoice():
                             'message_type': 'comment',
                         }
                         write_msg_tech = models.execute_kw(db_name, uid, password, 'account.move', 'message_post',[nc_id], message)
+                        #Confirma la nota de crédito
                         upd_nc_state = models.execute_kw(db_name, uid, password, 'account.move', 'action_post',[nc_id])
+                        # Timbramos la nota de crédito
+                        # upd_nc_stamp = models.execute_kw(db_name, uid, password, 'account.move', 'button_process_edi_web_services',[nc_id])
+                        #buscamos el nombre de la nota creada
                         search_nc_name = models.execute_kw(db_name, uid, password, 'account.move', 'search_read',[[['id', '=', nc_id]]])
                         nc_name = search_nc_name[0]['name']
+                        sale_order = models.execute_kw(db_name, uid, password, 'sale.order', 'search_read',[[['name', '=', inv_origin_name]]])[0]
+                        sale_ref = sale_order['channel_order_reference']
+                        #Agregamos a las listas
                         nc_created.append(nc_name)
                         so_modified.append(inv_origin)
+                        so_origin_invoice.append(inv_name)
+                        so_mkp_reference.append(sale_ref)
                         progress_bar.update(1)
                 else:
                     print(f"La órden {inv_origin_name} ya tiene una nota de crédito creada")
                     so_with_refund.append(inv_origin_name)
+                    progress_bar.update(1)
                     continue
             else:
                 print(f"No hay una factura en la SO {inv_origin_name} por la cual se pueda crear una nota de crédito")
                 inv_no_exist.append(inv_origin_name)
+                progress_bar.update(1)
                 continue
     except Exception as e:
         print(f"Error: no se pudo crear la nota de crédito: {e}")
@@ -202,19 +216,25 @@ def reverse_invoice():
         workbook = openpyxl.Workbook()
         sheet = workbook.active
         sheet['A1'] = 'so_modified'
-        sheet['B1'] = 'nc_created'
-        sheet['C1'] = 'inv_no_exist'
-        sheet['D1'] = 'so_with_refund'
+        sheet['B1'] = 'so_mkp_reference'
+        sheet['C1'] = 'nc_created'
+        sheet['D1'] = 'so_origin_invoice'
+        sheet['E1'] = 'inv_no_exist'
+        sheet['F1'] = 'so_with_refund'
 
         # Agregar los resultados de los arrays
         for i in range(len(so_modified)):
             sheet['A{}'.format(i + 2)] = so_modified[i]
+        for i in range(len(so_mkp_reference)):
+            sheet['B{}'.format(i + 2)] = so_mkp_reference[i]
         for i in range(len(nc_created)):
-            sheet['B{}'.format(i + 2)] = nc_created[i]
+            sheet['C{}'.format(i + 2)] = nc_created[i]
+        for i in range(len(so_origin_invoice)):
+            sheet['D{}'.format(i + 2)] = so_origin_invoice[i]
         for i in range(len(inv_no_exist)):
-            sheet['C{}'.format(i + 2)] = inv_no_exist[i]
+            sheet['E{}'.format(i + 2)] = inv_no_exist[i]
         for i in range(len(so_with_refund)):
-            sheet['D{}'.format(i + 2)] = so_with_refund[i]
+            sheet['F{}'.format(i + 2)] = so_with_refund[i]
 
         # Guardar el archivo Excel en disco
         excel_file = 'notas_credito_individuales_' + today_date.strftime("%Y%m%d") + '.xlsx'

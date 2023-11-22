@@ -146,6 +146,8 @@ def reverse_invoice_global_meli():
     so_origin_invoice = []
     #Lista de referencias MKP para cada SO
     so_mkp_reference = []
+    # Lista de total de la NC
+    nc_amount_total = []
     print('----------------------------------------------------------------')
     print('Creando notas de crédito')
     print('Este proceso tomará unos minutos')
@@ -219,9 +221,11 @@ def reverse_invoice_global_meli():
                             #Buscamos el nombre de la factura ya creada
                             search_nc_name = models.execute_kw(db_name, uid, password, 'account.move', 'search_read',[[['id', '=', create_nc]]])
                             nc_name = search_nc_name[0]['name']
+                            nc_total = search_nc_name[0]['amount_total']
                             #Agregamos a las listas
                             so_modified.append(sale_name)
                             nc_created.append(nc_name)
+                            nc_amount_total.append(nc_total)
                             so_origin_invoice.append(inv_name)
                             so_mkp_reference.append(sale_ref)
                             progress_bar.update(1)
@@ -253,10 +257,11 @@ def reverse_invoice_global_meli():
         sheet['A1'] = 'so_modified'
         sheet['B1'] = 'so_mkp_reference'
         sheet['C1'] = 'nc_created'
-        sheet['D1'] = 'so_origin_invoice'
-        sheet['E1'] = 'inv_no_exist'
-        sheet['F1'] = 'so_with_refund'
-        sheet['G1'] = 'so_no_exist_in_invoice'
+        sheet['D1'] = 'nc_amount_total'
+        sheet['E1'] = 'so_origin_invoice'
+        sheet['F1'] = 'inv_no_exist'
+        sheet['G1'] = 'so_with_refund'
+        sheet['H1'] = 'so_no_exist_in_invoice'
 
         # Agregar los resultados de los arrays
         for i in range(len(so_modified)):
@@ -265,14 +270,16 @@ def reverse_invoice_global_meli():
             sheet['B{}'.format(i + 2)] = so_mkp_reference[i]
         for i in range(len(nc_created)):
             sheet['C{}'.format(i + 2)] = nc_created[i]
+        for i in range(len(nc_amount_total)):
+            sheet['D{}'.format(i + 2)] = nc_amount_total[i]
         for i in range(len(so_origin_invoice)):
-            sheet['D{}'.format(i + 2)] = so_origin_invoice[i]
+            sheet['E{}'.format(i + 2)] = so_origin_invoice[i]
         for i in range(len(inv_no_exist)):
-            sheet['E{}'.format(i + 2)] = inv_no_exist[i]
+            sheet['F{}'.format(i + 2)] = inv_no_exist[i]
         for i in range(len(so_with_refund)):
-            sheet['F{}'.format(i + 2)] = so_with_refund[i]
+            sheet['G{}'.format(i + 2)] = so_with_refund[i]
         for i in range(len(so_no_exist_in_invoice)):
-            sheet['G{}'.format(i + 2)] = so_no_exist_in_invoice[i]
+            sheet['H{}'.format(i + 2)] = so_no_exist_in_invoice[i]
 
         # Guardar el archivo Excel en disco
         excel_file = 'notas_credito_globales_meli_' + today_date.strftime("%Y%m%d") + '.xlsx'
@@ -417,6 +424,8 @@ def reverse_invoice_global_amazon():
     so_origin_invoice = []
     #Lista de referencias MKP para cada SO
     so_mkp_reference = []
+    # Lista de total de la NC
+    nc_amount_total = []
     print('----------------------------------------------------------------')
     print('Creando notas de crédito')
     print('Este proceso tomará unos minutos')
@@ -490,9 +499,11 @@ def reverse_invoice_global_amazon():
                             #Buscamos el nombre de la factura ya creada
                             search_nc_name = models.execute_kw(db_name, uid, password, 'account.move', 'search_read',[[['id', '=', create_nc]]])
                             nc_name = search_nc_name[0]['name']
+                            nc_total = search_nc_name[0]['amount_total']
                             #Agregamos a las listas
                             so_modified.append(sale_name)
                             nc_created.append(nc_name)
+                            nc_amount_total.append(nc_total)
                             so_origin_invoice.append(inv_name)
                             so_mkp_reference.append(sale_ref)
                             progress_bar.update(1)
@@ -524,10 +535,11 @@ def reverse_invoice_global_amazon():
         sheet['A1'] = 'so_modified'
         sheet['B1'] = 'so_mkp_reference'
         sheet['C1'] = 'nc_created'
-        sheet['D1'] = 'so_origin_invoice'
-        sheet['E1'] = 'inv_no_exist'
-        sheet['F1'] = 'so_with_refund'
-        sheet['G1'] = 'so_no_exist_in_invoice'
+        sheet['D1'] = 'nc_amount_total'
+        sheet['E1'] = 'so_origin_invoice'
+        sheet['F1'] = 'inv_no_exist'
+        sheet['G1'] = 'so_with_refund'
+        sheet['H1'] = 'so_no_exist_in_invoice'
 
         # Agregar los resultados de los arrays
         for i in range(len(so_modified)):
@@ -536,14 +548,16 @@ def reverse_invoice_global_amazon():
             sheet['B{}'.format(i + 2)] = so_mkp_reference[i]
         for i in range(len(nc_created)):
             sheet['C{}'.format(i + 2)] = nc_created[i]
+        for i in range(len(nc_amount_total)):
+            sheet['D{}'.format(i + 2)] = nc_amount_total[i]
         for i in range(len(so_origin_invoice)):
-            sheet['D{}'.format(i + 2)] = so_origin_invoice[i]
+            sheet['E{}'.format(i + 2)] = so_origin_invoice[i]
         for i in range(len(inv_no_exist)):
-            sheet['E{}'.format(i + 2)] = inv_no_exist[i]
+            sheet['F{}'.format(i + 2)] = inv_no_exist[i]
         for i in range(len(so_with_refund)):
-            sheet['F{}'.format(i + 2)] = so_with_refund[i]
+            sheet['G{}'.format(i + 2)] = so_with_refund[i]
         for i in range(len(so_no_exist_in_invoice)):
-            sheet['G{}'.format(i + 2)] = so_no_exist_in_invoice[i]
+            sheet['H{}'.format(i + 2)] = so_no_exist_in_invoice[i]
 
         # Guardar el archivo Excel en disco
         excel_file = 'notas_credito_globales_amazon_' + today_date.strftime("%Y%m%d") + '.xlsx'

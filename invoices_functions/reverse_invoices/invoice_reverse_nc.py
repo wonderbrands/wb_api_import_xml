@@ -128,7 +128,9 @@ def reverse_invoice_meli():
                         ON c.name = e.invoice_origin
                         WHERE (d.order_id is not null or dd.pack_id is not null)
                         AND e.invoice_origin is null
-                        AND ifnull(d.refunded_amt, dd.refunded_amt) - a.total < 1 AND ifnull(d.refunded_amt, dd.refunded_amt) - a.total > -1;""")
+                        AND ifnull(d.refunded_amt, dd.refunded_amt) - a.total < 1 AND ifnull(d.refunded_amt, dd.refunded_amt) - a.total > -1
+                        limit 1;
+                        """)
     invoice_records = mycursor.fetchall()
     # Lista de SO a las que se les creó una credit_notes
     so_modified = []
@@ -142,6 +144,8 @@ def reverse_invoice_meli():
     so_origin_invoice = []
     # Lista de referencias MKP para cada SO
     so_mkp_reference = []
+    # Lista de total de la NC
+    nc_amount_total = []
     print('----------------------------------------------------------------')
     print('Creando notas de crédito')
     print('Este proceso tomará unos minutos')
@@ -200,10 +204,12 @@ def reverse_invoice_meli():
                         #buscamos el nombre de la nota creada
                         search_nc_name = models.execute_kw(db_name, uid, password, 'account.move', 'search_read',[[['id', '=', nc_id]]])
                         nc_name = search_nc_name[0]['name']
+                        nc_total = search_nc_name[0]['amount_total']
                         sale_order = models.execute_kw(db_name, uid, password, 'sale.order', 'search_read',[[['name', '=', inv_origin_name]]])[0]
                         sale_ref = sale_order['channel_order_reference']
                         #Agregamos a las listas
                         nc_created.append(nc_name)
+                        nc_amount_total.append(nc_total)
                         so_modified.append(inv_origin)
                         so_origin_invoice.append(inv_name)
                         so_mkp_reference.append(sale_ref)
@@ -228,9 +234,10 @@ def reverse_invoice_meli():
         sheet['A1'] = 'so_modified'
         sheet['B1'] = 'so_mkp_reference'
         sheet['C1'] = 'nc_created'
-        sheet['D1'] = 'so_origin_invoice'
-        sheet['E1'] = 'inv_no_exist'
-        sheet['F1'] = 'so_with_refund'
+        sheet['D1'] = 'nc_amount_total'
+        sheet['E1'] = 'so_origin_invoice'
+        sheet['F1'] = 'inv_no_exist'
+        sheet['G1'] = 'so_with_refund'
 
         # Agregar los resultados de los arrays
         for i in range(len(so_modified)):
@@ -239,12 +246,14 @@ def reverse_invoice_meli():
             sheet['B{}'.format(i + 2)] = so_mkp_reference[i]
         for i in range(len(nc_created)):
             sheet['C{}'.format(i + 2)] = nc_created[i]
+        for i in range(len(nc_amount_total)):
+            sheet['D{}'.format(i + 2)] = nc_amount_total[i]
         for i in range(len(so_origin_invoice)):
-            sheet['D{}'.format(i + 2)] = so_origin_invoice[i]
+            sheet['E{}'.format(i + 2)] = so_origin_invoice[i]
         for i in range(len(inv_no_exist)):
-            sheet['E{}'.format(i + 2)] = inv_no_exist[i]
+            sheet['F{}'.format(i + 2)] = inv_no_exist[i]
         for i in range(len(so_with_refund)):
-            sheet['F{}'.format(i + 2)] = so_with_refund[i]
+            sheet['G{}'.format(i + 2)] = so_with_refund[i]
 
         # Guardar el archivo Excel en disco
         excel_file = 'notas_credito_individuales_meli_' + today_date.strftime("%Y%m%d") + '.xlsx'
@@ -384,6 +393,8 @@ def reverse_invoice_amazon():
     so_origin_invoice = []
     # Lista de referencias MKP para cada SO
     so_mkp_reference = []
+    # Lista de total de la NC
+    nc_amount_total = []
     print('----------------------------------------------------------------')
     print('Creando notas de crédito')
     print('Este proceso tomará unos minutos')
@@ -442,10 +453,12 @@ def reverse_invoice_amazon():
                         #buscamos el nombre de la nota creada
                         search_nc_name = models.execute_kw(db_name, uid, password, 'account.move', 'search_read',[[['id', '=', nc_id]]])
                         nc_name = search_nc_name[0]['name']
+                        nc_total = search_nc_name[0]['amount_total']
                         sale_order = models.execute_kw(db_name, uid, password, 'sale.order', 'search_read',[[['name', '=', inv_origin_name]]])[0]
                         sale_ref = sale_order['channel_order_reference']
                         #Agregamos a las listas
                         nc_created.append(nc_name)
+                        nc_amount_total.append(nc_total)
                         so_modified.append(inv_origin)
                         so_origin_invoice.append(inv_name)
                         so_mkp_reference.append(sale_ref)
@@ -470,9 +483,10 @@ def reverse_invoice_amazon():
         sheet['A1'] = 'so_modified'
         sheet['B1'] = 'so_mkp_reference'
         sheet['C1'] = 'nc_created'
-        sheet['D1'] = 'so_origin_invoice'
-        sheet['E1'] = 'inv_no_exist'
-        sheet['F1'] = 'so_with_refund'
+        sheet['D1'] = 'nc_amount_total'
+        sheet['E1'] = 'so_origin_invoice'
+        sheet['F1'] = 'inv_no_exist'
+        sheet['G1'] = 'so_with_refund'
 
         # Agregar los resultados de los arrays
         for i in range(len(so_modified)):
@@ -481,12 +495,14 @@ def reverse_invoice_amazon():
             sheet['B{}'.format(i + 2)] = so_mkp_reference[i]
         for i in range(len(nc_created)):
             sheet['C{}'.format(i + 2)] = nc_created[i]
+        for i in range(len(nc_amount_total)):
+            sheet['D{}'.format(i + 2)] = nc_amount_total[i]
         for i in range(len(so_origin_invoice)):
-            sheet['D{}'.format(i + 2)] = so_origin_invoice[i]
+            sheet['E{}'.format(i + 2)] = so_origin_invoice[i]
         for i in range(len(inv_no_exist)):
-            sheet['E{}'.format(i + 2)] = inv_no_exist[i]
+            sheet['F{}'.format(i + 2)] = inv_no_exist[i]
         for i in range(len(so_with_refund)):
-            sheet['F{}'.format(i + 2)] = so_with_refund[i]
+            sheet['G{}'.format(i + 2)] = so_with_refund[i]
 
         # Guardar el archivo Excel en disco
         excel_file = 'notas_credito_individuales_amazon_' + today_date.strftime("%Y%m%d") + '.xlsx'

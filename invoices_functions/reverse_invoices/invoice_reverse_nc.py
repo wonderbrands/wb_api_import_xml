@@ -100,37 +100,37 @@ def reverse_invoice_meli():
                                b.id 'account_move_id',
                                ifnull(d.payment_date_last_modified, dd.payment_date_last_modified) 'payment_date_last_modified'/*,
                                ifnull(d.order_id, dd.pack_id) 'order_id_or_pack_id',
-                               a.total 'total_factura',
-                               a.subtotal 'subtotal_factura',
+                               b.amount_total 'total_factura',
+                               b.amount_untaxed 'subtotal_factura',
                                ifnull(d.refunded_amt, dd.refunded_amt) 'ml_refunded_amount',
                                b.invoice_partner_display_name 'cliente',
-                               b.name*/
-                        FROM finance.sr_sat_emitidas a
-                        LEFT JOIN somos_reyes.odoo_new_account_move_aux b
-                        ON a.uuid = b.l10n_mx_edi_cfdi_uuid
+                               b.name,
+                               'INDIVIDUAL' as type,
+                               'MERCADO LIBRE' as marketplace*/
+                        FROM somos_reyes.odoo_new_account_move_aux b
                         LEFT JOIN odoo_new_sale_order c
                         ON b.invoice_origin = c.name
-                        LEFT JOIN (SELECT a.order_id, max(payment_date_last_modified) 'payment_date_last_modified', SUM(paid_amt) 'paid_amt', SUM(refunded_amt) 'refunded_amt'
+                        LEFT JOIN (SELECT a.order_id, max(payment_date_last_modified) 'payment_date_last_modified', SUM(paid_amt) 'paid_amt', SUM(refunded_amt) 'refunded_amt', SUM(shipping_amt) 'shipping_amt'
                                    FROM ml_order_payments a
                                    LEFT JOIN ml_order_update b
                                    ON a.order_id = b.order_id
-                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2023-01-01' AND date(payment_date_last_modified) <= '2023-09-30'
+                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2023-01-01' AND date(payment_date_last_modified) <= '2023-10-31'
                                    GROUP BY 1) d
                         ON c.channel_order_id = d.order_id
-                        LEFT JOIN (SELECT a.pack_id, max(payment_date_last_modified) 'payment_date_last_modified', SUM(b.paid_amt) 'paid_amt', SUM(b.refunded_amt) 'refunded_amt'
+                        LEFT JOIN (SELECT a.pack_id, max(payment_date_last_modified) 'payment_date_last_modified', SUM(b.paid_amt) 'paid_amt', SUM(b.refunded_amt) 'refunded_amt', SUM(shipping_amt) 'shipping_amt'
                         FROM ml_order_update a
                         LEFT JOIN ml_order_payments b
                         ON a.order_id = b.order_id
-                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2023-01-01' AND date(payment_date_last_modified) <= '2023-09-30'
+                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2023-01-01' AND date(payment_date_last_modified) <= '2023-10-31'
                         GROUP BY 1) dd
                         ON c.yuju_pack_id = dd.pack_id
                         LEFT JOIN (SELECT distinct invoice_origin FROM odoo_new_account_move_aux WHERE name like '%RINV%') e
                         ON c.name = e.invoice_origin
                         WHERE (d.order_id is not null or dd.pack_id is not null)
                         AND e.invoice_origin is null
-                        AND ifnull(d.refunded_amt, dd.refunded_amt) - a.total < 1 AND ifnull(d.refunded_amt, dd.refunded_amt) - a.total > -1
-                        limit 1;
-                        """)
+                        AND ((ifnull(d.refunded_amt, dd.refunded_amt) - b.amount_total < 1 AND ifnull(d.refunded_amt, dd.refunded_amt) - b.amount_total > -1)
+                        OR (ifnull(d.refunded_amt - d.shipping_amt, dd.refunded_amt - dd.shipping_amt) - b.amount_total < 1
+                        AND ifnull(d.refunded_amt - d.shipping_amt, dd.refunded_amt - dd.shipping_amt) - b.amount_total > -1));""")
     invoice_records = mycursor.fetchall()
     # Lista de SO a las que se les creó una credit_notes
     so_modified = []
@@ -360,26 +360,26 @@ def reverse_invoice_amazon():
                                b.id 'account_move_id',
                                d.refund_date as 'payment_date_last_modified'/*,
                                d.order_id 'order_id',
-                               a.total 'total_factura',
-                               a.subtotal 'subtotal_factura',
+                               b.amount_total 'total_factura',
+                               b.amount_untaxed 'subtotal_factura',
                                d.refunded_amt,
                                b.invoice_partner_display_name 'cliente',
-                               b.name*/
-                        FROM finance.sr_sat_emitidas a
-                        LEFT JOIN somos_reyes.odoo_new_account_move_aux b
-                        ON a.uuid = b.l10n_mx_edi_cfdi_uuid
+                               b.name,
+                               'INDIVIDUAL' as type,
+                               'AMAZON' as marketplace*/
+                        FROM somos_reyes.odoo_new_account_move_aux b
                         LEFT JOIN odoo_new_sale_order c
                         ON b.invoice_origin = c.name
                         LEFT JOIN (SELECT a.order_id, max(STR_TO_DATE(fecha, '%d/%m/%Y')) 'refund_date', SUM(total - tarifas_de_amazon) * (-1) 'refunded_amt'
                                    FROM somos_reyes.amazon_payments_refunds a
-                                   WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%d/%m/%Y') >= '2023-01-01' AND STR_TO_DATE(fecha, '%d/%m/%Y') <= '2023-09-30'
+                                   WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%d/%m/%Y') >= '2023-01-01' AND STR_TO_DATE(fecha, '%d/%m/%Y') <= '2023-10-31'
                                    GROUP BY 1) d
                         ON c.channel_order_id = d.order_id
                         LEFT JOIN (SELECT distinct invoice_origin FROM odoo_new_account_move_aux WHERE name like '%RINV%') e
                         ON c.name = e.invoice_origin
                         WHERE d.order_id is not null
                         AND e.invoice_origin is null
-                        AND d.refunded_amt - a.total < 1 AND d.refunded_amt - a.total > -1;""")
+                        AND d.refunded_amt - b.amount_total < 1 AND d.refunded_amt - b.amount_total > -1;""")
     invoice_records = mycursor.fetchall()
     # Lista de SO a las que se les creó una credit_notes
     so_modified = []

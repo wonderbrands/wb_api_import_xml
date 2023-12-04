@@ -42,7 +42,8 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 print('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
 #Archivo de configuración - Use config_dev.json si está haciendo pruebas
 #Archivo de configuración - Use config.json cuando los cambios vayan a producción
-config_file_name = r'C:\Dev\wb_odoo_external_api\config\config_dev.json'
+#config_file_name = r'C:\Dev\wb_odoo_external_api\config\config_dev.json'
+config_file_name = r'C:\Dev\wb_odoo_external_api\config\config.json'
 
 def get_odoo_access():
     with open(config_file_name, 'r') as config_file:
@@ -130,7 +131,8 @@ def reverse_invoice_meli():
                         AND e.invoice_origin is null
                         AND ((ifnull(d.refunded_amt, dd.refunded_amt) - b.amount_total < 1 AND ifnull(d.refunded_amt, dd.refunded_amt) - b.amount_total > -1)
                         OR (ifnull(d.refunded_amt - d.shipping_amt, dd.refunded_amt - dd.shipping_amt) - b.amount_total < 1
-                        AND ifnull(d.refunded_amt - d.shipping_amt, dd.refunded_amt - dd.shipping_amt) - b.amount_total > -1));""")
+                        AND ifnull(d.refunded_amt - d.shipping_amt, dd.refunded_amt - dd.shipping_amt) - b.amount_total > -1))
+                        AND c.name not in ('SO2407057', 'SO2162491', 'SO2260535', 'SO2225912', 'SO2199035', 'SO2176440', 'SO2138635', 'SO2243457', 'SO2212581', 'SO2082929', 'SO2217050','SO2398691','SO2233863','SO2335461','SO2334456','SO2250305','SO2218057','SO2067163','SO2260567','SO2261845','SO2275451','SO2237778','SO2278358','SO2243521','SO2295236','SO2382150','SO2240357','SO2130288','SO2367994','SO2242962','SO2404954','SO2287697','SO2424911','SO2424911','SO2235963','SO2296843','SO2248501','SO2287080','SO2286215','SO2481024','SO2481024','SO2314119','SO2487577','SO2206450','SO2362974','SO2384135','SO2341296','SO2299763','SO2198874','SO2230459','SO2251197','SO2285219','SO2288855','SO2358585','SO2329682','SO2410821','SO2407957','SO2221166','SO2228818','SO2431157','SO2333103','SO2479113','SO2377104','SO2381383','SO2319963','SO2438542','SO2438542','SO2467477','SO2333570','SO2250823','SO2255819','SO2317962','SO2419708','SO2201212','SO2254711','SO2241024','SO2366791','SO2178744','SO2197317','SO2311391','SO2444958','SO2505334','SO2235619','SO2260482','SO2181573','SO2401370','SO2416549','SO2240799','SO2483357','SO2312224','SO2376686','SO2376686','SO2240768','SO2304683','SO2234700','SO2449633','SO2368835','SO2381969','SO2159352','SO2239719','SO2307389','SO2474554','SO2369068','SO2373028','SO2289219','SO2340941','SO2409149','SO2466236','SO2394770','SO2245277','SO2209053','SO2314784','SO2395439','SO2328726','SO2264062','SO2200879','SO2368652','SO2203913','SO2463747','SO2322431','SO2441359','SO2429718','SO2307981','SO2302131','SO2288302','SO2335215','SO2385492','SO2272609','SO2474334','SO2171731','SO2366461','SO2228483','SO2306618','SO2459608','SO2188937','SO2209102','SO2233045','SO2281715','SO2465627','SO2466504');""")
     invoice_records = mycursor.fetchall()
     # Lista de SO a las que se les creó una credit_notes
     so_modified = []
@@ -156,14 +158,9 @@ def reverse_invoice_meli():
             inv_origin_name = each[0]
             inv_id = each[1]
             nc_date = each[2].strftime("%Y-%m-%d %H:%M:%S")
-            inv_move_types = [] # Lista en la que se almacenan los tipos de factura para la orden en curso
             #Busca la factura que contenga el nombre de la SO
             invoice = models.execute_kw(db_name, uid, password, 'account.move', 'search_read', [[['invoice_origin', '=', inv_origin_name]]])
             if invoice:
-                for type in invoice:
-                    exist_nc_type = type['move_type']
-                    inv_move_types.append(exist_nc_type)
-
                 # Se verifica si ya existe una nota de crédito para esta orden de venta
                 existing_credit_note = models.execute_kw(db_name, uid, password, 'account.move', 'search', [[['invoice_origin', '=', inv_origin_name], ['move_type', '=', 'out_refund']]])
                 if not existing_credit_note:
@@ -176,44 +173,51 @@ def reverse_invoice_meli():
                         #inv_uuid = inv_narration[3:-4]
                         inv_uuid = inv['l10n_mx_edi_cfdi_uuid'] # Folio fiscal de la factura
                         inv_journal_id = inv['journal_id'][0] #Diario de la factura
-                        #Se hace una llamada al wizard de creación de notas de crédito
-                        credit_note_wizard = models.execute_kw(db_name, uid, password, 'account.move.reversal', 'create',
-                                                               [{
-                            'refund_method': 'refund',
-                            'reason': 'Por efectos de devolución o retorno de una orden',
-                            'journal_id': inv_journal_id, }],
-                                       {'context': {
-                                           'active_ids': [inv_id],
-                                           'active_id': inv_id,
-                                           'active_model': 'account.move',
-                                       }}
-                                    )
-                        #Se crea la nota de crédito con la info anterior y se usa la función reverse_moves del botón revertir en el wizard
-                        nc_inv_create = models.execute_kw(db_name, uid, password, 'account.move.reversal', 'reverse_moves',[credit_note_wizard])
-                        nc_id = nc_inv_create['res_id'] # Obtiene el id de la nota de crédito
-                        # Agrega un mensaje al chatter de la nota de crédito
-                        message = {
-                            'body': f"Esta nota de crédito fue creada a partir de la factura: {inv_name}, de la órden {inv_origin}, con folio fiscal {inv_uuid}, a solicitud del equipo de Contabilidad, por el equipo de Tech mediante API.",
-                            'message_type': 'comment',
-                        }
-                        write_msg_tech = models.execute_kw(db_name, uid, password, 'account.move', 'message_post',[nc_id], message)
-                        #Confirma la nota de crédito
-                        upd_nc_state = models.execute_kw(db_name, uid, password, 'account.move', 'action_post',[nc_id])
-                        # Timbramos la nota de crédito
-                        # upd_nc_stamp = models.execute_kw(db_name, uid, password, 'account.move', 'button_process_edi_web_services',[nc_id])
-                        #buscamos el nombre de la nota creada
-                        search_nc_name = models.execute_kw(db_name, uid, password, 'account.move', 'search_read',[[['id', '=', nc_id]]])
-                        nc_name = search_nc_name[0]['name']
-                        nc_total = search_nc_name[0]['amount_total']
-                        sale_order = models.execute_kw(db_name, uid, password, 'sale.order', 'search_read',[[['name', '=', inv_origin_name]]])[0]
-                        sale_ref = sale_order['channel_order_reference']
-                        #Agregamos a las listas
-                        nc_created.append(nc_name)
-                        nc_amount_total.append(nc_total)
-                        so_modified.append(inv_origin)
-                        so_origin_invoice.append(inv_name)
-                        so_mkp_reference.append(sale_ref)
-                        progress_bar.update(1)
+                        inv_state = inv['state']
+
+                        if inv_state == 'posted':
+                            #Se hace una llamada al wizard de creación de notas de crédito
+                            credit_note_wizard = models.execute_kw(db_name, uid, password, 'account.move.reversal', 'create',
+                                                                   [{
+                                'refund_method': 'refund',
+                                'reason': 'Por efectos de devolución o retorno de una orden',
+                                'journal_id': inv_journal_id, }],
+                                           {'context': {
+                                               'active_ids': [inv_id],
+                                               'active_id': inv_id,
+                                               'active_model': 'account.move',
+                                           }}
+                                        )
+                            #Se crea la nota de crédito con la info anterior y se usa la función reverse_moves del botón revertir en el wizard
+                            nc_inv_create = models.execute_kw(db_name, uid, password, 'account.move.reversal', 'reverse_moves',[credit_note_wizard])
+                            nc_id = nc_inv_create['res_id'] # Obtiene el id de la nota de crédito
+                            # Agrega un mensaje al chatter de la nota de crédito
+                            message = {
+                                'body': f"Esta nota de crédito fue creada a partir de la factura: {inv_name}, de la órden {inv_origin}, con folio fiscal {inv_uuid}, a solicitud del equipo de Contabilidad, por el equipo de Tech mediante API.",
+                                'message_type': 'comment',
+                            }
+                            write_msg_tech = models.execute_kw(db_name, uid, password, 'account.move', 'message_post',[nc_id], message)
+                            #Confirma la nota de crédito
+                            upd_nc_state = models.execute_kw(db_name, uid, password, 'account.move', 'action_post',[nc_id])
+                            # Timbramos la nota de crédito
+                            # upd_nc_stamp = models.execute_kw(db_name, uid, password, 'account.move', 'button_process_edi_web_services',[nc_id])
+                            #buscamos el nombre de la nota creada
+                            search_nc_name = models.execute_kw(db_name, uid, password, 'account.move', 'search_read',[[['id', '=', nc_id]]])
+                            nc_name = search_nc_name[0]['name']
+                            nc_total = search_nc_name[0]['amount_total']
+                            sale_order = models.execute_kw(db_name, uid, password, 'sale.order', 'search_read',[[['name', '=', inv_origin_name]]])[0]
+                            sale_ref = sale_order['channel_order_reference']
+                            #Agregamos a las listas
+                            nc_created.append(nc_name)
+                            nc_amount_total.append(nc_total)
+                            so_modified.append(inv_origin)
+                            so_origin_invoice.append(inv_name)
+                            so_mkp_reference.append(sale_ref)
+                            progress_bar.update(1)
+                        else:
+                            print(f"La factura de la órden {inv_origin_name} no está confirmada")
+                            progress_bar.update(1)
+                            continue
                 else:
                     print(f"La órden {inv_origin_name} ya tiene una nota de crédito creada")
                     so_with_refund.append(inv_origin_name)
@@ -571,6 +575,6 @@ def reverse_invoice_amazon():
 
 if __name__ == "__main__":
     reverse_invoice_meli()
-    reverse_invoice_amazon()
+    #reverse_invoice_amazon()
     print('Listo')
     print('Este arroz ya se coció :)')

@@ -42,8 +42,7 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 print('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
 #Archivo de configuración - Use config_dev.json si está haciendo pruebas
 #Archivo de configuración - Use config.json cuando los cambios vayan a producción
-config_file_name = r'C:\Dev\wb_odoo_external_api\config\config_dev.json'
-#config_file_name = r'C:\Dev\wb_odoo_external_api\config\config.json'
+config_file_name = r'C:\Dev\wb_odoo_external_api\config\config.json'
 
 def get_odoo_access():
     with open(config_file_name, 'r') as config_file:
@@ -511,7 +510,7 @@ def reverse_invoice_global_amazon():
                             #Enlazamos la venta con la nueva factura
                             upd_sale = models.execute_kw(db_name, uid, password, 'sale.order', 'write', [[sale_id], {'invoice_ids': [(4, 0, create_nc)]}])
                             #Publicamos la nota de crédito
-                            upd_nc_state = models.execute_kw(db_name, uid, password, 'account.move', 'action_post', [create_nc])
+                            #upd_nc_state = models.execute_kw(db_name, uid, password, 'account.move', 'action_post', [create_nc])
                             #Timbramos la nota de crédito
                             #upd_nc_stamp = models.execute_kw(db_name, uid, password, 'account.move', 'button_process_edi_web_services',[create_nc])
                             #Buscamos el nombre de la factura ya creada

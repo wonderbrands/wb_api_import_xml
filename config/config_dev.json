@@ -2,8 +2,8 @@
   "odoo": {
     "odoouser": "admin",
     "odoopassword": "9Lh5Z0x*bCqV",
-    "odoodb": "wonderbrands-v1-10992745",
-    "odoourl": "https://wonderbrands-v1-10992745.dev.odoo.com"
+    "odoodb": "wonderbrands-v1-11023982",
+    "odoourl": "https://wonderbrands-v1-11023982.dev.odoo.com"
   },
   "psql": {
     "dbuser": "anibal",

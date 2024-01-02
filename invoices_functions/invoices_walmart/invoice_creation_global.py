@@ -42,7 +42,6 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 print('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
 #Archivo de configuración - Use config_dev.json si está haciendo pruebas
 #Archivo de configuración - Use config.json cuando los cambios vayan a producción
-#config_file_name = r'C:\Dev\wb_odoo_external_api\config\config_dev.json'
 config_file_name = r'C:\Dev\wb_odoo_external_api\config\config.json'
 
 def get_odoo_access():
@@ -111,7 +110,7 @@ def invoice_create_global():
     #                    GROUP BY txn_id
     #                    ORDER BY out_timestamp_local asc
     #                    limit 10""")
-    excel_file_path = dir_path + '/files/invoices/so_invoices.xlsx'
+    excel_file_path = r'C:\Dev\wb_odoo_external_api\invoices_functions\files\invoices\so_invoices.xlsx'
     sale_file = pd.read_excel(excel_file_path, usecols=['so_name'])
     sales_order_records = sale_file['so_name'].tolist()
     #sales_order_records = mycursor.fetchall()
@@ -120,11 +119,11 @@ def invoice_create_global():
     order_diff_status = []
     order_w_inv = []
     order_no_exist = []
+    progress_bar = tqdm(total=len(sales_order_records), desc="Procesando")
     try:
-        for rec in sales_order_records:
-            order_id = models.execute_kw(db_name, uid, password, 'sale.order', 'search_read', [[['name', '=', rec]]])
-            order_names.append(order_id[0]['name'])
-
+        #for rec in sales_order_records:
+        #    order_id = models.execute_kw(db_name, uid, password, 'sale.order', 'search_read', [[['name', '=', rec]]])
+        #    order_names.append(order_id[0]['name'])
         #Se crea el cuerpo de la factura con los campos necesarios
         #so_domain = ['name', 'in', order_names]
         print('----------------------------------------------------------------')
@@ -136,11 +135,11 @@ def invoice_create_global():
             'ref': '',
             'move_type': 'out_invoice',
             'partner_id': 140530,
-            'invoice_origin': ', '.join(order_names),
+            'invoice_origin': ', '.join(sales_order_records),
             'invoice_line_ids': [],
         }
         # Consultamos a sale.order para obtener los campos requeridos de cada orden de venta
-        for sale_order in order_names:
+        for sale_order in sales_order_records:
             so_domain = ['name', '=', sale_order]
             order = models.execute_kw(db_name, uid, password, 'sale.order', 'search_read', [[so_domain]])
             if order:
@@ -171,18 +170,23 @@ def invoice_create_global():
                             }
                             invoice_vals['invoice_line_ids'].append((0, 0, invoice_line_vals))
                         order_add_to_inv.append(order_name)
+                        order_names.append(order_name)
+                        progress_bar.update(1)
                     else:
                         print(f"La factura {order_name} ya tiene una factura creada")
                         order_w_inv.append(order_name)
+                        progress_bar.update(1)
                         continue
                 else:
                     print(f"La orden de venta {order_name} se encuentra en estatus {order_state}")
                     print(f"Por lo que esta orden no puede ser facturada")
                     order_diff_status.append(order_name)
+                    progress_bar.update(1)
                     continue
             else:
                 print(f"No existe una SO que corresponda a {sale_order}")
                 order_no_exist.append(sale_order)
+                progress_bar.update(1)
                 continue
 
         invoice_id = models.execute_kw(db_name, uid, password, 'account.move', 'create', [invoice_vals])
@@ -285,14 +289,16 @@ def invoice_create_global():
     print(f"Se creó la factura correctamente")
     print(f"El ID de la factura es el siguiente: {invoice_id}")
     print('----------------------------------------------------------------')
-    print(f"Ordenes que se agregaron a la factura global: {order_add_to_inv}")
-    print(f"Ordenes con estatus diferente: {order_diff_status}")
-    print(f"Ordenes con factura: {order_w_inv}")
-    print(f"Ordenes no encontradas: {order_no_exist}")
 
+    progress_bar.close()
     mycursor.close()
     mydb.close()
     smtpObj.quit()
 
 if __name__ == "__main__":
     invoice_create_global()
+    end_time = datetime.datetime.now()
+    duration = end_time - today_date
+    print(f'Duraciòn del script: {duration}')
+    print('Listo')
+    print('Este arroz ya se coció :)')

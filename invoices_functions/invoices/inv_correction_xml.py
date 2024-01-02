@@ -43,27 +43,15 @@ print('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
 locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
 #Archivo de configuración - Use config_dev.json si está haciendo pruebas
 #Archivo de configuración - Use config.json cuando los cambios vayan a producción
-config_file_name = r'C:\Dev\wb_odoo_external_api\config\config_dev.json'
+config_file_name = r'C:\Dev\wb_odoo_external_api\config\config.json'
 
 def get_odoo_access():
     with open(config_file_name, 'r') as config_file:
         config = json.load(config_file)
 
     return config['odoo']
-def get_psql_access():
-    with open(config_file_name, 'r') as config_file:
-        config = json.load(config_file)
-
-    return config['psql']
-def get_email_access():
-    with open(config_file_name, 'r') as config_file:
-        config = json.load(config_file)
-
-    return config['email']
 def correction_stamp():
     odoo_keys = get_odoo_access()
-    psql_keys = get_psql_access()
-    email_keys = get_email_access()
     # odoo
     server_url = odoo_keys['odoourl']
     db_name = odoo_keys['odoodb']
@@ -108,8 +96,8 @@ def correction_stamp():
                 inv_so = invoice['invoice_origin'] #Origen de la factura
                 inv_partner = invoice['partner_id'][1] #Nombre del partner
                 inv_edi_usage = invoice['l10n_mx_edi_usage'] #Uso del CFDI
-                edi_inv_state = invoice['edi_state']
-                edi_uuid = invoice['l10n_mx_edi_cfdi_uuid']
+                edi_inv_state = invoice['edi_state'] #Estado de facturación
+                edi_uuid = invoice['l10n_mx_edi_cfdi_uuid'] #Folio fiscal
                 if edi_inv_state != 'sent':
                     if attachment:
                         att_name = attachment['name'] #Nombre del archivo adjunto
@@ -170,14 +158,20 @@ def correction_stamp():
                                     continue
                         else:
                             print(f"La factura {int_id} no tiene un registro EDI")
+                            progress_bar.update(1)
+                            continue
                     else:
                         print(f"La factura {int_id} no tiene XML adjunto")
                         no_xml_adj.append(inv_name)
+                        progress_bar.update(1)
+                        continue
                 else:
                     print(f"La factura {inv_name} ya fue modificada")
                     progress_bar.update(1)
+                    continue
             else:
                 print(f"No existe la factura {int_id}")
+                continue
     except Exception as i:
         print(f"Error: no se pudieron corregir las facturas: {i}")
     try:

@@ -42,7 +42,9 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 print('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
 #Archivo de configuración - Use config_dev.json si está haciendo pruebas
 #Archivo de configuración - Use config.json cuando los cambios vayan a producción
-config_file_name = r'C:\Dev\wb_odoo_external_api\config\config.json'
+config_file_name = r'C:\Users\WonderBrandsWonderBr\Documents\repo tech\wb_odoo_external_api\config\config.json'
+l10n_mx_edi_payment_method_id = 3
+l10n_mx_edi_usage = 'G02'
 
 def get_odoo_access():
     with open(config_file_name, 'r') as config_file:
@@ -123,7 +125,7 @@ def reverse_invoice_partial_ind_meli():
                                    FROM ml_order_payments a
                                    LEFT JOIN ml_order_update b
                                    ON a.order_id = b.order_id
-                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2023-01-01' AND date(payment_date_last_modified) <= '2023-11-30'
+                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2024-01-01' AND date(payment_date_last_modified) <= '2024-01-28'
                                    GROUP BY 1, 2
                                    ) d
                         ON c.channel_order_id = d.order_id
@@ -138,7 +140,7 @@ def reverse_invoice_partial_ind_meli():
                         FROM ml_order_update a
                         LEFT JOIN ml_order_payments b
                         ON a.order_id = b.order_id
-                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2023-01-01' AND date(payment_date_last_modified) <= '2023-11-30'
+                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2024-01-01' AND date(payment_date_last_modified) <= '2024-01-28'
                         GROUP BY 1, 2
                         ) dd
                         ON c.yuju_pack_id = dd.pack_id
@@ -160,7 +162,7 @@ def reverse_invoice_partial_ind_meli():
                                    FROM ml_order_payments a
                                    LEFT JOIN ml_order_update b
                                    ON a.order_id = b.order_id
-                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2023-01-01' AND date(payment_date_last_modified) <= '2023-11-30'
+                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2024-01-01' AND date(payment_date_last_modified) <= '2024-01-28'
                                    GROUP BY 1) t
                         ON c.channel_order_id = t.order_id
                         
@@ -170,7 +172,7 @@ def reverse_invoice_partial_ind_meli():
                         FROM ml_order_update a
                         LEFT JOIN ml_order_payments b
                         ON a.order_id = b.order_id
-                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2023-01-01' AND date(payment_date_last_modified) <= '2023-11-30'
+                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2024-01-01' AND date(payment_date_last_modified) <= '2024-01-28'
                         GROUP BY 1
                         ) tt
                         ON c.yuju_pack_id = tt.pack_id
@@ -183,7 +185,7 @@ def reverse_invoice_partial_ind_meli():
                         AND (b.amount_total - c.amount_total < 1 AND b.amount_total - c.amount_total > (-1)) #QUE SEA INNDIVIDUAL
                         AND f.order_name is not null #QUE LA SO TENGA UN SOLO SKU
                         AND ROUND(ifnull(d.refunded_amt, dd.refunded_amt) / unit_price, 2) in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)
-                        AND c.name in ('SO2317319', 'SO2328274', 'SO2330619', 'SO2360564', 'SO2516544', 'SO2285466', 'SO2306941', 'SO2265350', 'SO2378321', 'SO2425183', 'SO2252669', 'SO2319546', 'SO2410738', 'SO2386580', 'SO2384168', 'SO2374722', 'SO2371769', 'SO2420272', 'SO2416980', 'SO2275496', 'SO2322018', 'SO2352264', 'SO2400074', 'SO2361772', 'SO2250817', 'SO2240266', 'SO2321703', 'SO2228768', 'SO2283584', 'SO2354936', 'SO2273762', 'SO2244042', 'SO2276091', 'SO2396842', 'SO2381975', 'SO2401760', 'SO2297117', 'SO2298543', 'SO2368575', 'SO2332046', 'SO2247572', 'SO2357195', 'SO2256799', 'SO2304426', 'SO2322895', 'SO2321614', 'SO2324206', 'SO2380527', 'SO2255082', 'SO2404803', 'SO2268487', 'SO2303268', 'SO2338261', 'SO2400160', 'SO2388560', 'SO2272803', 'SO2266180', 'SO2334671', 'SO2354927', 'SO2291776', 'SO2280610', 'SO2270020', 'SO2246286', 'SO2274104', 'SO2377516', 'SO2148841', 'SO2360663', 'SO2284357', 'SO2258435', 'SO2349258', 'SO2331465', 'SO2402148', 'SO2230830', 'SO2252645', 'SO2342447', 'SO2260182', 'SO2451577', 'SO2419010', 'SO2260437', 'SO2314380', 'SO2365820', 'SO2370508', 'SO2343976', 'SO2247360', 'SO2328733', 'SO2289239', 'SO2319887', 'SO2354292', 'SO2380205', 'SO2258582', 'SO2270835', 'SO2312234', 'SO2312389', 'SO2284056', 'SO2324933', 'SO2230548', 'SO2407508', 'SO2304224', 'SO2281348', 'SO2132563', 'SO2178641', 'SO2324568', 'SO2295274', 'SO2267904', 'SO2321239', 'SO2264442', 'SO2377686', 'SO2337052', 'SO2356035', 'SO2301801', 'SO2313220', 'SO2394597', 'SO2245122', 'SO2244107', 'SO2257650', 'SO2318703', 'SO2356561', 'SO2309148', 'SO2305610', 'SO2428793', 'SO2245274', 'SO2350229', 'SO2149828', 'SO2302051', 'SO2332238', 'SO2365933', 'SO2364801', 'SO2247695', 'SO2394691', 'SO2345397', 'SO2296474', 'SO2416136', 'SO2417729', 'SO2279755', 'SO2274542', 'SO2313379', 'SO2233094', 'SO2446992', 'SO2434609', 'SO2424809', 'SO2438505', 'SO2438405', 'SO2437320', 'SO2428036', 'SO2443295', 'SO2443843', 'SO2425888', 'SO2425615', 'SO2446348', 'SO2421905', 'SO2437713', 'SO2480326', 'SO2233600', 'SO2252010', 'SO2456543', 'SO2481234', 'SO2452407', 'SO2436285', 'SO2459546', 'SO2429921', 'SO2420630', 'SO2460692', 'SO2466574', 'SO2467344', 'SO2466825', 'SO2462355', 'SO2464433', 'SO2466464', 'SO2453233', 'SO2462730', 'SO2467489', 'SO2484942', 'SO2468057', 'SO2471612', 'SO2472260', 'SO2459781', 'SO2449581', 'SO2494112', 'SO2483952', 'SO2483942', 'SO2483062', 'SO2484824', 'SO2457956', 'SO2480202', 'SO2500707', 'SO2501001', 'SO2497634', 'SO2547932', 'SO2542069', 'SO2529743', 'SO2584376', 'SO2518823', 'SO2556463', 'SO2553538', 'SO2553035', 'SO2495019', 'SO2495528', 'SO2515626', 'SO2526274', 'SO2513786', 'SO2512665', 'SO2510003', 'SO2515892', 'SO2517606', 'SO2517976', 'SO2527174', 'SO2520221', 'SO2539079', 'SO2513785', 'SO2469564', 'SO2529184', 'SO2474348', 'SO2526231', 'SO2520616', 'SO2484168', 'SO2500318', 'SO2527806', 'SO2494951', 'SO2524554', 'SO2532744', 'SO2521581', 'SO2525579', 'SO2531685', 'SO2535686')
+                        AND c.name in ('SO2584716', 'SO2637838', 'SO2686283')
                         """)
     invoice_records = mycursor.fetchall()
     #Lista de SO a las que se les creó una credit_notes
@@ -225,7 +227,7 @@ def reverse_invoice_partial_ind_meli():
                 for inv in invoice:
                     inv_usage = 'G02'  # Uso del CFDI
                     inv_uuid = inv['l10n_mx_edi_cfdi_uuid']  # Folio fiscal de la factura
-                    inv_uuid_origin = f'01|{inv_uuid}'
+                    inv_uuid_origin = f'03|{inv_uuid}'
                     inv_journal_id = inv['journal_id'][0]
                     inv_payment = inv['l10n_mx_edi_payment_method_id'][0]
                     if inv_origin_name in inv['invoice_origin']:
@@ -257,7 +259,7 @@ def reverse_invoice_partial_ind_meli():
                                     'partner_id': inv['partner_id'][0],
                                     'l10n_mx_edi_usage': inv_usage,
                                     'l10n_mx_edi_origin': inv_uuid_origin,
-                                    'l10n_mx_edi_payment_method_id': inv_payment,
+                                    'l10n_mx_edi_payment_method_id': l10n_mx_edi_payment_method_id,
                                     'reversed_entry_id': inv_int,
                                     'move_type': 'out_refund',  # Este campo indica que es una nota de crédito
                                     'invoice_line_ids': []
@@ -389,9 +391,9 @@ def reverse_invoice_partial_ind_meli():
                 '''
         # Define remitente y destinatario
         msg = MIMEMultipart()
-        msg['From'] = 'Tech anibal@wonderbrands.co'
+        msg['From'] = 'eric@wonderbrands.co'
         msg['To'] = ', '.join(
-            ['anibal@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co',
+            ['eric@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co',
              'greta@somos-reyes.com',
              'contabilidad@somos-reyes.com', 'alex@wonderbrands.co', 'will@wonderbrands.co'])
         msg['Subject'] = 'Script Automático MELI- Creación de notas de crédito para facturas globales'
@@ -515,7 +517,7 @@ def reverse_invoice_partial_glob_meli():
                                    FROM ml_order_payments a
                                    LEFT JOIN ml_order_update b
                                    ON a.order_id = b.order_id
-                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2023-01-01' AND date(payment_date_last_modified) <= '2023-11-30'
+                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2024-01-01' AND date(payment_date_last_modified) <= '2024-01-28'
                                    GROUP BY 1) t
                         ON c.channel_order_id = t.order_id
                         
@@ -525,7 +527,7 @@ def reverse_invoice_partial_glob_meli():
                         FROM ml_order_update a
                         LEFT JOIN ml_order_payments b
                         ON a.order_id = b.order_id
-                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2023-01-01' AND date(payment_date_last_modified) <= '2023-11-30'
+                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2024-01-01' AND date(payment_date_last_modified) <= '2024-01-28'
                         GROUP BY 1
                         ) tt
                         ON c.yuju_pack_id = tt.pack_id
@@ -537,7 +539,7 @@ def reverse_invoice_partial_glob_meli():
                         AND (b.amount_total - c.amount_total > 1 OR b.amount_total - c.amount_total < (-1))
                         AND f.order_name is not null
                         AND ROUND(ifnull(d.refunded_amt, dd.refunded_amt) / unit_price, 2) in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)
-                        AND c.name in ('SO2317319', 'SO2328274', 'SO2330619', 'SO2360564', 'SO2516544', 'SO2285466', 'SO2306941', 'SO2265350', 'SO2378321', 'SO2425183', 'SO2252669', 'SO2319546', 'SO2410738', 'SO2386580', 'SO2384168', 'SO2374722', 'SO2371769', 'SO2420272', 'SO2416980', 'SO2275496', 'SO2322018', 'SO2352264', 'SO2400074', 'SO2361772', 'SO2250817', 'SO2240266', 'SO2321703', 'SO2228768', 'SO2283584', 'SO2354936', 'SO2273762', 'SO2244042', 'SO2276091', 'SO2396842', 'SO2381975', 'SO2401760', 'SO2297117', 'SO2298543', 'SO2368575', 'SO2332046', 'SO2247572', 'SO2357195', 'SO2256799', 'SO2304426', 'SO2322895', 'SO2321614', 'SO2324206', 'SO2380527', 'SO2255082', 'SO2404803', 'SO2268487', 'SO2303268', 'SO2338261', 'SO2400160', 'SO2388560', 'SO2272803', 'SO2266180', 'SO2334671', 'SO2354927', 'SO2291776', 'SO2280610', 'SO2270020', 'SO2246286', 'SO2274104', 'SO2377516', 'SO2148841', 'SO2360663', 'SO2284357', 'SO2258435', 'SO2349258', 'SO2331465', 'SO2402148', 'SO2230830', 'SO2252645', 'SO2342447', 'SO2260182', 'SO2451577', 'SO2419010', 'SO2260437', 'SO2314380', 'SO2365820', 'SO2370508', 'SO2343976', 'SO2247360', 'SO2328733', 'SO2289239', 'SO2319887', 'SO2354292', 'SO2380205', 'SO2258582', 'SO2270835', 'SO2312234', 'SO2312389', 'SO2284056', 'SO2324933', 'SO2230548', 'SO2407508', 'SO2304224', 'SO2281348', 'SO2132563', 'SO2178641', 'SO2324568', 'SO2295274', 'SO2267904', 'SO2321239', 'SO2264442', 'SO2377686', 'SO2337052', 'SO2356035', 'SO2301801', 'SO2313220', 'SO2394597', 'SO2245122', 'SO2244107', 'SO2257650', 'SO2318703', 'SO2356561', 'SO2309148', 'SO2305610', 'SO2428793', 'SO2245274', 'SO2350229', 'SO2149828', 'SO2302051', 'SO2332238', 'SO2365933', 'SO2364801', 'SO2247695', 'SO2394691', 'SO2345397', 'SO2296474', 'SO2416136', 'SO2417729', 'SO2279755', 'SO2274542', 'SO2313379', 'SO2233094', 'SO2446992', 'SO2434609', 'SO2424809', 'SO2438505', 'SO2438405', 'SO2437320', 'SO2428036', 'SO2443295', 'SO2443843', 'SO2425888', 'SO2425615', 'SO2446348', 'SO2421905', 'SO2437713', 'SO2480326', 'SO2233600', 'SO2252010', 'SO2456543', 'SO2481234', 'SO2452407', 'SO2436285', 'SO2459546', 'SO2429921', 'SO2420630', 'SO2460692', 'SO2466574', 'SO2467344', 'SO2466825', 'SO2462355', 'SO2464433', 'SO2466464', 'SO2453233', 'SO2462730', 'SO2467489', 'SO2484942', 'SO2468057', 'SO2471612', 'SO2472260', 'SO2459781', 'SO2449581', 'SO2494112', 'SO2483952', 'SO2483942', 'SO2483062', 'SO2484824', 'SO2457956', 'SO2480202', 'SO2500707', 'SO2501001', 'SO2497634', 'SO2547932', 'SO2542069', 'SO2529743', 'SO2584376', 'SO2518823', 'SO2556463', 'SO2553538', 'SO2553035', 'SO2495019', 'SO2495528', 'SO2515626', 'SO2526274', 'SO2513786', 'SO2512665', 'SO2510003', 'SO2515892', 'SO2517606', 'SO2517976', 'SO2527174', 'SO2520221', 'SO2539079', 'SO2513785', 'SO2469564', 'SO2529184', 'SO2474348', 'SO2526231', 'SO2520616', 'SO2484168', 'SO2500318', 'SO2527806', 'SO2494951', 'SO2524554', 'SO2532744', 'SO2521581', 'SO2525579', 'SO2531685', 'SO2535686')
+                        AND c.name in ('SO2649974', 'SO2661408', 'SO2653768', 'SO2623199', 'SO2639398', 'SO2662042', 'SO2629923', 'SO2589416', 'SO2548769', 'SO2659246', 'SO2653594', 'SO2637824', 'SO2647106', 'SO2646038', 'SO2650968', 'SO2664063')
                         """)
     invoice_records = mycursor.fetchall()
     # Lista de SO a las que se les creó una credit_notes
@@ -579,7 +581,7 @@ def reverse_invoice_partial_glob_meli():
                 for inv in invoice:
                     inv_usage = 'G02'  # Uso del CFDI
                     inv_uuid = inv['l10n_mx_edi_cfdi_uuid']  # Folio fiscal de la factura
-                    inv_uuid_origin = f'01|{inv_uuid}'
+                    inv_uuid_origin = f'03|{inv_uuid}'
                     inv_journal_id = inv['journal_id'][0]
                     inv_payment = inv['l10n_mx_edi_payment_method_id'][0]
                     if inv_origin_name in inv['invoice_origin']:
@@ -613,7 +615,7 @@ def reverse_invoice_partial_glob_meli():
                                     'partner_id': inv['partner_id'][0],
                                     'l10n_mx_edi_usage': inv_usage,
                                     'l10n_mx_edi_origin': inv_uuid_origin,
-                                    'l10n_mx_edi_payment_method_id': inv_payment,
+                                    'l10n_mx_edi_payment_method_id': l10n_mx_edi_payment_method_id,
                                     'reversed_entry_id': inv_int,
                                     'move_type': 'out_refund',  # Este campo indica que es una nota de crédito
                                     'invoice_line_ids': []
@@ -749,9 +751,9 @@ def reverse_invoice_partial_glob_meli():
                 '''
         # Define remitente y destinatario
         msg = MIMEMultipart()
-        msg['From'] = 'Tech anibal@wonderbrands.co'
+        msg['From'] = 'eric@wonderbrands.co'
         msg['To'] = ', '.join(
-            ['anibal@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co',
+            ['eric@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co',
              'greta@somos-reyes.com',
              'contabilidad@somos-reyes.com', 'alex@wonderbrands.co', 'will@wonderbrands.co'])
         msg['Subject'] = 'Script Automático MELI- Creación de notas de crédito para facturas globales'
@@ -899,7 +901,7 @@ def reverse_invoice_partial_ind_amz():
                 for inv in invoice:
                     inv_usage = 'G02'  # Uso del CFDI
                     inv_uuid = inv['l10n_mx_edi_cfdi_uuid']  # Folio fiscal de la factura
-                    inv_uuid_origin = f'01|{inv_uuid}'
+                    inv_uuid_origin = f'03|{inv_uuid}'
                     inv_journal_id = inv['journal_id'][0]
                     inv_payment = inv['l10n_mx_edi_payment_method_id'][0]
                     if inv_origin_name in inv['invoice_origin']:
@@ -934,7 +936,7 @@ def reverse_invoice_partial_ind_amz():
                                     'partner_id': inv['partner_id'][0],
                                     'l10n_mx_edi_usage': inv_usage,
                                     'l10n_mx_edi_origin': inv_uuid_origin,
-                                    'l10n_mx_edi_payment_method_id': inv_payment,
+                                    'l10n_mx_edi_payment_method_id': l10n_mx_edi_payment_method_id,
                                     'reversed_entry_id': inv_int,
                                     'move_type': 'out_refund',  # Este campo indica que es una nota de crédito
                                     'invoice_line_ids': []
@@ -1070,9 +1072,9 @@ def reverse_invoice_partial_ind_amz():
                 '''
         # Define remitente y destinatario
         msg = MIMEMultipart()
-        msg['From'] = 'Tech anibal@wonderbrands.co'
+        msg['From'] = 'eric@wonderbrands.co'
         msg['To'] = ', '.join(
-            ['anibal@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co',
+            ['eric@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co',
              'greta@somos-reyes.com',
              'contabilidad@somos-reyes.com', 'alex@wonderbrands.co', 'will@wonderbrands.co'])
         msg['Subject'] = 'Script Automático MELI- Creación de notas de crédito para facturas globales'
@@ -1155,7 +1157,7 @@ def reverse_invoice_partial_glo_amz():
                         ON SUBSTRING_INDEX(SUBSTRING_INDEX(invoice_ids, ']', 1), '[', -1) = b.id
                         LEFT JOIN (SELECT a.order_id, max(STR_TO_DATE(fecha, '%d/%m/%Y')) 'refund_date', SUM(total - tarifas_de_amazon) * (-1) 'refunded_amt'
                                    FROM somos_reyes.amazon_payments_refunds a
-                                   WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%d/%m/%Y') >= '2023-01-01' AND STR_TO_DATE(fecha, '%d/%m/%Y') <= '2023-11-30'
+                                   WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%d/%m/%Y') >= '2024-01-01' AND STR_TO_DATE(fecha, '%d/%m/%Y') <= '2024-01-28'
                                    GROUP BY 1) d
                         ON c.channel_order_id = d.order_id
                         LEFT JOIN (SELECT distinct invoice_origin FROM odoo_new_account_move_aux WHERE name like '%RINV%') e
@@ -1173,6 +1175,7 @@ def reverse_invoice_partial_glo_amz():
                         AND (b.amount_total - c.amount_total > 1 OR b.amount_total - c.amount_total < (-1))
                         AND f.order_name is not null
                         AND ROUND(d.refunded_amt / unit_price, 2) in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)
+                        AND c.name in ('SO2602300', 'SO2637393', 'SO2664571', 'SO2700840');
                         """)
     invoice_records = mycursor.fetchall()
     # Lista de SO a las que se les creó una credit_notes
@@ -1214,7 +1217,7 @@ def reverse_invoice_partial_glo_amz():
                 for inv in invoice:
                     inv_usage = 'G02'  # Uso del CFDI
                     inv_uuid = inv['l10n_mx_edi_cfdi_uuid']  # Folio fiscal de la factura
-                    inv_uuid_origin = f'01|{inv_uuid}'
+                    inv_uuid_origin = f'03|{inv_uuid}'
                     inv_journal_id = inv['journal_id'][0]
                     inv_payment = inv['l10n_mx_edi_payment_method_id'][0]
                     if inv_origin_name in inv['invoice_origin']:
@@ -1249,7 +1252,7 @@ def reverse_invoice_partial_glo_amz():
                                     'partner_id': inv['partner_id'][0],
                                     'l10n_mx_edi_usage': inv_usage,
                                     'l10n_mx_edi_origin': inv_uuid_origin,
-                                    'l10n_mx_edi_payment_method_id': inv_payment,
+                                    'l10n_mx_edi_payment_method_id': l10n_mx_edi_payment_method_id,
                                     'reversed_entry_id': inv_int,
                                     'move_type': 'out_refund',  # Este campo indica que es una nota de crédito
                                     'invoice_line_ids': []
@@ -1385,9 +1388,9 @@ def reverse_invoice_partial_glo_amz():
                 '''
         # Define remitente y destinatario
         msg = MIMEMultipart()
-        msg['From'] = 'Tech anibal@wonderbrands.co'
+        msg['From'] = 'eric@wonderbrands.co'
         msg['To'] = ', '.join(
-            ['anibal@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co',
+            ['eric@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co',
              'greta@somos-reyes.com',
              'contabilidad@somos-reyes.com', 'alex@wonderbrands.co', 'will@wonderbrands.co'])
         msg['Subject'] = 'Script Automático MELI- Creación de notas de crédito para facturas globales'
@@ -1420,7 +1423,7 @@ def reverse_invoice_partial_glo_amz():
 if __name__ == "__main__":
     reverse_invoice_partial_ind_meli()
     reverse_invoice_partial_glob_meli()
-    reverse_invoice_partial_ind_amz()
+    #reverse_invoice_partial_ind_amz()
     reverse_invoice_partial_glo_amz()
     end_time = datetime.datetime.now()
     duration = end_time - today_date

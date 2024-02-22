@@ -42,7 +42,9 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 print('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
 #Archivo de configuración - Use config_dev.json si está haciendo pruebas
 #Archivo de configuración - Use config.json cuando los cambios vayan a producción
-config_file_name = r'C:\Dev\wb_odoo_external_api\config\config.json'
+config_file_name = r'C:\Users\WonderBrandsWonderBr\Documents\repo tech\wb_odoo_external_api\config\config.json'
+l10n_mx_edi_payment_method_id = 3
+l10n_mx_edi_usage = 'G02'
 
 def get_odoo_access():
     with open(config_file_name, 'r') as config_file:
@@ -109,30 +111,30 @@ def reverse_invoice_meli():
                                'INDIVIDUAL' as type,
                                'MERCADO LIBRE' as marketplace*/
                         FROM somos_reyes.odoo_new_account_move_aux b
-                        LEFT JOIN odoo_new_sale_order c
+                        LEFT JOIN somos_reyes.odoo_new_sale_order c
                         ON b.invoice_origin = c.name
                         LEFT JOIN (SELECT a.order_id, max(payment_date_last_modified) 'payment_date_last_modified', SUM(paid_amt) 'paid_amt', SUM(refunded_amt) 'refunded_amt', SUM(shipping_amt) 'shipping_amt'
-                                   FROM ml_order_payments a
-                                   LEFT JOIN ml_order_update b
+                                   FROM somos_reyes.ml_order_payments a
+                                   LEFT JOIN somos_reyes.ml_order_update b
                                    ON a.order_id = b.order_id
-                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2023-01-01' AND date(payment_date_last_modified) <= '2023-12-25'
+                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2024-01-29' AND date(payment_date_last_modified) <= '2024-01-31'
                                    GROUP BY 1) d
                         ON c.channel_order_id = d.order_id
                         LEFT JOIN (SELECT a.pack_id, max(payment_date_last_modified) 'payment_date_last_modified', SUM(b.paid_amt) 'paid_amt', SUM(b.refunded_amt) 'refunded_amt', SUM(shipping_amt) 'shipping_amt'
-                        FROM ml_order_update a
-                        LEFT JOIN ml_order_payments b
+                        FROM somos_reyes.ml_order_update a
+                        LEFT JOIN somos_reyes.ml_order_payments b
                         ON a.order_id = b.order_id
-                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2023-01-01' AND date(payment_date_last_modified) <= '2023-12-25'
+                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2024-01-29' AND date(payment_date_last_modified) <= '2024-01-31'
                         GROUP BY 1) dd
                         ON c.yuju_pack_id = dd.pack_id
-                        LEFT JOIN (SELECT distinct invoice_origin FROM odoo_new_account_move_aux WHERE name like '%RINV%') e
+                        LEFT JOIN (SELECT distinct invoice_origin FROM somos_reyes.odoo_new_account_move_aux WHERE name like '%RINV%') e
                         ON c.name = e.invoice_origin
                         WHERE (d.order_id is not null or dd.pack_id is not null)
                         AND e.invoice_origin is null
                         AND ((ifnull(d.refunded_amt, dd.refunded_amt) - b.amount_total < 1 AND ifnull(d.refunded_amt, dd.refunded_amt) - b.amount_total > -1)
                         OR (ifnull(d.refunded_amt - d.shipping_amt, dd.refunded_amt - dd.shipping_amt) - b.amount_total < 1
                         AND ifnull(d.refunded_amt - d.shipping_amt, dd.refunded_amt - dd.shipping_amt) - b.amount_total > -1))
-                        AND c.name in ('SO2562651','SO2555143','SO2582132','SO2545969','SO2606975','SO2482290','SO2582096','SO2580217','SO2587030','SO2598007','SO2587550','SO2490586','SO2571303','SO2483798','SO2484464','SO2594615','SO2526824','SO2592285','SO2564557','SO2590551','SO2563365','SO2561021','SO2578032','SO2585998','SO2572252','SO2566560','SO2473796','SO2591279','SO2586873','SO2579112','SO2592169','SO2473404','SO2578105','SO2588942','SO2586419','SO2547410','SO2573055','SO2576280','SO2592325','SO2574318','SO2592644','SO2587373','SO2575320','SO2570857','SO2587026','SO2585922','SO2559438','SO2595886','SO2575802','SO2573027','SO2588018','SO2597397','SO2584102','SO2567251','SO2592463','SO2544218','SO2555276','SO2591579','SO2597384','SO2594165','SO2529759','SO2579101','SO2586691','SO2558546','SO2587635','SO2595899','SO2582158','SO2595952','SO2536508','SO2584871','SO2555394','SO2590705','SO2590329','SO2581969','SO2572197','SO2587301','SO2552254','SO2535859','SO2585995','SO2498111','SO2575113','SO2567332','SO2587103','SO2586680','SO2556071','SO2589896','SO2593775','SO2581868','SO2531124','SO2587266','SO2498947','SO2586660','SO2576355','SO2585033','SO2577068','SO2542089','SO2551321','SO2564245','SO2595916','SO2571298','SO2564607','SO2554878','SO2590139','SO2470165','SO2485863','SO2576625','SO2596084','SO2597378','SO2537649','SO2585387','SO2596417','SO2590384','SO2590093','SO2595117','SO2566332','SO2588659','SO2568004','SO2560868','SO2590780','SO2576162','SO2572259','SO2575669','SO2594552','SO2550187','SO2555322','SO2586172','SO2591808','SO2584646','SO2579324','SO2598557','SO2589862','SO2571219','SO2594973','SO2586725','SO2568325','SO2592302','SO2537244','SO2567314','SO2595638','SO2571204','SO2591002','SO2593547','SO2550293','SO2584954','SO2568298','SO2568700','SO2593519','SO2535473','SO2595915','SO2592631','SO2565777','SO2534648','SO2591106','SO2595991','SO2593657','SO2574975','SO2597991','SO2586043','SO2576496','SO2555274','SO2594647','SO2559114','SO2572038');""")
+                        AND c.name in ('SO2703828', 'SO2672315');""")
     invoice_records = mycursor.fetchall()
     # Lista de SO a las que se les creó una credit_notes
     so_modified = []
@@ -155,14 +157,14 @@ def reverse_invoice_meli():
     try:
         progress_bar = tqdm(total=len(invoice_records), desc="Procesando")
         for each in invoice_records:
-            inv_origin_name = each[0]
+            inv_origin_name = each[0] #Es la SO
             inv_id = each[1]
             nc_date = each[2].strftime("%Y-%m-%d %H:%M:%S")
             #Busca la factura que contenga el nombre de la SO
             invoice = models.execute_kw(db_name, uid, password, 'account.move', 'search_read', [[['invoice_origin', '=', inv_origin_name]]])
             if invoice:
                 # Se verifica si ya existe una nota de crédito para esta orden de venta
-                existing_credit_note = models.execute_kw(db_name, uid, password, 'account.move', 'search', [[['invoice_origin', '=', inv_origin_name], ['move_type', '=', 'out_refund']]])
+                existing_credit_note = models.execute_kw(db_name, uid, password, 'account.move', 'search', [[['invoice_origin', '=', inv_origin_name], ['move_type', '=', 'out_refund'], ['state', 'not ilike', 'cancel']]])
                 if not existing_credit_note:
                 #if 'out_refund' not in inv_move_types:
                     for inv in invoice:
@@ -174,6 +176,8 @@ def reverse_invoice_meli():
                         inv_uuid = inv['l10n_mx_edi_cfdi_uuid'] # Folio fiscal de la factura
                         inv_journal_id = inv['journal_id'][0] #Diario de la factura
                         inv_state = inv['state']
+                        l10n_mx_edi_origin = '03|' + str(inv_uuid)
+                        team_id = inv['team_id'][0]
 
                         if inv_state == 'posted':
                             #Se hace una llamada al wizard de creación de notas de crédito
@@ -197,6 +201,8 @@ def reverse_invoice_meli():
                                 'message_type': 'comment',
                             }
                             write_msg_tech = models.execute_kw(db_name, uid, password, 'account.move', 'message_post',[nc_id], message)
+                            #Actualización de Forma de Pago, CFDI Origen, Equipo de Ventas
+                            update_vals_nc = models.execute_kw(db_name, uid, password, 'account.move', 'write',[[nc_id], {'team_id': team_id, 'l10n_mx_edi_origin': l10n_mx_edi_origin, 'l10n_mx_edi_payment_method_id': l10n_mx_edi_payment_method_id, 'l10n_mx_edi_usage': l10n_mx_edi_usage}])
                             #Confirma la nota de crédito
                             #upd_nc_state = models.execute_kw(db_name, uid, password, 'account.move', 'action_post',[nc_id])
                             # Timbramos la nota de crédito
@@ -293,9 +299,9 @@ def reverse_invoice_meli():
                 '''
         # Define remitente y destinatario
         msg = MIMEMultipart()
-        msg['From'] = 'Tech anibal@wonderbrands.co'
+        msg['From'] = 'eric@wonderbrands.co'
         msg['To'] = ', '.join(
-            ['anibal@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co', 'greta@somos-reyes.com',
+            ['eric@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co', 'greta@somos-reyes.com',
              'contabilidad@somos-reyes.com', 'alex@wonderbrands.co', 'will@wonderbrands.co'])
         msg['Subject'] = 'Script Automático Meli - Creación de notas de crédito para facturas individuales'
         # Adjuntar el cuerpo del correo
@@ -373,23 +379,23 @@ def reverse_invoice_global_meli():
                                'GLOBAL' as type,
                                'MERCADO LIBRE' as marketplace*/
                         FROM somos_reyes.odoo_new_account_move_aux b
-                        LEFT JOIN odoo_new_sale_order c
+                        LEFT JOIN somos_reyes.odoo_new_sale_order c
                         ON SUBSTRING_INDEX(SUBSTRING_INDEX(invoice_ids, ']', 1), '[', -1) = b.id
                         LEFT JOIN (SELECT a.order_id, max(payment_date_last_modified) 'payment_date_last_modified', SUM(paid_amt) 'paid_amt', SUM(refunded_amt) 'refunded_amt', SUM(shipping_amt) 'shipping_amt'
-                                   FROM ml_order_payments a
-                                   LEFT JOIN ml_order_update b
+                                   FROM somos_reyes.ml_order_payments a
+                                   LEFT JOIN somos_reyes.ml_order_update b
                                    ON a.order_id = b.order_id
-                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2023-01-01' AND date(payment_date_last_modified) <= '2023-12-31'
+                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2024-01-29' AND date(payment_date_last_modified) <= '2024-01-31'
                                    GROUP BY 1) d
                         ON c.channel_order_id = d.order_id
                         LEFT JOIN (SELECT a.pack_id, max(payment_date_last_modified) 'payment_date_last_modified', SUM(b.paid_amt) 'paid_amt', SUM(b.refunded_amt) 'refunded_amt', SUM(shipping_amt) 'shipping_amt'
-                        FROM ml_order_update a
-                        LEFT JOIN ml_order_payments b
+                        FROM somos_reyes.ml_order_update a
+                        LEFT JOIN somos_reyes.ml_order_payments b
                         ON a.order_id = b.order_id
-                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2023-01-01' AND date(payment_date_last_modified) <= '2023-12-31'
+                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2024-01-29' AND date(payment_date_last_modified) <= '2024-01-31'
                         GROUP BY 1) dd
                         ON c.yuju_pack_id = dd.pack_id
-                        LEFT JOIN (SELECT distinct invoice_origin FROM odoo_new_account_move_aux WHERE name like '%RINV%') e
+                        LEFT JOIN (SELECT distinct invoice_origin FROM somos_reyes.odoo_new_account_move_aux WHERE name like '%RINV%') e
                         ON c.name = e.invoice_origin
                         WHERE (d.order_id is not null or dd.pack_id is not null)
                         AND e.invoice_origin is null
@@ -399,7 +405,7 @@ def reverse_invoice_global_meli():
                         AND ((ifnull(d.refunded_amt, dd.refunded_amt) - c.amount_total < 1 AND ifnull(d.refunded_amt, dd.refunded_amt) - c.amount_total > -1)
                         OR (ifnull(d.refunded_amt - d.shipping_amt, dd.refunded_amt - dd.shipping_amt) - c.amount_total < 1
                         AND ifnull(d.refunded_amt - d.shipping_amt, dd.refunded_amt - dd.shipping_amt) - c.amount_total > -1))
-                        AND c.name in ('SO2562651','SO2555143','SO2582132','SO2545969','SO2606975','SO2482290','SO2582096','SO2580217','SO2587030','SO2598007','SO2587550','SO2490586','SO2571303','SO2483798','SO2484464','SO2594615','SO2526824','SO2592285','SO2564557','SO2590551','SO2563365','SO2561021','SO2578032','SO2585998','SO2572252','SO2566560','SO2473796','SO2591279','SO2586873','SO2579112','SO2592169','SO2473404','SO2578105','SO2588942','SO2586419','SO2547410','SO2573055','SO2576280','SO2592325','SO2574318','SO2592644','SO2587373','SO2575320','SO2570857','SO2587026','SO2585922','SO2559438','SO2595886','SO2575802','SO2573027','SO2588018','SO2597397','SO2584102','SO2567251','SO2592463','SO2544218','SO2555276','SO2591579','SO2597384','SO2594165','SO2529759','SO2579101','SO2586691','SO2558546','SO2587635','SO2595899','SO2582158','SO2595952','SO2536508','SO2584871','SO2555394','SO2590705','SO2590329','SO2581969','SO2572197','SO2587301','SO2552254','SO2535859','SO2585995','SO2498111','SO2575113','SO2567332','SO2587103','SO2586680','SO2556071','SO2589896','SO2593775','SO2581868','SO2531124','SO2587266','SO2498947','SO2586660','SO2576355','SO2585033','SO2577068','SO2542089','SO2551321','SO2564245','SO2595916','SO2571298','SO2564607','SO2554878','SO2590139','SO2470165','SO2485863','SO2576625','SO2596084','SO2597378','SO2537649','SO2585387','SO2596417','SO2590384','SO2590093','SO2595117','SO2566332','SO2588659','SO2568004','SO2560868','SO2590780','SO2576162','SO2572259','SO2575669','SO2594552','SO2550187','SO2555322','SO2586172','SO2591808','SO2584646','SO2579324','SO2598557','SO2589862','SO2571219','SO2594973','SO2586725','SO2568325','SO2592302','SO2537244','SO2567314','SO2595638','SO2571204','SO2591002','SO2593547','SO2550293','SO2584954','SO2568298','SO2568700','SO2593519','SO2535473','SO2595915','SO2592631','SO2565777','SO2534648','SO2591106','SO2595991','SO2593657','SO2574975','SO2597991','SO2586043','SO2576496','SO2555274','SO2594647','SO2559114','SO2572038');""")
+                        AND c.name in ('SO2727230', 'SO2711694', 'SO2713033', 'SO2726345', 'SO2708334', 'SO2719589', 'SO2691083', 'SO2719489', 'SO2719814', 'SO2714258', 'SO2725665', 'SO2721924', 'SO2693881', 'SO2698415', 'SO2726631', 'SO2725746', 'SO2723233', 'SO2709990', 'SO2721567', 'SO2723335', 'SO2724112', 'SO2716224', 'SO2723654', 'SO2698362', 'SO2680231', 'SO2694063', 'SO2673970', 'SO2701776', 'SO2729255', 'SO2707857', 'SO2714103', 'SO2718312', 'SO2701616', 'SO2694855', 'SO2722278', 'SO2714098', 'SO2705684', 'SO2650746', 'SO2703602', 'SO2657828', 'SO2654923', 'SO2714841', 'SO2685253', 'SO2700199', 'SO2700684', 'SO2723402', 'SO2633151', 'SO2689538', 'SO2726309', 'SO2716771', 'SO2661731', 'SO2712824', 'SO2719737', 'SO2723892', 'SO2719783', 'SO2727151', 'SO2722192', 'SO2718131', 'SO2712287', 'SO2714675', 'SO2686943', 'SO2654574', 'SO2727185', 'SO2665511', 'SO2681348', 'SO2664151', 'SO2720850', 'SO2682894', 'SO2726151', 'SO2710916', 'SO2713401', 'SO2692529', 'SO2714685', 'SO2720341', 'SO2709028', 'SO2690141', 'SO2725447', 'SO2717912', 'SO2702520', 'SO2702671', 'SO2715553', 'SO2724218', 'SO2729513', 'SO2730802', 'SO2724410', 'SO2692869', 'SO2689757', 'SO2709612', 'SO2724908', 'SO2723739', 'SO2691796', 'SO2697779', 'SO2722151', 'SO2716734', 'SO2725406', 'SO2711741', 'SO2691009', 'SO2695070', 'SO2707158');""")
     invoice_records = mycursor.fetchall()
     #Lista de SO a las que se les creó una credit_notes
     so_modified = []
@@ -433,7 +439,7 @@ def reverse_invoice_global_meli():
                 for inv in invoice:
                     inv_usage = 'G02'  # Uso del CFDI
                     inv_uuid = inv['l10n_mx_edi_cfdi_uuid']  # Folio fiscal de la factura
-                    inv_uuid_origin = f'01|{inv_uuid}'
+                    inv_uuid_origin = f'03|{inv_uuid}'
                     inv_journal_id = inv['journal_id'][0]
                     inv_payment = inv['l10n_mx_edi_payment_method_id'][0]
                     if inv_origin_name in inv['invoice_origin']:
@@ -465,7 +471,7 @@ def reverse_invoice_global_meli():
                                     'partner_id': inv['partner_id'][0],
                                     'l10n_mx_edi_usage': inv_usage,
                                     'l10n_mx_edi_origin': inv_uuid_origin,
-                                    'l10n_mx_edi_payment_method_id': inv_payment,
+                                    'l10n_mx_edi_payment_method_id': l10n_mx_edi_payment_method_id,
                                     'reversed_entry_id': inv_int,
                                     'move_type': 'out_refund',  # Este campo indica que es una nota de crédito
                                     'invoice_line_ids': []
@@ -578,9 +584,9 @@ def reverse_invoice_global_meli():
                   <body>
                     <p>Buenas</p>
                     <p>Hola a todos, espero que estén muy bien. Les comento que acabamos de correr el script de notas de crédito.</p>
-                    <p>Adjunto encontrarán el archivo generado por el script en el cual se encuentran las órdenes a las cuales 
-                    se les creó una nota de crédito, órdenes que no se les pudo crear una credit_notes, nombre de las notas de crédito 
-                    creadas, órdenes que ya contaban con una nota de crédito antes de correr el script y órdenes que tuvieron 
+                    <p>Adjunto encontrarán el archivo generado por el script en el cual se encuentran las órdenes a las cuales
+                    se les creó una nota de crédito, órdenes que no se les pudo crear una credit_notes, nombre de las notas de crédito
+                    creadas, órdenes que ya contaban con una nota de crédito antes de correr el script y órdenes que tuvieron
                     algún error, por ejemplo que no existieran dentro de la factura global o no tuvieran una factura creada por la cual se pueda emitir una nota de crédito.</p>
                     </br>
                     <p>Sin más por el momento quedo al pendiente para resolver cualquier duda o comentario.</p>
@@ -593,12 +599,12 @@ def reverse_invoice_global_meli():
                 '''
         # Define remitente y destinatario
         msg = MIMEMultipart()
-        msg['From'] = 'Tech anibal@wonderbrands.co'
+        msg['From'] = 'eric@wonderbrands.co'
         msg['To'] = ', '.join(
-            ['anibal@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co',
+            ['eric@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co',
              'greta@somos-reyes.com',
              'contabilidad@somos-reyes.com', 'alex@wonderbrands.co', 'will@wonderbrands.co'])
-        msg['Subject'] = 'Script Automático MELI- Creación de notas de crédito para facturas globales'
+        msg['Subject'] = 'Script Automático Meli - Creación de notas de crédito para facturas globales'
         # Adjuntar el cuerpo del correo
         msg.attach(MIMEText(body, 'html'))
         # Adjuntar el archivo Excel al mensaje
@@ -674,18 +680,18 @@ def reverse_invoice_amazon():
                                'INDIVIDUAL' as type,
                                'AMAZON' as marketplace*/
                         FROM somos_reyes.odoo_new_account_move_aux b
-                        LEFT JOIN odoo_new_sale_order c
+                        LEFT JOIN somos_reyes.odoo_new_sale_order c
                         ON b.invoice_origin = c.name
                         LEFT JOIN (SELECT a.order_id, max(STR_TO_DATE(fecha, '%d/%m/%Y')) 'refund_date', SUM(total - tarifas_de_amazon) * (-1) 'refunded_amt'
                                    FROM somos_reyes.amazon_payments_refunds a
-                                   WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%d/%m/%Y') >= '2023-11-01' AND STR_TO_DATE(fecha, '%d/%m/%Y') <= '2023-11-30'
+                                   WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%d/%m/%Y') >= '2024-01-01' AND STR_TO_DATE(fecha, '%d/%m/%Y') <= '2024-01-20'
                                    GROUP BY 1) d
                         ON c.channel_order_id = d.order_id
-                        LEFT JOIN (SELECT distinct invoice_origin FROM odoo_new_account_move_aux WHERE name like '%RINV%') e
+                        LEFT JOIN (SELECT distinct invoice_origin FROM somos_reyes.odoo_new_account_move_aux WHERE name like '%RINV%') e
                         ON c.name = e.invoice_origin
                         WHERE d.order_id is not null
                         AND e.invoice_origin is null
-                        AND d.refunded_amt - b.amount_total < 1 AND d.refunded_amt - b.amount_total > -1;""")
+                        AND d.refunded_amt - b.amount_total < 1 AND d.refunded_amt - b.amount_total > -1 LIMIT 1;""")
     invoice_records = mycursor.fetchall()
     # Lista de SO a las que se les creó una credit_notes
     so_modified = []
@@ -720,7 +726,7 @@ def reverse_invoice_amazon():
                     inv_move_types.append(exist_nc_type)
 
                 # Se verifica si ya existe una nota de crédito para esta orden de venta
-                existing_credit_note = models.execute_kw(db_name, uid, password, 'account.move', 'search', [[['invoice_origin', '=', inv_origin_name], ['move_type', '=', 'out_refund']]])
+                existing_credit_note = models.execute_kw(db_name, uid, password, 'account.move', 'search', [[['invoice_origin', '=', inv_origin_name], ['move_type', '=', 'out_refund'], ['state', 'not ilike', 'cancel']]])
                 if not existing_credit_note:
                 #if 'out_refund' not in inv_move_types:
                     for inv in invoice:
@@ -731,6 +737,8 @@ def reverse_invoice_amazon():
                         #inv_uuid = inv_narration[3:-4]
                         inv_uuid = inv['l10n_mx_edi_cfdi_uuid'] # Folio fiscal de la factura
                         inv_journal_id = inv['journal_id'][0] #Diario de la factura
+                        l10n_mx_edi_origin = '03|' + str(inv_uuid)
+                        team_id = inv['team_id'][0]
                         #Se hace una llamada al wizard de creación de notas de crédito
                         credit_note_wizard = models.execute_kw(db_name, uid, password, 'account.move.reversal', 'create',
                                                                [{
@@ -752,6 +760,8 @@ def reverse_invoice_amazon():
                             'message_type': 'comment',
                         }
                         write_msg_tech = models.execute_kw(db_name, uid, password, 'account.move', 'message_post',[nc_id], message)
+                        # Actualización de Forma de Pago, CFDI Origen, Equipo de Ventas
+                        update_vals_nc = models.execute_kw(db_name, uid, password, 'account.move', 'write', [[nc_id], {'team_id': team_id, 'l10n_mx_edi_origin': l10n_mx_edi_origin, 'l10n_mx_edi_payment_method_id': l10n_mx_edi_payment_method_id, 'l10n_mx_edi_usage': l10n_mx_edi_usage}])
                         #Confirma la nota de crédito
                         #upd_nc_state = models.execute_kw(db_name, uid, password, 'account.move', 'action_post',[nc_id])
                         # Timbramos la nota de crédito
@@ -829,9 +839,9 @@ def reverse_invoice_amazon():
                   <body>
                     <p>Buenas</p>
                     <p>Hola a todos, espero que estén muy bien. Les comento que acabamos de correr el script de notas de crédito.</p>
-                    <p>Adjunto encontrarán el archivo generado por el script en el cual se encuentran las órdenes a las cuales 
-                    se les creó una nota de crédito, órdenes que no se les pudo crear una credit_notes, nombre de las notas de crédito 
-                    creadas, órdenes que ya contaban con una nota de crédito antes de correr el script y órdenes que tuvieron 
+                    <p>Adjunto encontrarán el archivo generado por el script en el cual se encuentran las órdenes a las cuales
+                    se les creó una nota de crédito, órdenes que no se les pudo crear una credit_notes, nombre de las notas de crédito
+                    creadas, órdenes que ya contaban con una nota de crédito antes de correr el script y órdenes que tuvieron
                     algún error, por ejemplo que no existieran dentro de la factura global o no tuvieran una factura creada por la cual se pueda emitir una nota de crédito.</p>
                     </br>
                     <p>Sin más por el momento quedo al pendiente para resolver cualquier duda o comentario.</p>
@@ -844,9 +854,9 @@ def reverse_invoice_amazon():
                 '''
         # Define remitente y destinatario
         msg = MIMEMultipart()
-        msg['From'] = 'Tech anibal@wonderbrands.co'
+        msg['From'] = 'eric@wonderbrands.co'
         msg['To'] = ', '.join(
-            ['anibal@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co', 'greta@somos-reyes.com',
+            ['eric@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co', 'greta@somos-reyes.com',
              'contabilidad@somos-reyes.com', 'alex@wonderbrands.co', 'will@wonderbrands.co'])
         msg['Subject'] = 'Script Automático Amazon - Creación de notas de crédito para facturas individuales'
         # Adjuntar el cuerpo del correo
@@ -924,21 +934,21 @@ def reverse_invoice_global_amazon():
                                'GLOBAL' as type,
                                'AMAZON' as marketplace*/
                         FROM somos_reyes.odoo_new_account_move_aux b
-                        LEFT JOIN odoo_new_sale_order c
+                        LEFT JOIN somos_reyes.odoo_new_sale_order c
                         ON SUBSTRING_INDEX(SUBSTRING_INDEX(invoice_ids, ']', 1), '[', -1) = b.id
                         LEFT JOIN (SELECT a.order_id, max(STR_TO_DATE(fecha, '%d/%m/%Y')) 'refund_date', SUM(total - tarifas_de_amazon) * (-1) 'refunded_amt'
                                    FROM somos_reyes.amazon_payments_refunds a
-                                   WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%d/%m/%Y') >= '2023-01-01' AND STR_TO_DATE(fecha, '%d/%m/%Y') <= '2023-12-31'
+                                   WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%d/%m/%Y') >= '2024-01-01' AND STR_TO_DATE(fecha, '%d/%m/%Y') <= '2024-01-28'
                                    GROUP BY 1) d
                         ON c.channel_order_id = d.order_id
-                        LEFT JOIN (SELECT distinct invoice_origin FROM odoo_new_account_move_aux WHERE name like '%RINV%') e
+                        LEFT JOIN (SELECT distinct invoice_origin FROM somos_reyes.odoo_new_account_move_aux WHERE name like '%RINV%') e
                         ON c.name = e.invoice_origin
                         WHERE d.order_id is not null
                         AND e.invoice_origin is null
                         AND invoice_partner_display_name = 'PÚBLICO EN GENERAL'
                         AND (d.refunded_amt - b.amount_total > 1 OR d.refunded_amt - b.amount_total < -1)
                         AND d.refunded_amt - c.amount_total < 1 AND d.refunded_amt - c.amount_total > -1
-                        AND c.name in ('SO2524290','SO2568012','SO2553868','SO2496987','SO2478682','SO2569947','SO2582249','SO2588590','SO2536244','SO2585622','SO2574404','SO2479044','SO2508755','SO2536650','SO2499205','SO2554411','SO2570919','SO2467267','SO2500686','SO2557362','SO2582387','SO2492273','SO2582221','SO2585355','SO2556411','SO2594893','SO2582408','SO2521951','SO2559047','SO2558773','SO2593128','SO2523358','SO2595603','SO2526633','SO2557083','SO2561560','SO2532354','SO2552768','SO2486165','SO2538021','SO2511399','SO2577631','SO2553588','SO2504664','SO2556493','SO2487975','SO2552860','SO2546705','SO2554509','SO2508788','SO2515348','SO2593138','SO2597690','SO2509719','SO2560368','SO2568949','SO2514247','SO2553141','SO2521980','SO2564003','SO2521671','SO2571405','SO2551433','SO2554016','SO2553644','SO2515345','SO2587732','SO2493586','SO2574664','SO2581657','SO2486794','SO2582398','SO2509519','SO2557830','SO2545308','SO2588114','SO2527780','SO2581512','SO2506795','SO2560365','SO2554325','SO2572745','SO2552391','SO2493524','SO2526126','SO2564137','SO2541959','SO2586806','SO2517289','SO2499820','SO2577454','SO2581515','SO2553081','SO2526716','SO2482431','SO2566415','SO2576706','SO2574630','SO2597091','SO2525642','SO2563956','SO2494228','SO2512303','SO2488053','SO2487877','SO2553144','SO2590561','SO2536622','SO2597642','SO2537591','SO2586933','SO2470921','SO2582544','SO2579187','SO2553956','SO2508747','SO2543202','SO2515783','SO2594426','SO2519491','SO2540108','SO2585887','SO2545641','SO2519439','SO2528698','SO2338309','SO2526631','SO2553745','SO2533118','SO2515811','SO2585523','SO2567398','SO2571555','SO2557772','SO2548684','SO2501486','SO2580049','SO2548551','SO2503754','SO2567099','SO2524390','SO2591408','SO2559040','SO2566535','SO2559854','SO2543324','SO2527717','SO2532462','SO2522573','SO2521709','SO2558440');
+                        AND c.name in ('SO2614256', 'SO2342565', 'SO2700541', 'SO2651144', 'SO2696317', 'SO2566495', 'SO2488709', 'SO2631456', 'SO2658110', 'SO2636678', 'SO2672488', 'SO2565635', 'SO2692138', 'SO2585480', 'SO2552457', 'SO2548088', 'SO2652836', 'SO2692205', 'SO2634096', 'SO2549413', 'SO2559269', 'SO2656335', 'SO2643971', 'SO2663938', 'SO2652313', 'SO2639200', 'SO2658622', 'SO2528922', 'SO2538926', 'SO2655916', 'SO2692638', 'SO2487188', 'SO2654803', 'SO2618717', 'SO2569056', 'SO2678074', 'SO2676311', 'SO2668507', 'SO2643674', 'SO2653416', 'SO2632464', 'SO2664062', 'SO2664985', 'SO2593983', 'SO2607754', 'SO2620280', 'SO2629852', 'SO2674879', 'SO2594784', 'SO2349602', 'SO2674379', 'SO2593451', 'SO2642702', 'SO2587390', 'SO2578190', 'SO2670318', 'SO2676140', 'SO2657163', 'SO2625054', 'SO2653477', 'SO2522953', 'SO2687131', 'SO2648296', 'SO2592700', 'SO2651745', 'SO2556930', 'SO2651040', 'SO2553083', 'SO2654908', 'SO2593645', 'SO2688308', 'SO2600658', 'SO2558931', 'SO2626323', 'SO2493190', 'SO2642257', 'SO2641380', 'SO2640015', 'SO2585942', 'SO2587664', 'SO2638972', 'SO2700005', 'SO2667102', 'SO2554711', 'SO2680174', 'SO2553149', 'SO2671287', 'SO2654739', 'SO2611597', 'SO2684096', 'SO2528919', 'SO2652930', 'SO2643401', 'SO2581078', 'SO2696021', 'SO2650898', 'SO2690489', 'SO2619239', 'SO2632024', 'SO2632046', 'SO2625349', 'SO2552395', 'SO2631570', 'SO2512320', 'SO2690483', 'SO2576792', 'SO2706004', 'SO2602276', 'SO2673343', 'SO2644828', 'SO2694253', 'SO2600550', 'SO2696256', 'SO2562109', 'SO2659277', 'SO2571880', 'SO2561857', 'SO2596089', 'SO2637911', 'SO2681630', 'SO2657984', 'SO2597705', 'SO2549623', 'SO2565041', 'SO2563014', 'SO2610646', 'SO2640778', 'SO2592307', 'SO2652025', 'SO2674880', 'SO2558367', 'SO2550639', 'SO2690349', 'SO2593761', 'SO2660086', 'SO2558978', 'SO2651184', 'SO2702253', 'SO2652254', 'SO2678106', 'SO2618627', 'SO2565632', 'SO2643345', 'SO2632465', 'SO2676894', 'SO2659315', 'SO2679495', 'SO2552857', 'SO2653060', 'SO2585511', 'SO2653794', 'SO2597666', 'SO2616783', 'SO2671824', 'SO2609621', 'SO2566139', 'SO2553154', 'SO2494002', 'SO2696107', 'SO2697844', 'SO2650635', 'SO2654597', 'SO2618486', 'SO2658614', 'SO2548282', 'SO2624700', 'SO2605600', 'SO2661261', 'SO2564175', 'SO2600911', 'SO2674661', 'SO2566475', 'SO2693181', 'SO2553155', 'SO2683633', 'SO2649774', 'SO2677217', 'SO2660084', 'SO2635316', 'SO2652451', 'SO2573448', 'SO2660714', 'SO2610068', 'SO2658064', 'SO2658965', 'SO2553151', 'SO2653133', 'SO2622367', 'SO2550986', 'SO2656912', 'SO2669730', 'SO2710357', 'SO2683057', 'SO2603249', 'SO2658943', 'SO2661542', 'SO2655164', 'SO2557836', 'SO2628697', 'SO2642156', 'SO2701305', 'SO2688307', 'SO2656364', 'SO2582343', 'SO2685947', 'SO2560715', 'SO2535216', 'SO2654385', 'SO2552416', 'SO2679498', 'SO2624846', 'SO2634581', 'SO2639207', 'SO2632094', 'SO2554556', 'SO2634021', 'SO2648287', 'SO2597479', 'SO2655096', 'SO2567833', 'SO2507228', 'SO2709296', 'SO2690340', 'SO2624620', 'SO2661161', 'SO2552450', 'SO2524091', 'SO2543336', 'SO2575467', 'SO2688276', 'SO2562197', 'SO2610771', 'SO2523135', 'SO2652291', 'SO2632986', 'SO2653290', 'SO2658623', 'SO2691348', 'SO2600020', 'SO2570888', 'SO2677841', 'SO2683831', 'SO2679235', 'SO2627625', 'SO2652567', 'SO2646604', 'SO2524256', 'SO2689194', 'SO2545482', 'SO2676077', 'SO2684146', 'SO2602509', 'SO2684558', 'SO2657879', 'SO2540866', 'SO2674259', 'SO2659333', 'SO2558715', 'SO2671825', 'SO2691304', 'SO2656852', 'SO2636762', 'SO2657301', 'SO2643502', 'SO2692979', 'SO2628031', 'SO2633991', 'SO2609070', 'SO2619526', 'SO2555707', 'SO2684848', 'SO2600297', 'SO2653335', 'SO2640937', 'SO2614400', 'SO2656668', 'SO2676475', 'SO2678168', 'SO2683815', 'SO2641480', 'SO2681814', 'SO2513347', 'SO2677090', 'SO2664436', 'SO2652679');
                         """)
     invoice_records = mycursor.fetchall()
     #Lista de SO a las que se les creó una credit_notes
@@ -973,6 +983,7 @@ def reverse_invoice_global_amazon():
                 for inv in invoice:
                     inv_uuid = inv['l10n_mx_edi_cfdi_uuid']  # Folio fiscal de la factura
                     inv_usage = inv['l10n_mx_edi_usage']  # Folio fiscal de la factura
+                    inv_uuid_origin = f'03|{inv_uuid}'
                     inv_journal_id = inv['journal_id'][0]
                     if inv_origin_name in inv['invoice_origin']:
                         #--------------------------AGREGAR CONDICIONAL PARA SABER SI TIENE NOTA DE CREDITO--------------------------
@@ -985,6 +996,7 @@ def reverse_invoice_global_amazon():
                             sale_id = sale_order['id']
                             sale_name = sale_order['name']
                             sale_ref = sale_order['channel_order_reference']
+                            sale_team = sale_order['team_id'][0]
                             #Busca el order line correspondiente de la orden de venta
                             sale_line_id = models.execute_kw(db_name, uid, password, 'sale.order.line', 'search_read', [[['order_id', '=', sale_id]]])
                             #Define los valores de la nota de crédito
@@ -994,11 +1006,14 @@ def reverse_invoice_global_amazon():
                                 'ref': f'Reversión de: {inv_name}',
                                 'journal_id': inv_journal_id,
                                 'invoice_origin': sale_name,
+                                'team_id': sale_team,
                                 'payment_reference': inv_name,
                                 'invoice_date': datetime.datetime.now().strftime('%Y-%m-%d'),
                                 # Puedes ajustar la fecha según tus necesidades
                                 'partner_id': inv['partner_id'][0],
-                                'l10n_mx_edi_usage': inv_usage,
+                                'l10n_mx_edi_usage': l10n_mx_edi_usage,
+                                'l10n_mx_edi_origin': inv_uuid_origin,
+                                'l10n_mx_edi_payment_method_id': l10n_mx_edi_payment_method_id,
                                 'reversed_entry_id': inv_int,
                                 'move_type': 'out_refund',  # Este campo indica que es una nota de crédito
                                 'invoice_line_ids': []
@@ -1109,9 +1124,9 @@ def reverse_invoice_global_amazon():
                   <body>
                     <p>Buenas</p>
                     <p>Hola a todos, espero que estén muy bien. Les comento que acabamos de correr el script de notas de crédito.</p>
-                    <p>Adjunto encontrarán el archivo generado por el script en el cual se encuentran las órdenes a las cuales 
-                    se les creó una nota de crédito, órdenes que no se les pudo crear una credit_notes, nombre de las notas de crédito 
-                    creadas, órdenes que ya contaban con una nota de crédito antes de correr el script y órdenes que tuvieron 
+                    <p>Adjunto encontrarán el archivo generado por el script en el cual se encuentran las órdenes a las cuales
+                    se les creó una nota de crédito, órdenes que no se les pudo crear una credit_notes, nombre de las notas de crédito
+                    creadas, órdenes que ya contaban con una nota de crédito antes de correr el script y órdenes que tuvieron
                     algún error, por ejemplo que no existieran dentro de la factura global o no tuvieran una factura creada por la cual se pueda emitir una nota de crédito.</p>
                     </br>
                     <p>Sin más por el momento quedo al pendiente para resolver cualquier duda o comentario.</p>
@@ -1124,9 +1139,9 @@ def reverse_invoice_global_amazon():
                 '''
         # Define remitente y destinatario
         msg = MIMEMultipart()
-        msg['From'] = 'Tech anibal@wonderbrands.co'
+        msg['From'] = 'eric@wonderbrands.co'
         msg['To'] = ', '.join(
-            ['anibal@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co',
+            ['eric@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co',
              'greta@somos-reyes.com',
              'contabilidad@somos-reyes.com', 'alex@wonderbrands.co', 'will@wonderbrands.co'])
         msg['Subject'] = 'Script Automático Amazon - Creación de notas de crédito para facturas globales'
@@ -1160,7 +1175,7 @@ if __name__ == "__main__":
     reverse_invoice_meli()
     #reverse_invoice_amazon()
     reverse_invoice_global_meli()
-    reverse_invoice_global_amazon()
+    #reverse_invoice_global_amazon()
     end_time = datetime.datetime.now()
     duration = end_time - today_date
     print(f'Duraciòn del script: {duration}')

@@ -233,7 +233,7 @@ def reverse_invoice_partial_ind_meli():
                     if inv_origin_name in inv['invoice_origin']:
                         #--------------------------AGREGAR CONDICIONAL PARA SABER SI TIENE NOTA DE CREDITO--------------------------
                         #Validamos si la SO ya tiene una nota de crédito creada
-                        existing_credit_note = models.execute_kw(db_name, uid, password, 'account.move', 'search', [[['invoice_origin', '=', inv_origin_name], ['move_type', '=', 'out_refund']]])
+                        existing_credit_note = models.execute_kw(db_name, uid, password, 'account.move', 'search', [[['invoice_origin', '=', inv_origin_name], ['move_type', '=', 'out_refund'], ['state', 'not ilike', 'cancel']]])
                         if not existing_credit_note:
                             try:
                                 #Busca la órden de venta
@@ -588,7 +588,7 @@ def reverse_invoice_partial_glob_meli():
                         # --------------------------AGREGAR CONDICIONAL PARA SABER SI TIENE NOTA DE CREDITO--------------------------
                         # Validamos si la SO ya tiene una nota de crédito creada
                         existing_credit_note = models.execute_kw(db_name, uid, password, 'account.move', 'search', [
-                            [['invoice_origin', '=', inv_origin_name], ['move_type', '=', 'out_refund']]])
+                            [['invoice_origin', '=', inv_origin_name], ['move_type', '=', 'out_refund'], ['state', 'not ilike', 'cancel']]])
                         if not existing_credit_note:
                             try:
                                 # Busca la órden de venta
@@ -908,7 +908,7 @@ def reverse_invoice_partial_ind_amz():
                         # --------------------------AGREGAR CONDICIONAL PARA SABER SI TIENE NOTA DE CREDITO--------------------------
                         # Validamos si la SO ya tiene una nota de crédito creada
                         existing_credit_note = models.execute_kw(db_name, uid, password, 'account.move', 'search', [
-                            [['invoice_origin', '=', inv_origin_name], ['move_type', '=', 'out_refund']]])
+                            [['invoice_origin', '=', inv_origin_name], ['move_type', '=', 'out_refund'], ['state', 'not ilike', 'cancel']]])
                         if not existing_credit_note:
                             try:
                                 # Busca la órden de venta
@@ -1224,7 +1224,7 @@ def reverse_invoice_partial_glo_amz():
                         # --------------------------AGREGAR CONDICIONAL PARA SABER SI TIENE NOTA DE CREDITO--------------------------
                         # Validamos si la SO ya tiene una nota de crédito creada
                         existing_credit_note = models.execute_kw(db_name, uid, password, 'account.move', 'search', [
-                            [['invoice_origin', '=', inv_origin_name], ['move_type', '=', 'out_refund']]])
+                            [['invoice_origin', '=', inv_origin_name], ['move_type', '=', 'out_refund'], ['state', 'not ilike', 'cancel']]])
                         if not existing_credit_note:
                             try:
                                 # Busca la órden de venta

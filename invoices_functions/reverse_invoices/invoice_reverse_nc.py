@@ -8,28 +8,28 @@ from email import encoders
 from tqdm import tqdm
 import time
 import json
-import jsonrpc
-import jsonrpclib
-import random
-import urllib.request
-import getpass
-import http
-import requests
-import logging
-import zipfile
-import socket
+# import jsonrpc
+# import jsonrpclib
+# import random
+# import urllib.request
+# import getpass
+# import http
+# import requests
+# import logging
+# import zipfile
+# import socket
 import os
 import locale
 import xmlrpc.client
 import base64
 import openpyxl
-import xlrd
-import pandas as pd
-import MySQLdb
+# import xlrd
+# import pandas as pd
+# import MySQLdb
 import mysql.connector
 import smtplib
-import ssl
-import email
+# import ssl
+# import email
 import datetime
 
 print('================================================================')
@@ -42,7 +42,7 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 print('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
 #Archivo de configuración - Use config_dev.json si está haciendo pruebas
 #Archivo de configuración - Use config.json cuando los cambios vayan a producción
-config_file_name = r'C:\Users\WonderBrandsWonderBr\Documents\repo tech\wb_odoo_external_api\config\config.json'
+config_file_name = r'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Repos\wb_odoo_external_api\config\config_dev.json'
 l10n_mx_edi_payment_method_id = 3
 l10n_mx_edi_usage = 'G02'
 
@@ -117,14 +117,14 @@ def reverse_invoice_meli():
                                    FROM somos_reyes.ml_order_payments a
                                    LEFT JOIN somos_reyes.ml_order_update b
                                    ON a.order_id = b.order_id
-                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2024-01-29' AND date(payment_date_last_modified) <= '2024-01-31'
+                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-20'
                                    GROUP BY 1) d
                         ON c.channel_order_id = d.order_id
                         LEFT JOIN (SELECT a.pack_id, max(payment_date_last_modified) 'payment_date_last_modified', SUM(b.paid_amt) 'paid_amt', SUM(b.refunded_amt) 'refunded_amt', SUM(shipping_amt) 'shipping_amt'
                         FROM somos_reyes.ml_order_update a
                         LEFT JOIN somos_reyes.ml_order_payments b
                         ON a.order_id = b.order_id
-                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2024-01-29' AND date(payment_date_last_modified) <= '2024-01-31'
+                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-20'
                         GROUP BY 1) dd
                         ON c.yuju_pack_id = dd.pack_id
                         LEFT JOIN (SELECT distinct invoice_origin FROM somos_reyes.odoo_new_account_move_aux WHERE name like '%RINV%') e
@@ -134,7 +134,8 @@ def reverse_invoice_meli():
                         AND ((ifnull(d.refunded_amt, dd.refunded_amt) - b.amount_total < 1 AND ifnull(d.refunded_amt, dd.refunded_amt) - b.amount_total > -1)
                         OR (ifnull(d.refunded_amt - d.shipping_amt, dd.refunded_amt - dd.shipping_amt) - b.amount_total < 1
                         AND ifnull(d.refunded_amt - d.shipping_amt, dd.refunded_amt - dd.shipping_amt) - b.amount_total > -1))
-                        AND c.name in ('SO2703828', 'SO2672315');""")
+                        AND c.name in ('SO2717395','SO2739180','SO2702693','SO2702693','SO2701295','SO2759687','SO2692919','SO2757487');
+                        """)
     invoice_records = mycursor.fetchall()
     # Lista de SO a las que se les creó una credit_notes
     so_modified = []
@@ -299,9 +300,9 @@ def reverse_invoice_meli():
                 '''
         # Define remitente y destinatario
         msg = MIMEMultipart()
-        msg['From'] = 'eric@wonderbrands.co'
+        msg['From'] = 'sergio@wonderbrands.co'
         msg['To'] = ', '.join(
-            ['eric@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co', 'greta@somos-reyes.com',
+            ['sergio@wonderbrands.co', 'eric@wonderbrands.co','rosalba@wonderbrands.co', 'natalia@wonderbrands.co', 'greta@somos-reyes.com',
              'contabilidad@somos-reyes.com', 'alex@wonderbrands.co', 'will@wonderbrands.co'])
         msg['Subject'] = 'Script Automático Meli - Creación de notas de crédito para facturas individuales'
         # Adjuntar el cuerpo del correo
@@ -385,14 +386,14 @@ def reverse_invoice_global_meli():
                                    FROM somos_reyes.ml_order_payments a
                                    LEFT JOIN somos_reyes.ml_order_update b
                                    ON a.order_id = b.order_id
-                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2024-01-29' AND date(payment_date_last_modified) <= '2024-01-31'
+                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-20'
                                    GROUP BY 1) d
                         ON c.channel_order_id = d.order_id
                         LEFT JOIN (SELECT a.pack_id, max(payment_date_last_modified) 'payment_date_last_modified', SUM(b.paid_amt) 'paid_amt', SUM(b.refunded_amt) 'refunded_amt', SUM(shipping_amt) 'shipping_amt'
                         FROM somos_reyes.ml_order_update a
                         LEFT JOIN somos_reyes.ml_order_payments b
                         ON a.order_id = b.order_id
-                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2024-01-29' AND date(payment_date_last_modified) <= '2024-01-31'
+                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-20'
                         GROUP BY 1) dd
                         ON c.yuju_pack_id = dd.pack_id
                         LEFT JOIN (SELECT distinct invoice_origin FROM somos_reyes.odoo_new_account_move_aux WHERE name like '%RINV%') e
@@ -405,7 +406,7 @@ def reverse_invoice_global_meli():
                         AND ((ifnull(d.refunded_amt, dd.refunded_amt) - c.amount_total < 1 AND ifnull(d.refunded_amt, dd.refunded_amt) - c.amount_total > -1)
                         OR (ifnull(d.refunded_amt - d.shipping_amt, dd.refunded_amt - dd.shipping_amt) - c.amount_total < 1
                         AND ifnull(d.refunded_amt - d.shipping_amt, dd.refunded_amt - dd.shipping_amt) - c.amount_total > -1))
-                        AND c.name in ('SO2727230', 'SO2711694', 'SO2713033', 'SO2726345', 'SO2708334', 'SO2719589', 'SO2691083', 'SO2719489', 'SO2719814', 'SO2714258', 'SO2725665', 'SO2721924', 'SO2693881', 'SO2698415', 'SO2726631', 'SO2725746', 'SO2723233', 'SO2709990', 'SO2721567', 'SO2723335', 'SO2724112', 'SO2716224', 'SO2723654', 'SO2698362', 'SO2680231', 'SO2694063', 'SO2673970', 'SO2701776', 'SO2729255', 'SO2707857', 'SO2714103', 'SO2718312', 'SO2701616', 'SO2694855', 'SO2722278', 'SO2714098', 'SO2705684', 'SO2650746', 'SO2703602', 'SO2657828', 'SO2654923', 'SO2714841', 'SO2685253', 'SO2700199', 'SO2700684', 'SO2723402', 'SO2633151', 'SO2689538', 'SO2726309', 'SO2716771', 'SO2661731', 'SO2712824', 'SO2719737', 'SO2723892', 'SO2719783', 'SO2727151', 'SO2722192', 'SO2718131', 'SO2712287', 'SO2714675', 'SO2686943', 'SO2654574', 'SO2727185', 'SO2665511', 'SO2681348', 'SO2664151', 'SO2720850', 'SO2682894', 'SO2726151', 'SO2710916', 'SO2713401', 'SO2692529', 'SO2714685', 'SO2720341', 'SO2709028', 'SO2690141', 'SO2725447', 'SO2717912', 'SO2702520', 'SO2702671', 'SO2715553', 'SO2724218', 'SO2729513', 'SO2730802', 'SO2724410', 'SO2692869', 'SO2689757', 'SO2709612', 'SO2724908', 'SO2723739', 'SO2691796', 'SO2697779', 'SO2722151', 'SO2716734', 'SO2725406', 'SO2711741', 'SO2691009', 'SO2695070', 'SO2707158');""")
+                        AND c.name in ('SO2646222','SO2702178','SO2727403','SO2678796','SO2681424','SO2714247','SO2657536','SO2697825','SO2720890','SO2721824','SO2717132','SO2672329','SO2716119','SO2716397','SO2724185','SO2681420','SO2717888','SO2729106','SO2671491','SO2696179','SO2689301','SO2729444','SO2722209','SO2683608','SO2711921','SO2726656','SO2713965','SO2724329','SO2714292','SO2666280','SO2727877','SO2685273','SO2669597','SO2730772','SO2722823','SO2718841','SO2725509','SO2724675','SO2720639','SO2722749','SO2729169','SO2667270','SO2732777','SO2707768','SO2721412','SO2716474','SO2702727','SO2719911','SO2722320','SO2710455','SO2721100','SO2654824','SO2721368','SO2658169','SO2722552','SO2708678','SO2719206','SO2719475','SO2713046','SO2711473','SO2688032','SO2678431','SO2714409','SO2701488','SO2695622','SO2725094','SO2717459','SO2689933','SO2700920','SO2693966','SO2726877','SO2718608','SO2660321','SO2720985','SO2694810','SO2708174','SO2720671','SO2725603','SO2728300','SO2732936','SO2696545','SO2720595','SO2726265','SO2717240','SO2716989','SO2712130','SO2698518','SO2713290','SO2705995','SO2722021','SO2680133','SO2710551','SO2665581','SO2724233','SO2682648','SO2729065','SO2721202','SO2733249','SO2693057','SO2712793','SO2725167','SO2716221','SO2711324','SO2722325','SO2717720','SO2716176','SO2728965','SO2689881','SO2662094','SO2711062','SO2642551','SO2680024','SO2694332','SO2704694','SO2694602','SO2706966','SO2714009','SO2665023','SO2719718','SO2726949','SO2726481','SO2701949','SO2711123','SO2726642','SO2726268','SO2717789','SO2715149','SO2704992','SO2714449','SO2677369','SO2689500','SO2730136','SO2715297','SO2691987','SO2658491','SO2701440','SO2724016','SO2727433','SO2697963','SO2694069','SO2723754','SO2721059','SO2694154','SO2732946','SO2676611','SO2679099','SO2706237','SO2720952','SO2719793','SO2712567','SO2678910','SO2695748','SO2706067','SO2726683','SO2727710','SO2718432','SO2724226','SO2720745');""")
     invoice_records = mycursor.fetchall()
     #Lista de SO a las que se les creó una credit_notes
     so_modified = []
@@ -599,9 +600,9 @@ def reverse_invoice_global_meli():
                 '''
         # Define remitente y destinatario
         msg = MIMEMultipart()
-        msg['From'] = 'eric@wonderbrands.co'
+        msg['From'] = 'sergio@wonderbrands.co'
         msg['To'] = ', '.join(
-            ['eric@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co',
+            ['sergio@wonderbrands.co', 'eric@wonderbrands.co','rosalba@wonderbrands.co', 'natalia@wonderbrands.co',
              'greta@somos-reyes.com',
              'contabilidad@somos-reyes.com', 'alex@wonderbrands.co', 'will@wonderbrands.co'])
         msg['Subject'] = 'Script Automático Meli - Creación de notas de crédito para facturas globales'
@@ -854,9 +855,9 @@ def reverse_invoice_amazon():
                 '''
         # Define remitente y destinatario
         msg = MIMEMultipart()
-        msg['From'] = 'eric@wonderbrands.co'
+        msg['From'] = 'sergio@wonderbrands.co'
         msg['To'] = ', '.join(
-            ['eric@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co', 'greta@somos-reyes.com',
+            ['sergio@wonderbrands.co', 'eric@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co', 'greta@somos-reyes.com',
              'contabilidad@somos-reyes.com', 'alex@wonderbrands.co', 'will@wonderbrands.co'])
         msg['Subject'] = 'Script Automático Amazon - Creación de notas de crédito para facturas individuales'
         # Adjuntar el cuerpo del correo
@@ -938,7 +939,7 @@ def reverse_invoice_global_amazon():
                         ON SUBSTRING_INDEX(SUBSTRING_INDEX(invoice_ids, ']', 1), '[', -1) = b.id
                         LEFT JOIN (SELECT a.order_id, max(STR_TO_DATE(fecha, '%d/%m/%Y')) 'refund_date', SUM(total - tarifas_de_amazon) * (-1) 'refunded_amt'
                                    FROM somos_reyes.amazon_payments_refunds a
-                                   WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%d/%m/%Y') >= '2024-01-01' AND STR_TO_DATE(fecha, '%d/%m/%Y') <= '2024-01-28'
+                                   WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%d/%m/%Y') >= '2024-02-01' AND STR_TO_DATE(fecha, '%d/%m/%Y') <= '2024-02-20'
                                    GROUP BY 1) d
                         ON c.channel_order_id = d.order_id
                         LEFT JOIN (SELECT distinct invoice_origin FROM somos_reyes.odoo_new_account_move_aux WHERE name like '%RINV%') e
@@ -948,7 +949,7 @@ def reverse_invoice_global_amazon():
                         AND invoice_partner_display_name = 'PÚBLICO EN GENERAL'
                         AND (d.refunded_amt - b.amount_total > 1 OR d.refunded_amt - b.amount_total < -1)
                         AND d.refunded_amt - c.amount_total < 1 AND d.refunded_amt - c.amount_total > -1
-                        AND c.name in ('SO2614256', 'SO2342565', 'SO2700541', 'SO2651144', 'SO2696317', 'SO2566495', 'SO2488709', 'SO2631456', 'SO2658110', 'SO2636678', 'SO2672488', 'SO2565635', 'SO2692138', 'SO2585480', 'SO2552457', 'SO2548088', 'SO2652836', 'SO2692205', 'SO2634096', 'SO2549413', 'SO2559269', 'SO2656335', 'SO2643971', 'SO2663938', 'SO2652313', 'SO2639200', 'SO2658622', 'SO2528922', 'SO2538926', 'SO2655916', 'SO2692638', 'SO2487188', 'SO2654803', 'SO2618717', 'SO2569056', 'SO2678074', 'SO2676311', 'SO2668507', 'SO2643674', 'SO2653416', 'SO2632464', 'SO2664062', 'SO2664985', 'SO2593983', 'SO2607754', 'SO2620280', 'SO2629852', 'SO2674879', 'SO2594784', 'SO2349602', 'SO2674379', 'SO2593451', 'SO2642702', 'SO2587390', 'SO2578190', 'SO2670318', 'SO2676140', 'SO2657163', 'SO2625054', 'SO2653477', 'SO2522953', 'SO2687131', 'SO2648296', 'SO2592700', 'SO2651745', 'SO2556930', 'SO2651040', 'SO2553083', 'SO2654908', 'SO2593645', 'SO2688308', 'SO2600658', 'SO2558931', 'SO2626323', 'SO2493190', 'SO2642257', 'SO2641380', 'SO2640015', 'SO2585942', 'SO2587664', 'SO2638972', 'SO2700005', 'SO2667102', 'SO2554711', 'SO2680174', 'SO2553149', 'SO2671287', 'SO2654739', 'SO2611597', 'SO2684096', 'SO2528919', 'SO2652930', 'SO2643401', 'SO2581078', 'SO2696021', 'SO2650898', 'SO2690489', 'SO2619239', 'SO2632024', 'SO2632046', 'SO2625349', 'SO2552395', 'SO2631570', 'SO2512320', 'SO2690483', 'SO2576792', 'SO2706004', 'SO2602276', 'SO2673343', 'SO2644828', 'SO2694253', 'SO2600550', 'SO2696256', 'SO2562109', 'SO2659277', 'SO2571880', 'SO2561857', 'SO2596089', 'SO2637911', 'SO2681630', 'SO2657984', 'SO2597705', 'SO2549623', 'SO2565041', 'SO2563014', 'SO2610646', 'SO2640778', 'SO2592307', 'SO2652025', 'SO2674880', 'SO2558367', 'SO2550639', 'SO2690349', 'SO2593761', 'SO2660086', 'SO2558978', 'SO2651184', 'SO2702253', 'SO2652254', 'SO2678106', 'SO2618627', 'SO2565632', 'SO2643345', 'SO2632465', 'SO2676894', 'SO2659315', 'SO2679495', 'SO2552857', 'SO2653060', 'SO2585511', 'SO2653794', 'SO2597666', 'SO2616783', 'SO2671824', 'SO2609621', 'SO2566139', 'SO2553154', 'SO2494002', 'SO2696107', 'SO2697844', 'SO2650635', 'SO2654597', 'SO2618486', 'SO2658614', 'SO2548282', 'SO2624700', 'SO2605600', 'SO2661261', 'SO2564175', 'SO2600911', 'SO2674661', 'SO2566475', 'SO2693181', 'SO2553155', 'SO2683633', 'SO2649774', 'SO2677217', 'SO2660084', 'SO2635316', 'SO2652451', 'SO2573448', 'SO2660714', 'SO2610068', 'SO2658064', 'SO2658965', 'SO2553151', 'SO2653133', 'SO2622367', 'SO2550986', 'SO2656912', 'SO2669730', 'SO2710357', 'SO2683057', 'SO2603249', 'SO2658943', 'SO2661542', 'SO2655164', 'SO2557836', 'SO2628697', 'SO2642156', 'SO2701305', 'SO2688307', 'SO2656364', 'SO2582343', 'SO2685947', 'SO2560715', 'SO2535216', 'SO2654385', 'SO2552416', 'SO2679498', 'SO2624846', 'SO2634581', 'SO2639207', 'SO2632094', 'SO2554556', 'SO2634021', 'SO2648287', 'SO2597479', 'SO2655096', 'SO2567833', 'SO2507228', 'SO2709296', 'SO2690340', 'SO2624620', 'SO2661161', 'SO2552450', 'SO2524091', 'SO2543336', 'SO2575467', 'SO2688276', 'SO2562197', 'SO2610771', 'SO2523135', 'SO2652291', 'SO2632986', 'SO2653290', 'SO2658623', 'SO2691348', 'SO2600020', 'SO2570888', 'SO2677841', 'SO2683831', 'SO2679235', 'SO2627625', 'SO2652567', 'SO2646604', 'SO2524256', 'SO2689194', 'SO2545482', 'SO2676077', 'SO2684146', 'SO2602509', 'SO2684558', 'SO2657879', 'SO2540866', 'SO2674259', 'SO2659333', 'SO2558715', 'SO2671825', 'SO2691304', 'SO2656852', 'SO2636762', 'SO2657301', 'SO2643502', 'SO2692979', 'SO2628031', 'SO2633991', 'SO2609070', 'SO2619526', 'SO2555707', 'SO2684848', 'SO2600297', 'SO2653335', 'SO2640937', 'SO2614400', 'SO2656668', 'SO2676475', 'SO2678168', 'SO2683815', 'SO2641480', 'SO2681814', 'SO2513347', 'SO2677090', 'SO2664436', 'SO2652679');
+                        AND c.name in ('SO2700649','SO2691291','SO2635766','SO2658397','SO2621256','SO2716114','SO2711526','SO2698661','SO2714056','SO2667523','SO2683828','SO2574361','SO2654222','SO2707256','SO2675687','SO2681143','SO2687693','SO2656184','SO2545144','SO2624892','SO2715558','SO2690358','SO2706638','SO2522917','SO2704380','SO2690474','SO2668983','SO2687551','SO2717742','SO2687594','SO2637831','SO2685970','SO2662130','SO2644278','SO2712230','SO2573608','SO2577159','SO2612449','SO2656818','SO2662763','SO2695695','SO2717042','SO2639767','SO2714581','SO2719045','SO2670105','SO2655860','SO2706293','SO2558152','SO2569991','SO2571417','SO2686058','SO2612474','SO2699487','SO2555600','SO2717208','SO2613723','SO2663544','SO2706059','SO2704240','SO2676879','SO2668590','SO2689089','SO2699438','SO2700672','SO2728117','SO2644001','SO2638741','SO2703714','SO2565768','SO2727913','SO2649719','SO2701074','SO2687148','SO2649733','SO2703066','SO2715408','SO2711231','SO2706619','SO2675943','SO2713077','SO2583349','SO2592911','SO2698192','SO2578502','SO2689660','SO2693316','SO2635042','SO2683693','SO2685055','SO2731768','SO2629623','SO2659383','SO2677182','SO2686826','SO2699057','SO2725814','SO2583446','SO2548520','SO2733522','SO2571562','SO2686187','SO2661540','SO2688278','SO2691667','SO2731217','SO2590297','SO2689521','SO2712404','SO2648185','SO2715045','SO2558811','SO2598250','SO2691155','SO2693679','SO2582298','SO2724092','SO2558889','SO2696560','SO2688115','SO2620484','SO2705448','SO2590891','SO2658011','SO2671089','SO2674233','SO2642116','SO2702483','SO2658598','SO2660893','SO2716296','SO2591382','SO2587809');
                         """)
     invoice_records = mycursor.fetchall()
     #Lista de SO a las que se les creó una credit_notes
@@ -1139,9 +1140,9 @@ def reverse_invoice_global_amazon():
                 '''
         # Define remitente y destinatario
         msg = MIMEMultipart()
-        msg['From'] = 'eric@wonderbrands.co'
+        msg['From'] = 'sergio@wonderbrands.co'
         msg['To'] = ', '.join(
-            ['eric@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co',
+            ['sergio@wonderbrands.co', 'eric@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co',
              'greta@somos-reyes.com',
              'contabilidad@somos-reyes.com', 'alex@wonderbrands.co', 'will@wonderbrands.co'])
         msg['Subject'] = 'Script Automático Amazon - Creación de notas de crédito para facturas globales'
@@ -1175,7 +1176,7 @@ if __name__ == "__main__":
     reverse_invoice_meli()
     #reverse_invoice_amazon()
     reverse_invoice_global_meli()
-    #reverse_invoice_global_amazon()
+    reverse_invoice_global_amazon()
     end_time = datetime.datetime.now()
     duration = end_time - today_date
     print(f'Duraciòn del script: {duration}')

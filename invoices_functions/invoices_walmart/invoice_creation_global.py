@@ -9,12 +9,12 @@ from tqdm import tqdm
 import time
 import json
 import jsonrpc
-import jsonrpclib
+#import jsonrpclib
 import random
 import urllib.request
 import getpass
 import http
-import requests
+# import requests
 import logging
 import zipfile
 import socket
@@ -23,7 +23,7 @@ import locale
 import xmlrpc.client
 import base64
 import openpyxl
-import xlrd
+# import xlrd
 import pandas as pd
 import MySQLdb
 import mysql.connector
@@ -42,7 +42,7 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 print('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
 #Archivo de configuración - Use config_dev.json si está haciendo pruebas
 #Archivo de configuración - Use config.json cuando los cambios vayan a producción
-config_file_name = r'C:\Dev\wb_odoo_external_api\config\config.json'
+config_file_name = r'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Repos\wb_odoo_external_api\config\config_dev.json'
 
 def get_odoo_access():
     with open(config_file_name, 'r') as config_file:
@@ -110,7 +110,7 @@ def invoice_create_global():
     #                    GROUP BY txn_id
     #                    ORDER BY out_timestamp_local asc
     #                    limit 10""")
-    excel_file_path = r'C:\Dev\wb_odoo_external_api\invoices_functions\files\invoices\so_invoices.xlsx'
+    excel_file_path = r'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Repos\wb_odoo_external_api\invoices_functions\files\invoices\so_invoices.xlsx'
     sale_file = pd.read_excel(excel_file_path, usecols=['so_name'])
     sales_order_records = sale_file['so_name'].tolist()
     #sales_order_records = mycursor.fetchall()
@@ -257,8 +257,8 @@ def invoice_create_global():
     print('Definiendo remitente y destinatarios')
     print('----------------------------------------------------------------')
     msg = MIMEMultipart()
-    msg['From'] = 'Tech anibal@wonderbrands.co'
-    msg['To'] = ', '.join(['anibal@wonderbrands.co','rosalba@wonderbrands.co','natalia@wonderbrands.co','greta@somos-reyes.com','contabilidad@somos-reyes.com','alex@wonderbrands.co','will@wonderbrands.co'])
+    msg['From'] = 'sergio@wonderbrands.co'
+    msg['To'] = ', '.join(['eric@wonderbrands.co','rosalba@wonderbrands.co','natalia@wonderbrands.co','greta@somos-reyes.com','contabilidad@somos-reyes.com','alex@wonderbrands.co','will@wonderbrands.co'])
     msg['Subject'] = 'Resultados de facturas Walmart'
     # Adjuntar el cuerpo del correo
     msg.attach(MIMEText(body, 'html'))
@@ -272,8 +272,8 @@ def invoice_create_global():
     #Define variables del servidor de correo
     smtp_server = 'smtp.gmail.com'
     smtp_port = 587
-    smtp_username = 'anibal@wonderbrands.co'
-    smtp_password = 'iwvrlrxkiydxueer'
+    smtp_username = 'sergio@wonderbrands.co'
+    smtp_password = 'lwbwgygovuhcyjnk'
     print('Enviando correo con listas de ordenes y factura')
     print('----------------------------------------------------------------')
     try:

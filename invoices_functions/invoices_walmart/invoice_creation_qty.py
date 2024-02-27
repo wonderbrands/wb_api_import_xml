@@ -9,12 +9,12 @@ from tqdm import tqdm
 import time
 import json
 import jsonrpc
-import jsonrpclib
+#import jsonrpclib
 import random
 import urllib.request
 import getpass
 import http
-import requests
+#import requests
 import logging
 import zipfile
 import socket
@@ -23,7 +23,7 @@ import locale
 import xmlrpc.client
 import base64
 import openpyxl
-import xlrd
+#import xlrd
 import pandas as pd
 import MySQLdb
 import mysql.connector
@@ -42,7 +42,7 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 print('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
 #Archivo de configuración - Use config_dev.json si está haciendo pruebas
 #Archivo de configuración - Use config.json cuando los cambios vayan a producción
-config_file_name = r'C:\Dev\wb_odoo_external_api\config\config.json'
+config_file_name = r'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Repos\wb_odoo_external_api\config\config_dev.json'
 
 def get_odoo_access():
     with open(config_file_name, 'r') as config_file:
@@ -238,7 +238,7 @@ def invoice_create_qty():
                                         file_name = xml_files[value_position] #utliza la posición que asignamos anteriormente
                                         file_date = xml_files[value_position_date] #utliza la posición que asignamos anteriormente
                                         file_name_mayus = file_name.upper() #Pone en mayúsculas el nombre del XML
-                                        invoices_folder = 'G:/Mi unidad/xml_sr_mkp_invoices/diciembre/' #carpeta en la que se encuentran los xmls
+                                        invoices_folder = 'G:/.shortcut-targets-by-id/1vsZk0-0Cd1FnEKNQlXzq3EuSgg6ZRgtP/2024/202402' #carpeta en la que se encuentran los xmls
                                         xml_file = file_name + '.xml'
                                         xml_file_path = os.path.join(invoices_folder, xml_file)
                                         with open(xml_file_path, 'rb') as f:

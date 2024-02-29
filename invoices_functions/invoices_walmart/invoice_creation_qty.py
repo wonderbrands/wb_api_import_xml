@@ -97,7 +97,7 @@ def invoice_create_qty():
                         from finance.sr_sat_emitidas a
                         left join somos_reyes.odoo_new_sale_order b
                         on a.folio = b.channel_order_reference
-                        WHERE extract(year_month from a.fecha) = 202312
+                        WHERE extract(year_month from a.fecha) = 202402
                             and b.channel like '%walmart%' 
                             and b.team_name like '%walmart%'
                             and b.state not in ('draft','sent','cancel')
@@ -547,8 +547,8 @@ def invoice_create_qty():
     print('Definiendo remitente y destinatarios')
     print('----------------------------------------------------------------')
     msg = MIMEMultipart()
-    msg['From'] = 'Tech anibal@wonderbrands.co'
-    msg['To'] = ', '.join(['anibal@wonderbrands.co','rosalba@wonderbrands.co','natalia@wonderbrands.co','greta@somos-reyes.com','contabilidad@somos-reyes.com','alex@wonderbrands.co','will@wonderbrands.co'])
+    msg['From'] = 'sergio@wonderbrands.co'
+    msg['To'] = ', '.join(['sergio@wonderbrands.co', 'eric@wonderbrands.co', 'rosalba@wonderbrands.co','natalia@wonderbrands.co','greta@somos-reyes.com','contabilidad@somos-reyes.com','alex@wonderbrands.co','will@wonderbrands.co'])
     msg['Subject'] = 'Cierre de facturación de órdenes autofacturadas - Walmart'
     # Adjuntar el cuerpo del correo
     msg.attach(MIMEText(body, 'html'))
@@ -562,8 +562,8 @@ def invoice_create_qty():
     #Define variables del servidor de correo
     smtp_server = 'smtp.gmail.com'
     smtp_port = 587
-    smtp_username = 'anibal@wonderbrands.co'
-    smtp_password = 'iwvrlrxkiydxueer'
+    smtp_username = 'sergio@wonderbrands.co'
+    smtp_password = 'lwbwgygovuhcyjnk'
     print('Enviando correo con listas de ordenes y facturas')
     print('----------------------------------------------------------------')
     try:

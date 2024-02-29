@@ -125,7 +125,7 @@ def reverse_invoice_partial_ind_meli():
                                    FROM ml_order_payments a
                                    LEFT JOIN ml_order_update b
                                    ON a.order_id = b.order_id
-                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-20'
+                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-27'
                                    GROUP BY 1, 2
                                    ) d
                         ON c.channel_order_id = d.order_id
@@ -140,7 +140,7 @@ def reverse_invoice_partial_ind_meli():
                         FROM ml_order_update a
                         LEFT JOIN ml_order_payments b
                         ON a.order_id = b.order_id
-                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-20'
+                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-27'
                         GROUP BY 1, 2
                         ) dd
                         ON c.yuju_pack_id = dd.pack_id
@@ -162,7 +162,7 @@ def reverse_invoice_partial_ind_meli():
                                    FROM ml_order_payments a
                                    LEFT JOIN ml_order_update b
                                    ON a.order_id = b.order_id
-                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-20'
+                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-27'
                                    GROUP BY 1) t
                         ON c.channel_order_id = t.order_id
                         
@@ -172,7 +172,7 @@ def reverse_invoice_partial_ind_meli():
                         FROM ml_order_update a
                         LEFT JOIN ml_order_payments b
                         ON a.order_id = b.order_id
-                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-20'
+                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-27'
                         GROUP BY 1
                         ) tt
                         ON c.yuju_pack_id = tt.pack_id
@@ -484,7 +484,7 @@ def reverse_invoice_partial_glob_meli():
                                    FROM ml_order_payments a
                                    LEFT JOIN ml_order_update b
                                    ON a.order_id = b.order_id
-                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-20'
+                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-27'
                                    GROUP BY 1, 2
                                    ) d
                         ON c.channel_order_id = d.order_id
@@ -498,7 +498,7 @@ def reverse_invoice_partial_glob_meli():
                         FROM ml_order_update a
                         LEFT JOIN ml_order_payments b
                         ON a.order_id = b.order_id
-                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-20'
+                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-27'
                         GROUP BY 1, 2
                         ) dd
                         ON c.yuju_pack_id = dd.pack_id
@@ -517,7 +517,7 @@ def reverse_invoice_partial_glob_meli():
                                    FROM ml_order_payments a
                                    LEFT JOIN ml_order_update b
                                    ON a.order_id = b.order_id
-                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2024-01-01' AND date(payment_date_last_modified) <= '2024-01-28'
+                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-27'
                                    GROUP BY 1) t
                         ON c.channel_order_id = t.order_id
                         

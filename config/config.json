@@ -6,15 +6,15 @@
     "odoourl": "https://wonderbrands.odoo.com"
   },
   "psql": {
-    "dbuser": "anibal",
-    "dbpassword": "Tuy0TEZOcXAwBgtb",
+    "dbuser": "sergio",
+    "dbpassword": "wxJ6TQA#ZU&k3Dzy",
     "dbhost": "wonderbrands1.cuwd36ifbz5t.us-east-1.rds.amazonaws.com",
     "database": "somos_reyes"
   },
   "email": {
     "smtp_server": "smtp.gmail.com",
     "smtp_port": 587,
-    "smtp_username": "anibal@wonderbrands.co",
-    "smtp_password": "iwvrlrxkiydxueer"
+    "smtp_username": "sergio@wonderbrands.co",
+    "smtp_password": "lwbwgygovuhcyjnk"
   }
 }

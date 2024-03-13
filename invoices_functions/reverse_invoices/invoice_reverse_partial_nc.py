@@ -42,7 +42,7 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 print('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
 #Archivo de configuración - Use config_dev.json si está haciendo pruebas
 #Archivo de configuración - Use config.json cuando los cambios vayan a producción
-config_file_name = r'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Repos\wb_odoo_external_api\config\config_dev.json'
+config_file_name = r'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Repos\wb_odoo_external_api\config\config.json'
 l10n_mx_edi_payment_method_id = 3
 l10n_mx_edi_usage = 'G02'
 
@@ -527,7 +527,7 @@ def reverse_invoice_partial_glob_meli():
                         FROM ml_order_update a
                         LEFT JOIN ml_order_payments b
                         ON a.order_id = b.order_id
-                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2024-01-01' AND date(payment_date_last_modified) <= '2024-01-28'
+                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-27'
                         GROUP BY 1
                         ) tt
                         ON c.yuju_pack_id = tt.pack_id
@@ -539,7 +539,7 @@ def reverse_invoice_partial_glob_meli():
                         AND (b.amount_total - c.amount_total > 1 OR b.amount_total - c.amount_total < (-1))
                         AND f.order_name is not null
                         AND ROUND(ifnull(d.refunded_amt, dd.refunded_amt) / unit_price, 2) in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)
-                        AND c.name in ('SO2649974', 'SO2661408', 'SO2653768', 'SO2623199', 'SO2639398', 'SO2662042', 'SO2629923', 'SO2589416', 'SO2548769', 'SO2659246', 'SO2653594', 'SO2637824', 'SO2647106', 'SO2646038', 'SO2650968', 'SO2664063')
+                        AND c.name in ('SO2701233')
                         """)
     invoice_records = mycursor.fetchall()
     # Lista de SO a las que se les creó una credit_notes
@@ -1157,7 +1157,7 @@ def reverse_invoice_partial_glo_amz():
                         ON SUBSTRING_INDEX(SUBSTRING_INDEX(invoice_ids, ']', 1), '[', -1) = b.id
                         LEFT JOIN (SELECT a.order_id, max(STR_TO_DATE(fecha, '%d/%m/%Y')) 'refund_date', SUM(total - tarifas_de_amazon) * (-1) 'refunded_amt'
                                    FROM somos_reyes.amazon_payments_refunds a
-                                   WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%d/%m/%Y') >= '2024-02-01' AND STR_TO_DATE(fecha, '%d/%m/%Y') <= '2024-02-20'
+                                   WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%d/%m/%Y') >= '2024-02-01' AND STR_TO_DATE(fecha, '%d/%m/%Y') <= '2024-02-27'
                                    GROUP BY 1) d
                         ON c.channel_order_id = d.order_id
                         LEFT JOIN (SELECT distinct invoice_origin FROM odoo_new_account_move_aux WHERE name like '%RINV%') e
@@ -1175,7 +1175,7 @@ def reverse_invoice_partial_glo_amz():
                         AND (b.amount_total - c.amount_total > 1 OR b.amount_total - c.amount_total < (-1))
                         AND f.order_name is not null
                         AND ROUND(d.refunded_amt / unit_price, 2) in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)
-                        AND c.name in ('SO2649094','SO2730404');
+                        AND c.name in ('SO2649094','SO2715970','SO2730404');
                         """)
     invoice_records = mycursor.fetchall()
     # Lista de SO a las que se les creó una credit_notes
@@ -1421,8 +1421,8 @@ def reverse_invoice_partial_glo_amz():
     mydb.close()
 
 if __name__ == "__main__":
-    reverse_invoice_partial_ind_meli()
-    #reverse_invoice_partial_glob_meli()
+    #reverse_invoice_partial_ind_meli()
+    reverse_invoice_partial_glob_meli()
     #reverse_invoice_partial_ind_amz()
     reverse_invoice_partial_glo_amz()
     end_time = datetime.datetime.now()

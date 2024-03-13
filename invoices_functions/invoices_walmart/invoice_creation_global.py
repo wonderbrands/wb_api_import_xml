@@ -42,7 +42,7 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 print('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
 #Archivo de configuración - Use config_dev.json si está haciendo pruebas
 #Archivo de configuración - Use config.json cuando los cambios vayan a producción
-config_file_name = r'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Repos\wb_odoo_external_api\config\config_dev.json'
+config_file_name = r'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Repos\wb_odoo_external_api\config\config.json'
 
 def get_odoo_access():
     with open(config_file_name, 'r') as config_file:
@@ -59,7 +59,7 @@ def get_email_access():
         config = json.load(config_file)
 
     return config['email']
-def invoice_create_global():
+def invoice_create_global(excel_file_path):
     # Obtener credenciales
     odoo_keys = get_odoo_access()
     psql_keys = get_psql_access()
@@ -110,7 +110,7 @@ def invoice_create_global():
     #                    GROUP BY txn_id
     #                    ORDER BY out_timestamp_local asc
     #                    limit 10""")
-    excel_file_path = r'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Repos\wb_odoo_external_api\invoices_functions\files\invoices\so_invoices.xlsx'
+    #excel_file_path = r'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Repos\wb_odoo_external_api\invoices_functions\files\invoices\so_invoices.xlsx'
     sale_file = pd.read_excel(excel_file_path, usecols=['so_name'])
     sales_order_records = sale_file['so_name'].tolist()
     #sales_order_records = mycursor.fetchall()
@@ -296,7 +296,25 @@ def invoice_create_global():
     smtpObj.quit()
 
 if __name__ == "__main__":
-    invoice_create_global()
+    invoice_create_global(r'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Repos\wb_odoo_external_api\invoices_functions\files\invoices\so_invoices.xlsx')
+    end_time = datetime.datetime.now()
+    duration = end_time - today_date
+    print(f'Duraciòn del script: {duration}')
+    print('Listo')
+    print('Este arroz ya se coció :)')
+
+    print('\n \n ********* Corrida 2 ********** \n \n')
+
+    invoice_create_global(r'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Repos\wb_odoo_external_api\invoices_functions\files\invoices\so_invoices2.xlsx')
+    end_time = datetime.datetime.now()
+    duration = end_time - today_date
+    print(f'Duraciòn del script: {duration}')
+    print('Listo')
+    print('Este arroz ya se coció :)')
+
+    print('\n \n ********* Corrida 3 ********** \n \n')
+
+    invoice_create_global(r'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Repos\wb_odoo_external_api\invoices_functions\files\invoices\so_invoices3.xlsx')
     end_time = datetime.datetime.now()
     duration = end_time - today_date
     print(f'Duraciòn del script: {duration}')

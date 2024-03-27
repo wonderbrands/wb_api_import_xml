@@ -32,6 +32,8 @@ import smtplib
 # import email
 import datetime
 
+from Test import extract_orders as e_o
+
 print('================================================================')
 print('BIENVENIDO AL PROCESO DE NOTAS DE CRÉDITO PARA MARKETPLACES')
 print('================================================================')
@@ -42,9 +44,19 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 print('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
 #Archivo de configuración - Use config_dev.json si está haciendo pruebas
 #Archivo de configuración - Use config.json cuando los cambios vayan a producción
-config_file_name = r'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Repos\wb_odoo_external_api\config\config.json'
+config_file_name = r'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Repos\wb_odoo_external_api\config\config_dev.json'
 l10n_mx_edi_payment_method_id = 3
 l10n_mx_edi_usage = 'G02'
+
+#FECHAS DEL PERIODO
+start_date_str = datetime.date(2024, 3, 1).strftime("%Y-%m-%d")
+end_date_str = datetime.date(2024, 3, 19).strftime("%Y-%m-%d")
+month_executed = 'Marzo'
+
+#PATHS de los archivos de ordenes conciliadas
+orders_meli_file_path = 'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Finanzas/{}/Conciliadas/Notas_de_credito_parciales_ML.csv'.format(month_executed)
+orders_amz_file_path = 'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Finanzas/{}/Conciliadas/Notas_de_credito_parciales_AMZ.csv'.format(month_executed)
+
 
 def get_odoo_access():
     with open(config_file_name, 'r') as config_file:
@@ -62,6 +74,12 @@ def get_email_access():
 
     return config['email']
 def reverse_invoice_partial_ind_meli():
+    # Formato para query
+    type_filter = 'INDIVIDUAL'
+    marketplace_filter = 'MERCADO LIBRE'
+    list_orders, placeholders, num_records = e_o.filter_orders(orders_meli_file_path, type_filter, marketplace_filter)
+    dates_list_params = [start_date_str, end_date_str, start_date_str, end_date_str,start_date_str, end_date_str, start_date_str, end_date_str]
+
     # Obtener credenciales
     odoo_keys = get_odoo_access()
     psql_keys = get_psql_access()
@@ -125,7 +143,7 @@ def reverse_invoice_partial_ind_meli():
                                    FROM ml_order_payments a
                                    LEFT JOIN ml_order_update b
                                    ON a.order_id = b.order_id
-                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-27'
+                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= %s AND date(payment_date_last_modified) <= %s
                                    GROUP BY 1, 2
                                    ) d
                         ON c.channel_order_id = d.order_id
@@ -140,7 +158,7 @@ def reverse_invoice_partial_ind_meli():
                         FROM ml_order_update a
                         LEFT JOIN ml_order_payments b
                         ON a.order_id = b.order_id
-                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-27'
+                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= %s AND date(payment_date_last_modified) <= %s
                         GROUP BY 1, 2
                         ) dd
                         ON c.yuju_pack_id = dd.pack_id
@@ -162,7 +180,7 @@ def reverse_invoice_partial_ind_meli():
                                    FROM ml_order_payments a
                                    LEFT JOIN ml_order_update b
                                    ON a.order_id = b.order_id
-                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-27'
+                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= %s AND date(payment_date_last_modified) <= %s
                                    GROUP BY 1) t
                         ON c.channel_order_id = t.order_id
                         
@@ -172,7 +190,7 @@ def reverse_invoice_partial_ind_meli():
                         FROM ml_order_update a
                         LEFT JOIN ml_order_payments b
                         ON a.order_id = b.order_id
-                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-27'
+                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= %s AND date(payment_date_last_modified) <= %s
                         GROUP BY 1
                         ) tt
                         ON c.yuju_pack_id = tt.pack_id
@@ -185,8 +203,8 @@ def reverse_invoice_partial_ind_meli():
                         AND (b.amount_total - c.amount_total < 1 AND b.amount_total - c.amount_total > (-1)) #QUE SEA INNDIVIDUAL
                         AND f.order_name is not null #QUE LA SO TENGA UN SOLO SKU
                         AND ROUND(ifnull(d.refunded_amt, dd.refunded_amt) / unit_price, 2) in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)
-                        AND c.name in ('SO2728785')
-                        """)
+                        AND c.name in ({});
+                        """.format(placeholders), tuple(dates_list_params+list_orders))
     invoice_records = mycursor.fetchall()
     #Lista de SO a las que se les creó una credit_notes
     so_modified = []
@@ -423,6 +441,12 @@ def reverse_invoice_partial_ind_meli():
     mycursor.close()
     mydb.close()
 def reverse_invoice_partial_glob_meli():
+    # Formato para query
+    type_filter = 'GLOBAL'
+    marketplace_filter = 'MERCADO LIBRE'
+    list_orders, placeholders, num_records = e_o.filter_orders(orders_meli_file_path, type_filter, marketplace_filter)
+    dates_list_params = [start_date_str, end_date_str, start_date_str, end_date_str, start_date_str, end_date_str, start_date_str, end_date_str]
+
     # Obtener credenciales
     odoo_keys = get_odoo_access()
     psql_keys = get_psql_access()
@@ -484,7 +508,7 @@ def reverse_invoice_partial_glob_meli():
                                    FROM ml_order_payments a
                                    LEFT JOIN ml_order_update b
                                    ON a.order_id = b.order_id
-                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-27'
+                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= %s AND date(payment_date_last_modified) <= %s
                                    GROUP BY 1, 2
                                    ) d
                         ON c.channel_order_id = d.order_id
@@ -498,7 +522,7 @@ def reverse_invoice_partial_glob_meli():
                         FROM ml_order_update a
                         LEFT JOIN ml_order_payments b
                         ON a.order_id = b.order_id
-                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-27'
+                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= %s AND date(payment_date_last_modified) <= %s
                         GROUP BY 1, 2
                         ) dd
                         ON c.yuju_pack_id = dd.pack_id
@@ -517,7 +541,7 @@ def reverse_invoice_partial_glob_meli():
                                    FROM ml_order_payments a
                                    LEFT JOIN ml_order_update b
                                    ON a.order_id = b.order_id
-                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-27'
+                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= %s AND date(payment_date_last_modified) <= %s
                                    GROUP BY 1) t
                         ON c.channel_order_id = t.order_id
                         
@@ -527,7 +551,7 @@ def reverse_invoice_partial_glob_meli():
                         FROM ml_order_update a
                         LEFT JOIN ml_order_payments b
                         ON a.order_id = b.order_id
-                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-27'
+                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= %s AND date(payment_date_last_modified) <= %s
                         GROUP BY 1
                         ) tt
                         ON c.yuju_pack_id = tt.pack_id
@@ -539,8 +563,7 @@ def reverse_invoice_partial_glob_meli():
                         AND (b.amount_total - c.amount_total > 1 OR b.amount_total - c.amount_total < (-1))
                         AND f.order_name is not null
                         AND ROUND(ifnull(d.refunded_amt, dd.refunded_amt) / unit_price, 2) in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)
-                        AND c.name in ('SO2701233')
-                        """)
+                        AND c.name in ({});""".format(placeholders), tuple(dates_list_params+list_orders))
     invoice_records = mycursor.fetchall()
     # Lista de SO a las que se les creó una credit_notes
     so_modified = []
@@ -783,6 +806,12 @@ def reverse_invoice_partial_glob_meli():
     mycursor.close()
     mydb.close()
 def reverse_invoice_partial_ind_amz():
+    # Formato para query
+    type_filter = 'INDIVIDUAL'
+    marketplace_filter = 'AMAZON'
+    list_orders, placeholders, num_records = e_o.filter_orders(orders_amz_file_path, type_filter, marketplace_filter)
+    dates_list_params = [start_date_str, end_date_str]
+
     # Obtener credenciales
     odoo_keys = get_odoo_access()
     psql_keys = get_psql_access()
@@ -837,7 +866,7 @@ def reverse_invoice_partial_ind_amz():
                         
                         LEFT JOIN (SELECT a.order_id, max(STR_TO_DATE(fecha, '%d/%m/%Y')) 'refund_date', SUM(total - tarifas_de_amazon) * (-1) 'refunded_amt'
                                    FROM somos_reyes.amazon_payments_refunds a
-                                   WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%d/%m/%Y') >= '2024-02-01' AND STR_TO_DATE(fecha, '%d/%m/%Y') <= '2024-02-20'
+                                   WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%d/%m/%Y') >= %s AND STR_TO_DATE(fecha, '%d/%m/%Y') <= %s
                                    GROUP BY 1) d
                         ON c.channel_order_id = d.order_id
                         
@@ -860,7 +889,8 @@ def reverse_invoice_partial_ind_amz():
                         AND (b.amount_total - c.amount_total < 1 AND b.amount_total - c.amount_total > (-1)) #QUE SEA INDIVIDUAL
                         AND f.order_name is not null
                         AND ROUND(d.refunded_amt / unit_price, 2) in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)
-                        """)
+                        AND c.name in ({});
+                        """.format(placeholders), tuple(dates_list_params+list_orders))
     invoice_records = mycursor.fetchall()
     # Lista de SO a las que se les creó una credit_notes
     so_modified = []
@@ -1104,6 +1134,12 @@ def reverse_invoice_partial_ind_amz():
     mycursor.close()
     mydb.close()
 def reverse_invoice_partial_glo_amz():
+    # Formato para query
+    type_filter = 'GLOBAL'
+    marketplace_filter = 'AMAZON'
+    list_orders, placeholders, num_records = e_o.filter_orders(orders_amz_file_path, type_filter, marketplace_filter)
+    dates_list_params = [start_date_str, end_date_str]
+
     # Obtener credenciales
     odoo_keys = get_odoo_access()
     psql_keys = get_psql_access()
@@ -1157,7 +1193,7 @@ def reverse_invoice_partial_glo_amz():
                         ON SUBSTRING_INDEX(SUBSTRING_INDEX(invoice_ids, ']', 1), '[', -1) = b.id
                         LEFT JOIN (SELECT a.order_id, max(STR_TO_DATE(fecha, '%d/%m/%Y')) 'refund_date', SUM(total - tarifas_de_amazon) * (-1) 'refunded_amt'
                                    FROM somos_reyes.amazon_payments_refunds a
-                                   WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%d/%m/%Y') >= '2024-02-01' AND STR_TO_DATE(fecha, '%d/%m/%Y') <= '2024-02-27'
+                                   WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%d/%m/%Y') >= %s AND STR_TO_DATE(fecha, '%d/%m/%Y') <= %s
                                    GROUP BY 1) d
                         ON c.channel_order_id = d.order_id
                         LEFT JOIN (SELECT distinct invoice_origin FROM odoo_new_account_move_aux WHERE name like '%RINV%') e
@@ -1175,8 +1211,8 @@ def reverse_invoice_partial_glo_amz():
                         AND (b.amount_total - c.amount_total > 1 OR b.amount_total - c.amount_total < (-1))
                         AND f.order_name is not null
                         AND ROUND(d.refunded_amt / unit_price, 2) in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)
-                        AND c.name in ('SO2649094','SO2715970','SO2730404');
-                        """)
+                        AND c.name in ({});
+                        """.format(placeholders), tuple(dates_list_params+list_orders))
     invoice_records = mycursor.fetchall()
     # Lista de SO a las que se les creó una credit_notes
     so_modified = []
@@ -1422,9 +1458,9 @@ def reverse_invoice_partial_glo_amz():
 
 if __name__ == "__main__":
     #reverse_invoice_partial_ind_meli()
-    reverse_invoice_partial_glob_meli()
-    #reverse_invoice_partial_ind_amz()
+    #reverse_invoice_partial_glob_meli()
     reverse_invoice_partial_glo_amz()
+    reverse_invoice_partial_ind_amz()
     end_time = datetime.datetime.now()
     duration = end_time - today_date
     print(f'Duraciòn del script: {duration}')

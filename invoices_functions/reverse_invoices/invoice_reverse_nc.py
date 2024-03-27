@@ -32,6 +32,8 @@ import smtplib
 # import email
 import datetime
 
+from Test import extract_orders as e_o
+
 print('================================================================')
 print('BIENVENIDO AL PROCESO DE NOTAS DE CRÉDITO PARA MARKETPLACES')
 print('================================================================')
@@ -42,9 +44,18 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 print('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
 #Archivo de configuración - Use config_dev.json si está haciendo pruebas
 #Archivo de configuración - Use config.json cuando los cambios vayan a producción
-config_file_name = r'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Repos\wb_odoo_external_api\config\config.json'
+config_file_name = r'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Repos\wb_odoo_external_api\config\config_dev.json'
 l10n_mx_edi_payment_method_id = 3
 l10n_mx_edi_usage = 'G02'
+
+#FECHAS DEL PERIODO
+start_date_str = datetime.date(2024, 3, 1).strftime("%Y-%m-%d")
+end_date_str = datetime.date(2024, 3, 19).strftime("%Y-%m-%d")
+month_executed = 'Marzo'
+
+#PATHS de los archivos de ordenes conciliadas
+orders_meli_file_path = 'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Finanzas/{}/Conciliadas/Notas_de_credito_totales_ML.csv'.format(month_executed)
+orders_amz_file_path = 'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Finanzas/{}/Conciliadas/Notas_de_credito_totales_AMZ.csv'.format(month_executed)
 
 def get_odoo_access():
     with open(config_file_name, 'r') as config_file:
@@ -62,6 +73,12 @@ def get_email_access():
 
     return config['email']
 def reverse_invoice_meli(): #NOTAS DE CRÉDITO INDIVIDUALES MELI
+    #Formato para query
+    type_filter = 'INDIVIDUAL'
+    marketplace_filter = 'MERCADO LIBRE'
+    list_orders, placeholders, num_records = e_o.filter_orders(orders_meli_file_path, type_filter, marketplace_filter)
+    dates_list_params = [start_date_str, end_date_str, start_date_str, end_date_str]
+
     # Obtener credenciales
     odoo_keys = get_odoo_access()
     psql_keys = get_psql_access()
@@ -117,14 +134,14 @@ def reverse_invoice_meli(): #NOTAS DE CRÉDITO INDIVIDUALES MELI
                                    FROM somos_reyes.ml_order_payments a
                                    LEFT JOIN somos_reyes.ml_order_update b
                                    ON a.order_id = b.order_id
-                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-27'
+                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= %s AND date(payment_date_last_modified) <= %s
                                    GROUP BY 1) d
                         ON c.channel_order_id = d.order_id
                         LEFT JOIN (SELECT a.pack_id, max(payment_date_last_modified) 'payment_date_last_modified', SUM(b.paid_amt) 'paid_amt', SUM(b.refunded_amt) 'refunded_amt', SUM(shipping_amt) 'shipping_amt'
                         FROM somos_reyes.ml_order_update a
                         LEFT JOIN somos_reyes.ml_order_payments b
                         ON a.order_id = b.order_id
-                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-27'
+                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= %s AND date(payment_date_last_modified) <= %s
                         GROUP BY 1) dd
                         ON c.yuju_pack_id = dd.pack_id
                         LEFT JOIN (SELECT distinct invoice_origin FROM somos_reyes.odoo_new_account_move_aux WHERE name like '%RINV%') e
@@ -134,8 +151,8 @@ def reverse_invoice_meli(): #NOTAS DE CRÉDITO INDIVIDUALES MELI
                         AND ((ifnull(d.refunded_amt, dd.refunded_amt) - b.amount_total < 1 AND ifnull(d.refunded_amt, dd.refunded_amt) - b.amount_total > -1)
                         OR (ifnull(d.refunded_amt - d.shipping_amt, dd.refunded_amt - dd.shipping_amt) - b.amount_total < 1
                         AND ifnull(d.refunded_amt - d.shipping_amt, dd.refunded_amt - dd.shipping_amt) - b.amount_total > -1))
-                        AND c.name in ('SO2717395','SO2739180','SO2730368','SO2702693','SO2702693','SO2701295','SO2757487');
-                        """)
+                        AND c.name in ({});
+                            """.format(placeholders), tuple(dates_list_params+list_orders))
     invoice_records = mycursor.fetchall()
     # Lista de SO a las que se les creó una credit_notes
     so_modified = []
@@ -331,6 +348,12 @@ def reverse_invoice_meli(): #NOTAS DE CRÉDITO INDIVIDUALES MELI
     mycursor.close()
     mydb.close()
 def reverse_invoice_global_meli():
+    # Formato para query
+    type_filter = 'GLOBAL'
+    marketplace_filter = 'MERCADO LIBRE'
+    list_orders, placeholders, num_records = e_o.filter_orders(orders_meli_file_path, type_filter, marketplace_filter)
+    dates_list_params = [start_date_str, end_date_str, start_date_str, end_date_str]
+
     # Obtener credenciales
     odoo_keys = get_odoo_access()
     psql_keys = get_psql_access()
@@ -386,14 +409,14 @@ def reverse_invoice_global_meli():
                                    FROM somos_reyes.ml_order_payments a
                                    LEFT JOIN somos_reyes.ml_order_update b
                                    ON a.order_id = b.order_id
-                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-27'
+                                   WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= %s AND date(payment_date_last_modified) <= %s
                                    GROUP BY 1) d
                         ON c.channel_order_id = d.order_id
                         LEFT JOIN (SELECT a.pack_id, max(payment_date_last_modified) 'payment_date_last_modified', SUM(b.paid_amt) 'paid_amt', SUM(b.refunded_amt) 'refunded_amt', SUM(shipping_amt) 'shipping_amt'
                         FROM somos_reyes.ml_order_update a
                         LEFT JOIN somos_reyes.ml_order_payments b
                         ON a.order_id = b.order_id
-                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '2024-02-01' AND date(payment_date_last_modified) <= '2024-02-27'
+                        WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= %s AND date(payment_date_last_modified) <= %s
                         GROUP BY 1) dd
                         ON c.yuju_pack_id = dd.pack_id
                         LEFT JOIN (SELECT distinct invoice_origin FROM somos_reyes.odoo_new_account_move_aux WHERE name like '%RINV%') e
@@ -406,7 +429,7 @@ def reverse_invoice_global_meli():
                         AND ((ifnull(d.refunded_amt, dd.refunded_amt) - c.amount_total < 1 AND ifnull(d.refunded_amt, dd.refunded_amt) - c.amount_total > -1)
                         OR (ifnull(d.refunded_amt - d.shipping_amt, dd.refunded_amt - dd.shipping_amt) - c.amount_total < 1
                         AND ifnull(d.refunded_amt - d.shipping_amt, dd.refunded_amt - dd.shipping_amt) - c.amount_total > -1))
-                        AND c.name in ('SO2646222','SO2702178','SO2678796','SO2681424','SO2697825','SO2666443','SO2736599','SO2727403','SO2720890','SO2721824','SO2746660','SO2740490','SO2740470','SO2717132','SO2672329','SO2716119','SO2681420','SO2717888','SO2729106','SO2671491','SO2696179','SO2716397','SO2747019','SO2689301','SO2729444','SO2722209','SO2683608','SO2706037','SO2737458','SO2760981','SO2741414','SO2726656','SO2713965','SO2724329','SO2711921','SO2734857','SO2764943','SO2764319','SO2714292','SO2666280','SO2727877','SO2669597','SO2730772','SO2733857','SO2737292','SO2765183','SO2722823','SO2718841','SO2725509','SO2720639','SO2722749','SO2729169','SO2724675','SO2733006','SO2739472','SO2764875','SO2752225','SO2712138','SO2667270','SO2732777','SO2722899','SO2736875','SO2739983','SO2707768','SO2721412','SO2716474','SO2702727','SO2719911','SO2722320','SO2728598','SO2737981','SO2739352','SO2738559','SO2765225','SO2742526','SO2710455','SO2721100','SO2654824','SO2658169','SO2734227','SO2734104','SO2721368','SO2729413','SO2739427','SO2745177','SO2708678','SO2719206','SO2719475','SO2739403','SO2739177','SO2683509','SO2743260','SO2748198','SO2747911','SO2748802','SO2711473','SO2688032','SO2678431','SO2714409','SO2736031','SO2784695','SO2701488','SO2695622','SO2725094','SO2725306','SO2717459','SO2736613','SO2739130','SO2738969','SO2747353','SO2689933','SO2685464','SO2700920','SO2693966','SO2713529','SO2737649','SO2761423','SO2784272','SO2718608','SO2720985','SO2660321','SO2726877','SO2730082','SO2761735','SO2785305','SO2694810','SO2708174','SO2720671','SO2725603','SO2728300','SO2732936','SO2696545','SO2726265','SO2717240','SO2734778','SO2736941','SO2764768','SO2746761','SO2741355','SO2751984','SO2751087','SO2716989','SO2712130','SO2698518','SO2705995','SO2679902','SO2722021','SO2734717','SO2737266','SO2736448','SO2738918','SO2744747','SO2744354','SO2743212','SO2680133','SO2710551','SO2665581','SO2682648','SO2728580','SO2737434','SO2737267','SO2739264','SO2761823','SO2747475','SO2746536','SO2752466','SO2729065','SO2721202','SO2725167','SO2716911','SO2693057','SO2733249','SO2732615','SO2710709','SO2764363','SO2743553','SO2750639','SO2716221','SO2711324','SO2722325','SO2717720','SO2739161','SO2742583','SO2741588','SO2716176','SO2728965','SO2689881','SO2662094','SO2737007','SO2761586','SO2747950','SO2642551','SO2680024','SO2694332','SO2704694','SO2737960','SO2740483','SO2694602','SO2706966','SO2665023','SO2719718','SO2726949','SO2714009','SO2735377','SO2734754','SO2733374','SO2743043','SO2746788','SO2784590','SO2749878','SO2711123','SO2726642','SO2726268','SO2717789','SO2715149','SO2704992','SO2730493','SO2736861','SO2746005','SO2714449','SO2677369','SO2733018','SO2736410','SO2747622','SO2747091','SO2730136','SO2715297','SO2691987','SO2701440','SO2727433','SO2738953','SO2658491','SO2743751','SO2697963','SO2694069','SO2729432','SO2738250','SO2738894','SO2757999','SO2783832','SO2723754','SO2721059','SO2694154','SO2732946','SO2719745','SO2738333','SO2738667','SO2784280','SO2679099','SO2706237','SO2720952','SO2676611','SO2734184','SO2761224','SO2744280','SO2712567','SO2678910','SO2714788','SO2783456','SO2695748','SO2706067','SO2726683','SO2727710','SO2738841','SO2743679','SO2747587','SO2718432','SO2724226','SO2720745','SO2703711','SO2723885','SO2727833','SO2732161');""")
+                        AND c.name in ({});""".format(placeholders), tuple(dates_list_params+list_orders))
     invoice_records = mycursor.fetchall()
     #Lista de SO a las que se les creó una credit_notes
     so_modified = []
@@ -633,6 +656,12 @@ def reverse_invoice_global_meli():
     mydb.close()
 
 def reverse_invoice_amazon():
+    # Formato para query
+    type_filter = 'INDIVIDUAL'
+    marketplace_filter = 'AMAZON'
+    list_orders, placeholders, num_records = e_o.filter_orders(orders_amz_file_path, type_filter, marketplace_filter)
+    dates_list_params = [start_date_str, end_date_str]
+
     # Obtener credenciales
     odoo_keys = get_odoo_access()
     psql_keys = get_psql_access()
@@ -685,14 +714,16 @@ def reverse_invoice_amazon():
                         ON b.invoice_origin = c.name
                         LEFT JOIN (SELECT a.order_id, max(STR_TO_DATE(fecha, '%d/%m/%Y')) 'refund_date', SUM(total - tarifas_de_amazon) * (-1) 'refunded_amt'
                                    FROM somos_reyes.amazon_payments_refunds a
-                                   WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%d/%m/%Y') >= '2024-02-01' AND STR_TO_DATE(fecha, '%d/%m/%Y') <= '2024-02-27'
+                                   WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%d/%m/%Y') >= %s AND STR_TO_DATE(fecha, '%d/%m/%Y') <= %s
                                    GROUP BY 1) d
                         ON c.channel_order_id = d.order_id
                         LEFT JOIN (SELECT distinct invoice_origin FROM somos_reyes.odoo_new_account_move_aux WHERE name like '%RINV%') e
                         ON c.name = e.invoice_origin
                         WHERE d.order_id is not null
                         AND e.invoice_origin is null
-                        AND d.refunded_amt - b.amount_total < 1 AND d.refunded_amt - b.amount_total > -1;""")
+                        AND d.refunded_amt - b.amount_total < 1 AND d.refunded_amt - b.amount_total > -1
+                        AND c.name in ({});""".format(placeholders), tuple(dates_list_params+list_orders))
+
     invoice_records = mycursor.fetchall()
     # Lista de SO a las que se les creó una credit_notes
     so_modified = []
@@ -886,6 +917,12 @@ def reverse_invoice_amazon():
     mycursor.close()
     mydb.close()
 def reverse_invoice_global_amazon():
+    # Formato para query
+    type_filter = 'GLOBAL'
+    marketplace_filter = 'AMAZON'
+    list_orders, placeholders, num_records = e_o.filter_orders(orders_amz_file_path, type_filter, marketplace_filter)
+    dates_list_params = [start_date_str, end_date_str]
+
     # Obtener credenciales
     odoo_keys = get_odoo_access()
     psql_keys = get_psql_access()
@@ -939,7 +976,7 @@ def reverse_invoice_global_amazon():
                         ON SUBSTRING_INDEX(SUBSTRING_INDEX(invoice_ids, ']', 1), '[', -1) = b.id
                         LEFT JOIN (SELECT a.order_id, max(STR_TO_DATE(fecha, '%d/%m/%Y')) 'refund_date', SUM(total - tarifas_de_amazon) * (-1) 'refunded_amt'
                                    FROM somos_reyes.amazon_payments_refunds a
-                                   WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%d/%m/%Y') >= '2024-02-01' AND STR_TO_DATE(fecha, '%d/%m/%Y') <= '2024-02-27'
+                                   WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%d/%m/%Y') >= %s AND STR_TO_DATE(fecha, '%d/%m/%Y') <= %s
                                    GROUP BY 1) d
                         ON c.channel_order_id = d.order_id
                         LEFT JOIN (SELECT distinct invoice_origin FROM somos_reyes.odoo_new_account_move_aux WHERE name like '%RINV%') e
@@ -949,8 +986,8 @@ def reverse_invoice_global_amazon():
                         AND invoice_partner_display_name = 'PÚBLICO EN GENERAL'
                         AND (d.refunded_amt - b.amount_total > 1 OR d.refunded_amt - b.amount_total < -1)
                         AND d.refunded_amt - c.amount_total < 1 AND d.refunded_amt - c.amount_total > -1
-                        AND c.name in ('SO2762241','SO2700649','SO2757405','SO2748437','SO2691291','SO2755520','SO2635766','SO2658397','SO2621256','SO2716114','SO2711526','SO2698661','SO2714056','SO2667523','SO2765876','SO2759105','SO2683828','SO2574361','SO2654222','SO2707256','SO2675687','SO2681143','SO2687693','SO2740328','SO2656184','SO2758952','SO2545144','SO2624892','SO2715558','SO2690358','SO2706638','SO2522917','SO2704380','SO2762448','SO2732121','SO2690474','SO2744872','SO2668983','SO2748348','SO2687551','SO2717742','SO2747403','SO2687594','SO2637831','SO2685970','SO2738069','SO2662130','SO2644278','SO2712230','SO2573608','SO2752357','SO2744212','SO2754340','SO2748160','SO2577159','SO2612449','SO2746014','SO2656818','SO2662763','SO2695695','SO2717042','SO2639767','SO2714581','SO2719045','SO2670105','SO2655860','SO2706293','SO2558152','SO2758393','SO2757750','SO2569991','SO2742917','SO2739217','SO2571417','SO2686058','SO2763508','SO2612474','SO2737655','SO2747792','SO2750179','SO2737933','SO2699487','SO2555600','SO2710623','SO2715240','SO2717208','SO2748352','SO2613723','SO2663544','SO2706059','SO2704240','SO2676879','SO2668590','SO2689089','SO2699438','SO2700672','SO2740554','SO2738021','SO2728117','SO2644001','SO2758030','SO2752827','SO2745517','SO2638741','SO2703714','SO2565768','SO2752345','SO2742862','SO2727913','SO2649719','SO2701074','SO2687148','SO2757088','SO2649733','SO2703066','SO2743228','SO2715408','SO2737710','SO2711231','SO2749090','SO2749087','SO2734614','SO2736807','SO2705318','SO2706619','SO2765877','SO2675943','SO2722560','SO2739196','SO2713077','SO2583349','SO2592911','SO2698192','SO2752015','SO2578502','SO2724689','SO2752349','SO2689660','SO2693316','SO2635042','SO2683693','SO2685055','SO2747187','SO2731768','SO2629623','SO2746878','SO2737453','SO2659383','SO2677182','SO2686826','SO2699057','SO2725814','SO2762827','SO2762775','SO2583446','SO2548520','SO2749950','SO2737248','SO2733522','SO2571562','SO2686187','SO2661540','SO2763111','SO2688278','SO2735488','SO2691667','SO2731217','SO2590297','SO2689521','SO2712404','SO2754343','SO2648185','SO2704951','SO2715045','SO2558811','SO2598250','SO2691155','SO2693679','SO2760923','SO2582298','SO2724092','SO2750278','SO2558889','SO2696560','SO2688115','SO2735841','SO2620484','SO2705448','SO2590891','SO2658011','SO2671089','SO2740266','SO2674233','SO2735856','SO2642116','SO2702483','SO2658598','SO2744234','SO2744190','SO2660893','SO2716296','SO2744208','SO2679576','SO2720441','SO2591382','SO2587809');
-                        """)
+                        AND c.name in ({});
+                        """.format(placeholders), tuple(dates_list_params+list_orders))
     invoice_records = mycursor.fetchall()
     #Lista de SO a las que se les creó una credit_notes
     so_modified = []
@@ -1173,9 +1210,9 @@ def reverse_invoice_global_amazon():
     mydb.close()
 
 if __name__ == "__main__":
-    reverse_invoice_meli()
-    #reverse_invoice_amazon()
-    reverse_invoice_global_meli()
+    #reverse_invoice_meli()
+    #reverse_invoice_global_meli()
+    reverse_invoice_amazon()
     reverse_invoice_global_amazon()
     end_time = datetime.datetime.now()
     duration = end_time - today_date

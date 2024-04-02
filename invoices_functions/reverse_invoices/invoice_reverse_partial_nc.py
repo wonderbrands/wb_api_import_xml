@@ -31,6 +31,7 @@ import smtplib
 # import ssl
 # import email
 import datetime
+import time
 
 from Test import extract_orders as e_o
 
@@ -44,13 +45,13 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 print('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
 #Archivo de configuración - Use config_dev.json si está haciendo pruebas
 #Archivo de configuración - Use config.json cuando los cambios vayan a producción
-config_file_name = r'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Repos\wb_odoo_external_api\config\config_dev.json'
+config_file_name = r'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Repos\wb_odoo_external_api\config\config.json'
 l10n_mx_edi_payment_method_id = 3
 l10n_mx_edi_usage = 'G02'
 
 #FECHAS DEL PERIODO
-start_date_str = datetime.date(2024, 3, 1).strftime("%Y-%m-%d")
-end_date_str = datetime.date(2024, 3, 19).strftime("%Y-%m-%d")
+start_date_str = datetime.date(2024, 3, 26).strftime("%Y-%m-%d")
+end_date_str = datetime.date(2024, 3, 31).strftime("%Y-%m-%d")
 month_executed = 'Marzo'
 
 #PATHS de los archivos de ordenes conciliadas
@@ -79,7 +80,7 @@ def reverse_invoice_partial_ind_meli():
     marketplace_filter = 'MERCADO LIBRE'
     list_orders, placeholders, num_records = e_o.filter_orders(orders_meli_file_path, type_filter, marketplace_filter)
     dates_list_params = [start_date_str, end_date_str, start_date_str, end_date_str,start_date_str, end_date_str, start_date_str, end_date_str]
-
+    print(list_orders)
     # Obtener credenciales
     odoo_keys = get_odoo_access()
     psql_keys = get_psql_access()
@@ -446,7 +447,7 @@ def reverse_invoice_partial_glob_meli():
     marketplace_filter = 'MERCADO LIBRE'
     list_orders, placeholders, num_records = e_o.filter_orders(orders_meli_file_path, type_filter, marketplace_filter)
     dates_list_params = [start_date_str, end_date_str, start_date_str, end_date_str, start_date_str, end_date_str, start_date_str, end_date_str]
-
+    print(list_orders)
     # Obtener credenciales
     odoo_keys = get_odoo_access()
     psql_keys = get_psql_access()
@@ -1133,7 +1134,7 @@ def reverse_invoice_partial_ind_amz():
     smtpObj.quit()
     mycursor.close()
     mydb.close()
-def reverse_invoice_partial_glo_amz():
+def reverse_invoice_partial_glob_amz():
     # Formato para query
     type_filter = 'GLOBAL'
     marketplace_filter = 'AMAZON'
@@ -1457,10 +1458,10 @@ def reverse_invoice_partial_glo_amz():
     mydb.close()
 
 if __name__ == "__main__":
-    #reverse_invoice_partial_ind_meli()
-    #reverse_invoice_partial_glob_meli()
-    reverse_invoice_partial_glo_amz()
-    reverse_invoice_partial_ind_amz()
+    reverse_invoice_partial_ind_meli()
+    reverse_invoice_partial_glob_meli()
+    #reverse_invoice_partial_ind_amz()
+    #reverse_invoice_partial_glob_amz()
     end_time = datetime.datetime.now()
     duration = end_time - today_date
     print(f'Duraciòn del script: {duration}')

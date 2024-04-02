@@ -49,8 +49,8 @@ l10n_mx_edi_payment_method_id = 3
 l10n_mx_edi_usage = 'G02'
 
 #FECHAS DEL PERIODO
-start_date_str = datetime.date(2024, 3, 1).strftime("%Y-%m-%d")
-end_date_str = datetime.date(2024, 3, 19).strftime("%Y-%m-%d")
+start_date_str = datetime.date(2024, 3, 26).strftime("%Y-%m-%d")
+end_date_str = datetime.date(2024, 3, 31).strftime("%Y-%m-%d")
 month_executed = 'Marzo'
 
 #PATHS de los archivos de ordenes conciliadas
@@ -1210,10 +1210,10 @@ def reverse_invoice_global_amazon():
     mydb.close()
 
 if __name__ == "__main__":
-    #reverse_invoice_meli()
-    #reverse_invoice_global_meli()
-    reverse_invoice_amazon()
-    reverse_invoice_global_amazon()
+    reverse_invoice_meli()
+    reverse_invoice_global_meli()
+    #reverse_invoice_amazon()
+    #reverse_invoice_global_amazon()
     end_time = datetime.datetime.now()
     duration = end_time - today_date
     print(f'Duraciòn del script: {duration}')

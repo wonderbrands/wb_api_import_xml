@@ -32,6 +32,7 @@ import smtplib
 # import email
 import datetime
 import time
+from concurrent.futures import ThreadPoolExecutor
 
 from Test import extract_orders as e_o
 
@@ -48,7 +49,7 @@ print('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
 
 # ***********************************************
 # ARCHIVO DE CONFIGURACIÓN
-config_file = 'config.json'
+config_file = 'config_dev.json'
 # ***********************************************
 
 config_file_name = rf'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Repos\wb_odoo_external_api\config\{config_file}'
@@ -80,6 +81,16 @@ def get_email_access():
         config = json.load(config_file)
 
     return config['email']
+def current_execution(func):
+    def wrapper(*args, **kwargs):
+        print('\n \n ******************************************************')
+        print(f"Ejecutando {func.__name__}")
+        result = func(*args, **kwargs)
+        print(f"{func.__name__} terminada")
+        print('****************************************************** \n \n')
+        return result
+    return wrapper
+@current_execution
 def reverse_invoice_partial_ind_meli():
     print('** Notas de credito parciales MELI Individuales **')
     # Formato para query
@@ -448,6 +459,7 @@ def reverse_invoice_partial_ind_meli():
     smtpObj.quit()
     mycursor.close()
     mydb.close()
+@current_execution
 def reverse_invoice_partial_glob_meli():
     print('** Notas de credito parciales MELI Globales **')
     # Formato para query
@@ -814,6 +826,7 @@ def reverse_invoice_partial_glob_meli():
     smtpObj.quit()
     mycursor.close()
     mydb.close()
+@current_execution
 def reverse_invoice_partial_ind_amz():
     print('** Notas de credito parciales AMAZON Individuales **')
     # Formato para query
@@ -1143,6 +1156,7 @@ def reverse_invoice_partial_ind_amz():
     smtpObj.quit()
     mycursor.close()
     mydb.close()
+@current_execution
 def reverse_invoice_partial_glob_amz():
     print('** Notas de credito parciales AMAZON Globales **')
     # Formato para query
@@ -1468,10 +1482,23 @@ def reverse_invoice_partial_glob_amz():
     mydb.close()
 
 if __name__ == "__main__":
-    reverse_invoice_partial_ind_meli()
-    reverse_invoice_partial_glob_meli()
-    reverse_invoice_partial_ind_amz()
-    reverse_invoice_partial_glob_amz()
+    # Numero de workers = numero de funciones (para este script)
+    num_workers = 4
+
+    # Crear un ThreadPoolExecutor con `num_workers` hilos
+    with ThreadPoolExecutor(max_workers=num_workers) as executor:
+        # Enviar las funciones al executor
+        futures = [
+            executor.submit(reverse_invoice_partial_ind_meli),
+            executor.submit(reverse_invoice_partial_glob_meli),
+            executor.submit(reverse_invoice_partial_ind_amz),
+            executor.submit(reverse_invoice_partial_glob_amz)
+        ]
+
+        # Esperar a que todas las funciones terminen
+        for future in futures:
+            future.result()
+
     end_time = datetime.datetime.now()
     duration = end_time - today_date
     print(f'Duraciòn del script: {duration}')

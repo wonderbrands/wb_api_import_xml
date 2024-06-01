@@ -44,10 +44,20 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 print('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
 #Archivo de configuración - Use config_dev.json si está haciendo pruebas
 #Archivo de configuración - Use config.json cuando los cambios vayan a producción
-config_file_name = r'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Repos\wb_odoo_external_api\config\config.json'
+
+# ***********************************************
+# ARCHIVO DE CONFIGURACIÓN
+config_file = 'config.json'
 
 # MES DE EJECUCION
-month_executed = 'Marzo'
+month_executed = 'Mayo'
+
+# FECHAS PARA CARPETA DRIVE en str
+year_ = '2024'
+month_ = '05'
+# ***********************************************
+
+config_file_name = rf'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Repos\wb_odoo_external_api\config\{config_file}'
 
 #PATH del archivo de ordenes conciliadas
 orders_walmart_file_path = 'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Finanzas/{}/Walmart/autofacturacion.csv'.format(month_executed)
@@ -70,6 +80,8 @@ def get_email_access():
 def invoice_create_qty():
     # Formato para query
     marketplace_refs_list, placeholders, num_records = e_o.marketplace_references(orders_walmart_file_path)
+    date_list_param = [year_+month_]
+    print(marketplace_refs_list)
 
     # Obtener credenciales
     odoo_keys = get_odoo_access()
@@ -108,14 +120,14 @@ def invoice_create_qty():
                         from finance.sr_sat_emitidas a
                         left join somos_reyes.odoo_new_sale_order b
                         on a.folio = b.channel_order_reference
-                        WHERE extract(year_month from a.fecha) = 202403
+                        WHERE extract(year_month from a.fecha) = %s
                             and b.channel like '%walmart%' 
                             and b.team_name like '%walmart%'
                             and b.state not in ('draft','sent','cancel')
                             and a.folio in ({})
                         group by a.uuid
                         order by a.fecha
-                        """.format(placeholders), tuple(marketplace_refs_list))
+                        """.format(placeholders), tuple(date_list_param + marketplace_refs_list))
     sales_order_records = mycursor.fetchall()
     xml_dict = {}
     xml_list = []
@@ -249,7 +261,7 @@ def invoice_create_qty():
                                         file_name = xml_files[value_position] #utliza la posición que asignamos anteriormente
                                         file_date = xml_files[value_position_date] #utliza la posición que asignamos anteriormente
                                         file_name_mayus = file_name.upper() #Pone en mayúsculas el nombre del XML
-                                        invoices_folder = 'G:/.shortcut-targets-by-id/1vsZk0-0Cd1FnEKNQlXzq3EuSgg6ZRgtP/2024/202403' #carpeta en la que se encuentran los xmls
+                                        invoices_folder = 'G:/.shortcut-targets-by-id/1vsZk0-0Cd1FnEKNQlXzq3EuSgg6ZRgtP/{}/{}'.format(year_,year_+month_) #carpeta en la que se encuentran los xmls
                                         xml_file = file_name + '.xml'
                                         xml_file_path = os.path.join(invoices_folder, xml_file)
                                         with open(xml_file_path, 'rb') as f:
@@ -395,7 +407,7 @@ def invoice_create_qty():
                                         file_name = xml_files[value_position]
                                         file_date = xml_files[value_position_date]
                                         file_name_mayus = file_name.upper()
-                                        invoices_folder = 'G:/.shortcut-targets-by-id/1vsZk0-0Cd1FnEKNQlXzq3EuSgg6ZRgtP/2024/202403' #carpeta en la que se encuentran los xmls
+                                        invoices_folder = 'G:/.shortcut-targets-by-id/1vsZk0-0Cd1FnEKNQlXzq3EuSgg6ZRgtP/{}/{}'.format(year_,year_+month_) #carpeta en la que se encuentran los xmls
                                         xml_file = file_name + '.xml'
                                         xml_file_path = os.path.join(invoices_folder, xml_file)
                                         with open(xml_file_path, 'rb') as f:
@@ -581,7 +593,7 @@ def invoice_create_qty():
        smtpObj = smtplib.SMTP(smtp_server, smtp_port)
        smtpObj.starttls()
        smtpObj.login(smtp_username, smtp_password)
-       smtpObj.sendmail(smtp_username, msg['To'], msg.as_string())
+       #smtpObj.sendmail(smtp_username, msg['To'], msg.as_string())
        print("Correo enviado correctamente")
     except Exception as e:
        print(f"Error: no se pudo enviar el correo: {e}")

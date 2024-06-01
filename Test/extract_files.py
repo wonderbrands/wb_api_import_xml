@@ -5,7 +5,19 @@ import time
 from tqdm import tqdm
 from datetime import datetime, timedelta
 
+__description__ = """
+        Este script realiza la reubicacion de archivos xml de la carpeta root del drive compartido (en la cual se tienen sub
+        carpetas las cuales coresponden a cada dia) a una carpeta general. Estas carpetas son credas por un script que crewlea 
+        al sat y descarga los xml.
+        
+        Este script solo se utiliza cuando esten todas las sub carpetas con los xml.
+"""
+
 def copy_file(file_path, destination_directory, pbar):
+    """
+    Toma la ruta de un archivo, la carpeta de destino y una barra de progreso (tqdm),
+     luego copia el archivo a la carpeta de destino y actualiza la barra de progreso.
+    """
     file_name = os.path.basename(file_path)
     shutil.copy(file_path, os.path.join(destination_directory, file_name))
     #if pbar != True:
@@ -13,6 +25,10 @@ def copy_file(file_path, destination_directory, pbar):
     #print(f"Archivo '{file_name}' copiado a la carpeta raíz.")
 
 def generate_date_range(dates):
+    """
+    Genera una lista de fechas dentro de un rango dado.
+    Esto se utiliza para verificar si una subcarpeta está dentro del rango de fechas especificado.
+    """
     # Convertir las fechas de texto a objetos de fecha
     start_date = datetime.strptime(dates[0], '%Y%m%d')
     end_date = datetime.strptime(dates[1], '%Y%m%d')
@@ -29,10 +45,18 @@ def generate_date_range(dates):
     return date_range
 
 def stay_in(string, dates):
+    """
+    Verifica si una cadena (en este caso, el nombre de una subcarpeta) está dentro del rango de fechas especificado.
+    """
     lst = generate_date_range(dates)
     return any(string in element for element in lst)
 
 def copy_files_into_root_parallel(root_directory, dates):
+    """
+    Recorre todas las subcarpetas en la carpeta raíz. Si una subcarpeta está dentro del rango de fechas especificado,
+    agrega todos los archivos XML de esa subcarpeta a una lista. Luego, utiliza un ThreadPoolExecutor para copiar estos
+    archivos en paralelo a la carpeta raíz, mostrando una barra de progreso.
+    """
     files_to_copy = []
     in_range = False
     # Obtener todas las rutas completas de los archivos en las subcarpetas
@@ -51,6 +75,9 @@ def copy_files_into_root_parallel(root_directory, dates):
             for file in files_to_copy:
                 executor.submit(copy_file, file, root_directory, pbar)
 def copy_files_into_root(root_directory):
+    """
+    Realiza la misma operación que copy_files_into_root_parallel, pero de forma secuencial, sin utilizar paralelismo.
+    """
     # Obtener todas las rutas completas de los archivos en las subcarpetas
     files_to_copy = []
     for root_path, directories, files in os.walk(root_directory):
@@ -66,6 +93,10 @@ def copy_files_into_root(root_directory):
                     copy_file(file, root_directory, pbar)
 
 def remove_files(directory):
+    """
+    Elimina todos los archivos en una carpeta dada.
+    :param directory: Ruta de donde se eliminaran todos los archivos
+    """
     # Iterar sobre todos los elementos en la carpeta
     for element in os.listdir(directory):
         element_path = os.path.join(directory, element)

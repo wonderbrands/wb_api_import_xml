@@ -31,6 +31,7 @@ import smtplib
 import ssl
 import email
 import datetime
+from concurrent.futures import ThreadPoolExecutor
 
 from Test import extract_orders as e_o
 
@@ -305,21 +306,27 @@ def invoice_create_global(excel_file_path):
     mydb.close()
     smtpObj.quit()
 
+
 def execute_invoice_create_global(runs_numbs, global_path):
     """
-    Esta funcion ejecuta el numero de veces que halla en numero de archivos csv en files/invoices
+    Esta función ejecuta la función invoice_create_global en paralelo para cada archivo en global_path.
 
-    :param runs_numbs: Numero de corridas (es igual al numero de archivos csv)
-    :param global_path: La ruta dodne se encuentran los archivos
+    :param runs_numbs: Número de corridas (numero de hilos) (es igual al número de archivos csv)
+    :param global_path: La ruta base donde se encuentran los archivos
     """
-    for num in range(1,runs_numbs+1):
-        print('\n \n ********* Corrida {} ********** \n \n'.format(num))
-        invoice_create_global(global_path + '/so_invoices{}.xlsx'.format(num))
-        end_time = datetime.datetime.now()
-        duration = end_time - today_date
-        print(f'Duraciòn del script: {duration}')
-        print('Listo')
-        print('Este arroz ya se coció :)')
+    with ThreadPoolExecutor(max_workers=runs_numbs) as executor:
+        futures = []
+        for num in range(1, runs_numbs + 1):
+            file_path = f"{global_path}/so_invoices{num}.xlsx"
+            print(f"\n\n********* Corrida {num} **********\n\n")
+            futures.append(executor.submit(invoice_create_global, file_path))
+
+        for future in futures:
+            try:
+                future.result()
+            except Exception as e:
+                print(f"Error al procesar el archivo: {e}")
+
 
 if __name__ == "__main__":
     # ***********************************************
@@ -327,7 +334,15 @@ if __name__ == "__main__":
     month = 'Mayo'
     # ***********************************************
 
+    start_time = datetime.datetime.now()
+
     excel_files_dir = f'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Repos/wb_odoo_external_api/invoices_functions/files/invoices'
     file_path_walmart = f'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Finanzas/{month}/Walmart/facturacion_global.csv'
     num_of_runs = e_o.split_csv_to_excel(file_path_walmart, 999, excel_files_dir)
     execute_invoice_create_global(num_of_runs, excel_files_dir)
+
+    end_time = datetime.datetime.now()
+    duration = end_time - start_time
+    print(f"Duración total del script: {duration}")
+    print("Listo")
+    print("Este arroz ya se coció :)")

@@ -31,6 +31,8 @@ import smtplib
 # import ssl
 # import email
 import datetime
+import time
+from concurrent.futures import ThreadPoolExecutor
 
 from Test import extract_orders as e_o
 
@@ -79,6 +81,18 @@ def get_email_access():
         config = json.load(config_file)
 
     return config['email']
+
+def current_execution(func):
+    def wrapper(*args, **kwargs):
+        print('\n \n ******************************************************')
+        print(f"Ejecutando {func.__name__}")
+        result = func(*args, **kwargs)
+        print(f"{func.__name__} terminada")
+        print('****************************************************** \n \n')
+        return result
+    return wrapper
+
+@current_execution
 def reverse_invoice_meli(): #NOTAS DE CRÉDITO INDIVIDUALES MELI
     #Formato para query
     type_filter = 'INDIVIDUAL'
@@ -354,6 +368,7 @@ def reverse_invoice_meli(): #NOTAS DE CRÉDITO INDIVIDUALES MELI
     smtpObj.quit()
     mycursor.close()
     mydb.close()
+@current_execution
 def reverse_invoice_global_meli():
     # Formato para query
     type_filter = 'GLOBAL'
@@ -661,7 +676,7 @@ def reverse_invoice_global_meli():
     smtpObj.quit()
     mycursor.close()
     mydb.close()
-
+@current_execution
 def reverse_invoice_amazon():
     # Formato para query
     type_filter = 'INDIVIDUAL'
@@ -923,6 +938,7 @@ def reverse_invoice_amazon():
     smtpObj.quit()
     mycursor.close()
     mydb.close()
+@current_execution
 def reverse_invoice_global_amazon():
     # Formato para query
     type_filter = 'GLOBAL'
@@ -1217,10 +1233,23 @@ def reverse_invoice_global_amazon():
     mydb.close()
 
 if __name__ == "__main__":
-    reverse_invoice_meli()
-    reverse_invoice_global_meli()
-    reverse_invoice_amazon()
-    reverse_invoice_global_amazon()
+    # Numero de workers = numero de funciones (para este script)
+    num_workers = 4
+
+    # Crear un ThreadPoolExecutor con `num_workers` hilos
+    with ThreadPoolExecutor(max_workers=num_workers) as executor:
+        # Enviar las funciones al executor
+        futures = [
+            executor.submit(reverse_invoice_meli),
+            executor.submit(reverse_invoice_global_meli),
+            executor.submit(reverse_invoice_amazon),
+            executor.submit(reverse_invoice_global_amazon)
+        ]
+
+        # Esperar a que todas las funciones terminen
+        for future in futures:
+            future.result()
+
     end_time = datetime.datetime.now()
     duration = end_time - today_date
     print(f'Duraciòn del script: {duration}')

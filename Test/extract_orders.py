@@ -1,6 +1,19 @@
 import pandas as pd
 
 def filter_orders(csv_file, type_val, marketplace_val):
+    """
+    Esta funcion toma un archivo CSV, obtiene las ordenes filtradas para cada tipo de peticion
+    ('INDIVIDUAL' o 'GLOBAL'  y el marketplace especificado), y genera un
+    formato para insertar en las queries de los scripts de Notas de Credito.
+    Esta funcion la utilizan los scripts de Notas de credito: invoice_reverse_nc y invoice_reverse_partial_nc
+
+
+    :param csv_file: Ruta del archivo csv que se evalua.
+    :param type_val: El tipo de filtro que se evalua, ('INDIVIDUAL' o 'GLOBAL' )
+    :param marketplace_val: El marketplace que se filtrara
+    :return: Tupla con los valores (Lista de ordenes, string de marcadores de posición para usar en consultas SQL,
+     numero de ordenes)
+    """
     df = pd.read_csv(csv_file)
 
     # Filter by type and marketplace
@@ -25,12 +38,20 @@ def filter_orders(csv_file, type_val, marketplace_val):
         return orders_list, placeholders, num_records
 
 def marketplace_references(csv_file):
-    df = pd.read_csv(csv_file)
+    """
+    Esta función toma un archivo CSV, extrae una lista de referencias de marketplace (no de ordenes).
+    Esta función la utiliza el script de autofacturacion walmart: invoice_creation_qty
+
+    :param csv_file: Ruta del archivo csv que se evalua.
+    :return: Tupla con los valores (Lista de referencias, string de marcadores de posición para usar en consultas SQL,
+     numero de referencias)
+    """
+    df = pd.read_csv(csv_file, encoding='utf-8')
 
     # Get the list of marketplace references
     marketplace_refs_list = df['Marketplace Reference'].tolist()
 
-    formatted_marketplace_refs = [str(ref) for ref in marketplace_refs_list]
+    formatted_marketplace_refs = [int(ref) for ref in marketplace_refs_list]
 
     # Format marketplace references list for SQL query
     placeholders = ','.join(['%s'] * len(marketplace_refs_list))
@@ -46,6 +67,15 @@ def marketplace_references(csv_file):
     return marketplace_refs_list, placeholders, num_marketplace_refs
 
 def split_csv_to_excel(csv_file, chunk_size, output_dir):
+    """
+    Esta función genera el numero de archivos csv necesarios para correr la facturacion global de Walmart.
+    Esta función la utiliza el script de facturacion global Walmart: invoice_creation_global
+
+    :param csv_file: La ruta del archivo base donde se obtienen las ordenes.
+    :param chunk_size: El numero de lineas u ordenes que tendra cada archivo csv
+    :param output_dir: La ruta donde quedaran los archivos de salida
+    :return: Numero entero que indica el numero de archivos de salida
+    """
     # Cargar el archivo CSV en un DataFrame
     df = pd.read_csv(csv_file)
 
@@ -86,12 +116,13 @@ if __name__ == "__main__":
     # names_concatenated, placeholders, num_records = filter_orders(file_path, type_filter, marketplace_filter)
     # print(num_records, names_concatenated, placeholders)
     #
-    # file_path_mk = 'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Finanzas/Marzo/Walmart/autofacturacion.csv'
-    #
-    # marketplace_refs, placeholders, num_marketplace_refs = marketplace_references(file_path_mk)
-    # print(num_marketplace_refs, marketplace_refs, placeholders)
+    file_path_mk = 'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Finanzas/Marzo/Walmart/autofacturacion.csv'
 
-    excel_files_dir = 'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Repos/wb_odoo_external_api/invoices_functions/files/invoices_test'
-    file_path_walmart = 'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Finanzas/Marzo/Walmart/facturacion_global.csv'
-    num_of_runs = split_csv_to_excel(file_path_walmart,999,excel_files_dir)
+    marketplace_refs, placeholders, num_marketplace_refs = marketplace_references(file_path_mk)
+    print(num_marketplace_refs, marketplace_refs, placeholders)
+    print(type(placeholders))
+
+    # excel_files_dir = 'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Repos/wb_odoo_external_api/invoices_functions/files/invoices_test'
+    # file_path_walmart = 'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Finanzas/Marzo/Walmart/facturacion_global.csv'
+    # num_of_runs = split_csv_to_excel(file_path_walmart,999,excel_files_dir)
 

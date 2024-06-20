@@ -355,7 +355,8 @@ def reverse_invoice_meli(): #NOTAS DE CRÉDITO INDIVIDUALES MELI
         smtpObj = smtplib.SMTP(smtp_server, smtp_port)
         smtpObj.starttls()
         smtpObj.login(smtp_username, smtp_password)
-        smtpObj.sendmail(smtp_username, msg['To'], msg.as_string())
+        #smtpObj.sendmail(smtp_username, msg['To'], msg.as_string())
+        smtpObj.send_message(msg)
     except Exception as i:
         print(f"Error: no se pudo enviar el correo: {i}")
 
@@ -663,7 +664,8 @@ def reverse_invoice_global_meli():
         smtpObj = smtplib.SMTP(smtp_server, smtp_port)
         smtpObj.starttls()
         smtpObj.login(smtp_username, smtp_password)
-        smtpObj.sendmail(smtp_username, msg['To'], msg.as_string())
+        #smtpObj.sendmail(smtp_username, msg['To'], msg.as_string())
+        smtpObj.send_message(msg)
     except Exception as i:
         print(f"Error: no se pudo enviar el correo: {i}")
 
@@ -925,7 +927,8 @@ def reverse_invoice_amazon():
         smtpObj = smtplib.SMTP(smtp_server, smtp_port)
         smtpObj.starttls()
         smtpObj.login(smtp_username, smtp_password)
-        smtpObj.sendmail(smtp_username, msg['To'], msg.as_string())
+        #smtpObj.sendmail(smtp_username, msg['To'], msg.as_string())
+        smtpObj.send_message(msg)
     except Exception as i:
         print(f"Error: no se pudo enviar el correo: {i}")
 
@@ -1218,7 +1221,8 @@ def reverse_invoice_global_amazon():
         smtpObj = smtplib.SMTP(smtp_server, smtp_port)
         smtpObj.starttls()
         smtpObj.login(smtp_username, smtp_password)
-        smtpObj.sendmail(smtp_username, msg['To'], msg.as_string())
+        #smtpObj.sendmail(smtp_username, msg['To'], msg.as_string())
+        smtpObj.send_message(msg)
     except Exception as i:
         print(f"Error: no se pudo enviar el correo: {i}")
 

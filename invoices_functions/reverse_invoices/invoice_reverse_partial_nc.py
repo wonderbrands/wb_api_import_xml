@@ -48,7 +48,7 @@ print('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
 
 # ***********************************************
 # ARCHIVO DE CONFIGURACIÓN
-config_file = 'config.json'
+config_file = 'config_dev.json'
 # ***********************************************
 
 config_file_name = rf'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Repos\wb_odoo_external_api\config\{config_file}'
@@ -435,7 +435,8 @@ def reverse_invoice_partial_ind_meli():
         smtpObj = smtplib.SMTP(smtp_server, smtp_port)
         smtpObj.starttls()
         smtpObj.login(smtp_username, smtp_password)
-        smtpObj.sendmail(smtp_username, msg['To'], msg.as_string())
+        #smtpObj.sendmail(smtp_username, msg['To'], msg.as_string())
+        smtpObj.send_message(msg)
     except Exception as i:
         print(f"Error: no se pudo enviar el correo: {i}")
 
@@ -801,7 +802,8 @@ def reverse_invoice_partial_glob_meli():
         smtpObj = smtplib.SMTP(smtp_server, smtp_port)
         smtpObj.starttls()
         smtpObj.login(smtp_username, smtp_password)
-        smtpObj.sendmail(smtp_username, msg['To'], msg.as_string())
+        #smtpObj.sendmail(smtp_username, msg['To'], msg.as_string())
+        smtpObj.send_message(msg)
     except Exception as i:
         print(f"Error: no se pudo enviar el correo: {i}")
 
@@ -1130,7 +1132,8 @@ def reverse_invoice_partial_ind_amz():
         smtpObj = smtplib.SMTP(smtp_server, smtp_port)
         smtpObj.starttls()
         smtpObj.login(smtp_username, smtp_password)
-        smtpObj.sendmail(smtp_username, msg['To'], msg.as_string())
+        #smtpObj.sendmail(smtp_username, msg['To'], msg.as_string())
+        smtpObj.send_message(msg)
     except Exception as i:
         print(f"Error: no se pudo enviar el correo: {i}")
 
@@ -1453,7 +1456,8 @@ def reverse_invoice_partial_glob_amz():
         smtpObj = smtplib.SMTP(smtp_server, smtp_port)
         smtpObj.starttls()
         smtpObj.login(smtp_username, smtp_password)
-        smtpObj.sendmail(smtp_username, msg['To'], msg.as_string())
+        #smtpObj.sendmail(smtp_username, msg['To'], msg.as_string())
+        smtpObj.send_message(msg)
     except Exception as i:
         print(f"Error: no se pudo enviar el correo: {i}")
 

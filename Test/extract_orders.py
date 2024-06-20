@@ -33,8 +33,10 @@ def filter_orders(csv_file, type_val, marketplace_val):
 
     # REVISA QUE NO DEVUELVA EL VACIO EN Lorder_list
     if num_records == 0:
+        print('Lista vacía, no hay math en órdenes')
         return [''],'%s',0
     else:
+        print(orders_list)
         return orders_list, placeholders, num_records
 
 def marketplace_references(csv_file):

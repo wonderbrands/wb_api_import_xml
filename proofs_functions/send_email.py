@@ -1,29 +1,29 @@
-from flask import Flask, render_template, request, make_response, url_for, session
-from email.message import EmailMessage
-from email.utils import make_msgid
+# from flask import Flask, render_template, request, make_response, url_for, session
+# from email.message import EmailMessage
+# from email.utils import make_msgid
 from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from pprint import pprint
 from email import encoders
-import time
-import json
-import jsonrpc
-import jsonrpclib
-import random
-import urllib.request
-import getpass
-import http
-import requests
-import logging
-import zipfile
-import socket
+# import time
+# import json
+# import jsonrpc
+# import jsonrpclib
+# import random
+# import urllib.request
+# import getpass
+# import http
+# import requests
+# import logging
+# import zipfile
+# import socket
 import os
 import locale
 import xmlrpc.client
 import base64
 import openpyxl
-import xlrd
+# import xlrd
 import pandas as pd
 import MySQLdb
 import mysql.connector
@@ -52,7 +52,7 @@ body = '''\
 <html>
   <head></head>
   <body>
-    <p>Buenas noches</p>
+    <p>Buenas noches xxxxxxxxxxxxxxxxxx</p>
     <p>Hola a todos, espero que estén muy bien. Les comento que acabamos de correr el script de autofacturación Walmart.</p>
     <p>Adjunto encontrarán el archivo generado por el script en el cual se encuentran las órdenes a las cuales se les creó una factura, órdenes que no se pudieron facturar, nombre de las facturas creadas y su ids correspondientes.</p>
     </br>
@@ -90,9 +90,10 @@ print('Definiendo remitente y destinatarios')
 print('----------------------------------------------------------------')
 #Define el encabezado y las direcciones del remitente y destinatarios
 msg = MIMEMultipart()
-msg['From'] = 'Tech anibal@wonderbrands.co'
-msg['To'] = ', '.join(['joss2608@gmail.com','anibalarenas2107@gmail.com','hnbm.gamming@gmail.com'])
-msg['Subject'] = 'Resultados de facturas Walmart'
+msg['From'] = 'sergio@wonderbrands.co'
+#recipients = ['sergiogil.fiein@gmail.com','sergio.gil.guerrero.garcia@gmail.com','sergio@wonderbrands.co'] # sergio.gil.guerrero.garcia lili.men.mor11
+msg['To'] = ', '.join(['sergiogil.fiein@gmail.com','sergio.gil.guerrero.garcia@gmail.com','sergio@wonderbrands.co'])
+msg['Subject'] = 'Resultados de facturas Walmart GOOD'
 # Adjuntar el cuerpo del correo
 msg.attach(MIMEText(body, 'html'))
 # Adjuntar el archivo Excel al mensaje
@@ -105,15 +106,16 @@ msg.attach(attachment)
 #Define variables del servidor de correo
 smtp_server = 'smtp.gmail.com'
 smtp_port = 587
-smtp_username = 'anibal@wonderbrands.co'
-smtp_password = 'iwvrlrxkiydxueer'
+smtp_username = 'sergio@wonderbrands.co'
+smtp_password = 'lwbwgygovuhcyjnk'
 print('Enviando correo con listas de ordenes y facturas')
 print('----------------------------------------------------------------')
 try:
    smtpObj = smtplib.SMTP(smtp_server, smtp_port)
    smtpObj.starttls()
    smtpObj.login(smtp_username, smtp_password)
-   smtpObj.sendmail(smtp_username, msg['To'], msg.as_string())
+   # smtpObj.sendmail(smtp_username, msg['To'], msg.as_string())
+   smtpObj.send_message(msg)
    print("Correo enviado correctamente")
 except Exception as e:
    print(f"Error: no se pudo enviar el correo: {e}")

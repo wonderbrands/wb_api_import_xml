@@ -59,10 +59,12 @@ l10n_mx_edi_usage = 'G02'
 start_date_str = datetime.date(2024, 4, 30).strftime("%Y-%m-%d")
 end_date_str = datetime.date(2024, 5, 24).strftime("%Y-%m-%d")
 month_executed = 'Mayo'
+year_executed = '2024'
+# ***********************************************
 
 #PATHS de los archivos de ordenes conciliadas
-orders_meli_file_path = 'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Finanzas/{}/Conciliadas/Notas_de_credito_parciales_ML.csv'.format(month_executed)
-orders_amz_file_path = 'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Finanzas/{}/Conciliadas/Notas_de_credito_parciales_AMZ.csv'.format(month_executed)
+orders_meli_file_path = 'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Finanzas/{}/{}/Conciliadas/Notas_de_credito_parciales_ML.csv'.format(year_executed,month_executed)
+orders_amz_file_path = 'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Finanzas/{}/{}/Conciliadas/Notas_de_credito_parciales_AMZ.csv'.format(year_executed,month_executed)
 
 
 def get_odoo_access():

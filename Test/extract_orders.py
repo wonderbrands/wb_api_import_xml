@@ -14,7 +14,7 @@ def filter_orders(csv_file, type_val, marketplace_val):
     :return: Tupla con los valores (Lista de ordenes, string de marcadores de posición para usar en consultas SQL,
      numero de ordenes)
     """
-    df = pd.read_csv(csv_file)
+    df = pd.read_csv(csv_file, encoding='utf-8')
 
     # Filter by type and marketplace
     df_filtered = df[(df['type'] == type_val) & (df['marketplace'] == marketplace_val)]
@@ -36,7 +36,7 @@ def filter_orders(csv_file, type_val, marketplace_val):
         print('Lista vacía, no hay math en órdenes')
         return [''],'%s',0
     else:
-        print(orders_list)
+        print(type_val, marketplace_val, orders_list)
         return orders_list, placeholders, num_records
 
 def marketplace_references(csv_file):
@@ -79,7 +79,7 @@ def split_csv_to_excel(csv_file, chunk_size, output_dir):
     :return: Numero entero que indica el numero de archivos de salida
     """
     # Cargar el archivo CSV en un DataFrame
-    df = pd.read_csv(csv_file)
+    df = pd.read_csv(csv_file, encoding='utf-8')
 
     # Calcular el número de filas y el número de fragmentos
     total_rows = len(df)

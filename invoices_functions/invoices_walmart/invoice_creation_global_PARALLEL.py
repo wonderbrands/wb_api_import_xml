@@ -68,7 +68,7 @@ def get_email_access():
         config = json.load(config_file)
 
     return config['email']
-def invoice_create_global(excel_file_path):
+def invoice_create_global(excel_file_path, execution_number):
     # Obtener credenciales
     odoo_keys = get_odoo_access()
     psql_keys = get_psql_access()
@@ -128,7 +128,7 @@ def invoice_create_global(excel_file_path):
     order_diff_status = []
     order_w_inv = []
     order_no_exist = []
-    progress_bar = tqdm(total=len(sales_order_records), desc="Procesando")
+    progress_bar = tqdm(total=len(sales_order_records), desc=f"Procesando hilo {str(execution_number)}")
     try:
         #for rec in sales_order_records:
         #    order_id = models.execute_kw(db_name, uid, password, 'sale.order', 'search_read', [[['name', '=', rec]]])
@@ -217,6 +217,11 @@ def invoice_create_global(excel_file_path):
     except Exception as e:
         print(f"Error al crear la factura con error: {e}")
 
+    finally:
+        progress_bar.close()
+        mycursor.close()
+        mydb.close()
+
     #Envío de correo
     msg = MIMEMultipart()
     body = '''\
@@ -258,7 +263,7 @@ def invoice_create_global(excel_file_path):
     for i in range(len(order_no_exist)):
         sheet['D{}'.format(i+2)] = order_no_exist[i]
     # Guardar el archivo Excel en disco
-    excel_file = 'factura_global_' + today_date.strftime("%Y%m%d") + '.xlsx'
+    excel_file = 'factura_global_' + today_date.strftime("%Y%m%d") + '-' + str(execution_number) + '.xlsx'
     workbook.save(excel_file)
     # Leer el contenido del archivo Excel
     with open(excel_file, 'rb') as file:
@@ -269,7 +274,7 @@ def invoice_create_global(excel_file_path):
     print('----------------------------------------------------------------')
     msg = MIMEMultipart()
     msg['From'] = 'sergio@wonderbrands.co'
-    msg['To'] = ', '.join(['eric@wonderbrands.co','rosalba@wonderbrands.co','natalia@wonderbrands.co','greta@somos-reyes.com','contabilidad@somos-reyes.com','alex@wonderbrands.co','will@wonderbrands.co'])
+    msg['To'] = ', '.join(['sergio@wonderbrands.co''eric@wonderbrands.co','rosalba@wonderbrands.co','carlos.hinojosa@wonderbrands.co','greta@somos-reyes.com','contabilidad@somos-reyes.com','alex@wonderbrands.co','will@wonderbrands.co'])
     msg['Subject'] = 'Resultados de facturas Walmart'
     # Adjuntar el cuerpo del correo
     msg.attach(MIMEText(body, 'html'))
@@ -291,7 +296,8 @@ def invoice_create_global(excel_file_path):
        smtpObj = smtplib.SMTP(smtp_server, smtp_port)
        smtpObj.starttls()
        smtpObj.login(smtp_username, smtp_password)
-       smtpObj.sendmail(smtp_username, msg['To'], msg.as_string())
+       #smtpObj.sendmail(smtp_username, msg['To'], msg.as_string())
+       smtpObj.send_message(msg)
        print("Correo enviado correctamente")
     except Exception as e:
        print(f"Error: no se pudo enviar el correo: {e}")
@@ -306,6 +312,10 @@ def invoice_create_global(excel_file_path):
     mydb.close()
     smtpObj.quit()
 
+    print(f'\nHa terminado la ejecución {execution_number}\n')
+
+    print('----------------------------------------------------------------')
+
 
 def execute_invoice_create_global(runs_numbs, global_path):
     """
@@ -319,7 +329,7 @@ def execute_invoice_create_global(runs_numbs, global_path):
         for num in range(1, runs_numbs + 1):
             file_path = f"{global_path}/so_invoices{num}.xlsx"
             print(f"\n\n********* Corrida {num} **********\n\n")
-            futures.append(executor.submit(invoice_create_global, file_path))
+            futures.append(executor.submit(invoice_create_global, file_path, num))
 
         for future in futures:
             try:
@@ -329,15 +339,22 @@ def execute_invoice_create_global(runs_numbs, global_path):
 
 
 if __name__ == "__main__":
+
+    # TAREAS PENDIENTES! :
+    # Hacer que al finalizar la función invoice_create_global, cree el archivo de salida, lo guarde (revisar como lo ahce hasta ahora)
+    # y cuando terminen todos los hilos y todos los archivos, enviar un solo correo con los archivos adjuntos y
+    # añadir el nombre de la ejecucion al archivo de salida.
+
     # ***********************************************
-    # MES DE EJECUCIÓN
-    month = 'Mayo'
+    # MES Y ANIO DE EJECUCION
+    month = 'Julio'
+    year_executed = '2024'
     # ***********************************************
 
     start_time = datetime.datetime.now()
 
     excel_files_dir = f'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Repos/wb_odoo_external_api/invoices_functions/files/invoices'
-    file_path_walmart = f'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Finanzas/{month}/Walmart/facturacion_global.csv'
+    file_path_walmart = f'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Finanzas/{year_executed}/{month}/Walmart/facturacion_global.csv'
     num_of_runs = e_o.split_csv_to_excel(file_path_walmart, 999, excel_files_dir)
     execute_invoice_create_global(num_of_runs, excel_files_dir)
 

@@ -57,14 +57,15 @@ l10n_mx_edi_payment_method_id = 3
 l10n_mx_edi_usage = 'G02'
 
 #FECHAS DEL PERIODO ***********************************************
-start_date_str = datetime.date(2024, 4, 30).strftime("%Y-%m-%d")
-end_date_str = datetime.date(2024, 5, 24).strftime("%Y-%m-%d")
-month_executed = 'Mayo'
+start_date_str = datetime.date(2024, 6, 25).strftime("%Y-%m-%d")
+end_date_str = datetime.date(2024, 7, 28).strftime("%Y-%m-%d")
+month_executed = 'Julio'
+year_executed = '2024'
 # ***********************************************
 
 #PATHS de los archivos de ordenes conciliadas
-orders_meli_file_path = 'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Finanzas/{}/Conciliadas/Notas_de_credito_totales_ML.csv'.format(month_executed)
-orders_amz_file_path = 'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Finanzas/{}/Conciliadas/Notas_de_credito_totales_AMZ.csv'.format(month_executed)
+orders_meli_file_path = 'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Finanzas/{}/{}/Conciliadas/Notas_de_credito_totales_ML.csv'.format(year_executed,month_executed)
+orders_amz_file_path = 'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Finanzas/{}/{}/Conciliadas/Notas_de_credito_totales_AMZ.csv'.format(year_executed,month_executed)
 
 def get_odoo_access():
     with open(config_file_name, 'r') as config_file:
@@ -340,7 +341,7 @@ def reverse_invoice_meli(): #NOTAS DE CRÉDITO INDIVIDUALES MELI
         msg = MIMEMultipart()
         msg['From'] = 'sergio@wonderbrands.co'
         msg['To'] = ', '.join(
-            ['sergio@wonderbrands.co', 'eric@wonderbrands.co','rosalba@wonderbrands.co', 'natalia@wonderbrands.co', 'greta@somos-reyes.com',
+            ['carlos.hinojosa@wonderbrands.co', 'sergio@wonderbrands.co', 'eric@wonderbrands.co','rosalba@wonderbrands.co', 'greta@somos-reyes.com',
              'contabilidad@somos-reyes.com', 'alex@wonderbrands.co', 'will@wonderbrands.co'])
         msg['Subject'] = 'Script Automático Meli - Creación de notas de crédito para facturas individuales'
         # Adjuntar el cuerpo del correo
@@ -648,7 +649,7 @@ def reverse_invoice_global_meli():
         msg = MIMEMultipart()
         msg['From'] = 'sergio@wonderbrands.co'
         msg['To'] = ', '.join(
-            ['sergio@wonderbrands.co', 'eric@wonderbrands.co','rosalba@wonderbrands.co', 'natalia@wonderbrands.co',
+            ['carlos.hinojosa@wonderbrands.co', 'sergio@wonderbrands.co', 'eric@wonderbrands.co','rosalba@wonderbrands.co',
              'greta@somos-reyes.com',
              'contabilidad@somos-reyes.com', 'alex@wonderbrands.co', 'will@wonderbrands.co'])
         msg['Subject'] = 'Script Automático Meli - Creación de notas de crédito para facturas globales'
@@ -736,9 +737,9 @@ def reverse_invoice_amazon():
                         FROM somos_reyes.odoo_new_account_move_aux b
                         LEFT JOIN somos_reyes.odoo_new_sale_order c
                         ON b.invoice_origin = c.name
-                        LEFT JOIN (SELECT a.order_id, max(STR_TO_DATE(fecha, '%d/%m/%Y')) 'refund_date', SUM(total - tarifas_de_amazon) * (-1) 'refunded_amt'
+                        LEFT JOIN (SELECT a.order_id, max(STR_TO_DATE(fecha, '%m/%d/%Y')) 'refund_date', SUM(total - tarifas_de_amazon) * (-1) 'refunded_amt'
                                    FROM somos_reyes.amazon_payments_refunds a
-                                   WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%d/%m/%Y') >= %s AND STR_TO_DATE(fecha, '%d/%m/%Y') <= %s
+                                   WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%m/%d/%Y') >= %s AND STR_TO_DATE(fecha, '%m/%d/%Y') <= %s
                                    GROUP BY 1) d
                         ON c.channel_order_id = d.order_id
                         LEFT JOIN (SELECT distinct invoice_origin FROM somos_reyes.odoo_new_account_move_aux WHERE name like '%RINV%') e
@@ -912,7 +913,7 @@ def reverse_invoice_amazon():
         msg = MIMEMultipart()
         msg['From'] = 'sergio@wonderbrands.co'
         msg['To'] = ', '.join(
-            ['sergio@wonderbrands.co', 'eric@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co', 'greta@somos-reyes.com',
+            ['carlos.hinojosa@wonderbrands.co', 'sergio@wonderbrands.co', 'eric@wonderbrands.co', 'rosalba@wonderbrands.co', 'greta@somos-reyes.com',
              'contabilidad@somos-reyes.com', 'alex@wonderbrands.co', 'will@wonderbrands.co'])
         msg['Subject'] = 'Script Automático Amazon - Creación de notas de crédito para facturas individuales'
         # Adjuntar el cuerpo del correo
@@ -1000,9 +1001,9 @@ def reverse_invoice_global_amazon():
                         FROM somos_reyes.odoo_new_account_move_aux b
                         LEFT JOIN somos_reyes.odoo_new_sale_order c
                         ON SUBSTRING_INDEX(SUBSTRING_INDEX(invoice_ids, ']', 1), '[', -1) = b.id
-                        LEFT JOIN (SELECT a.order_id, max(STR_TO_DATE(fecha, '%d/%m/%Y')) 'refund_date', SUM(total - tarifas_de_amazon) * (-1) 'refunded_amt'
+                        LEFT JOIN (SELECT a.order_id, max(STR_TO_DATE(fecha, '%m/%d/%Y')) 'refund_date', SUM(total - tarifas_de_amazon) * (-1) 'refunded_amt'
                                    FROM somos_reyes.amazon_payments_refunds a
-                                   WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%d/%m/%Y') >= %s AND STR_TO_DATE(fecha, '%d/%m/%Y') <= %s
+                                   WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%m/%d/%Y') >= %s AND STR_TO_DATE(fecha, '%m/%d/%Y') <= %s
                                    GROUP BY 1) d
                         ON c.channel_order_id = d.order_id
                         LEFT JOIN (SELECT distinct invoice_origin FROM somos_reyes.odoo_new_account_move_aux WHERE name like '%RINV%') e
@@ -1205,7 +1206,7 @@ def reverse_invoice_global_amazon():
         msg = MIMEMultipart()
         msg['From'] = 'sergio@wonderbrands.co'
         msg['To'] = ', '.join(
-            ['sergio@wonderbrands.co', 'eric@wonderbrands.co', 'rosalba@wonderbrands.co', 'natalia@wonderbrands.co',
+            ['carlos.hinojosa@wonderbrands.co', 'sergio@wonderbrands.co', 'eric@wonderbrands.co', 'rosalba@wonderbrands.co',
              'greta@somos-reyes.com',
              'contabilidad@somos-reyes.com', 'alex@wonderbrands.co', 'will@wonderbrands.co'])
         msg['Subject'] = 'Script Automático Amazon - Creación de notas de crédito para facturas globales'
@@ -1238,15 +1239,15 @@ def reverse_invoice_global_amazon():
 
 if __name__ == "__main__":
     # Numero de workers = numero de funciones (para este script)
-    num_workers = 4
+    num_workers = 1
 
     # Crear un ThreadPoolExecutor con `num_workers` hilos
     with ThreadPoolExecutor(max_workers=num_workers) as executor:
         # Enviar las funciones al executor
         futures = [
-            executor.submit(reverse_invoice_meli),
-            executor.submit(reverse_invoice_global_meli),
-            executor.submit(reverse_invoice_amazon),
+            #executor.submit(reverse_invoice_meli),
+            #executor.submit(reverse_invoice_global_meli),
+            #executor.submit(reverse_invoice_amazon),
             executor.submit(reverse_invoice_global_amazon)
         ]
 

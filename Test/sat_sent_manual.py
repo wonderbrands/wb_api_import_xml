@@ -56,11 +56,12 @@ search_date = yday
 
 # ******************
 # MES DE EJECUCIÓN
-month = 'Mayo'
+year = '2024'
+month = 'Julio'
 # ******************
 
 # REVISAR QUE EXISTA LA RUTA DE LOS XML'S !!!
-os.chdir(f'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Finanzas/{month}/xmls_walmart')
+os.chdir(f'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Finanzas/{year}/{month}/Walmart/xmls_walmart')
 
 for file in glob.glob("*.xml")[0:]:
     tree = ET.parse(file)

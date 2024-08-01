@@ -35,7 +35,7 @@ import datetime
 from Test import extract_orders as e_o
 
 print('================================================================')
-print('BIENVENIDO AL PROCESO DE FACTURACIÓN WALMART')
+print('BIENVENIDO AL PROCESO DE AUTOFACTURACIÓN WALMART')
 print('================================================================')
 print('SCRIPT DE CREACIÓN DE FACTURAS POR ITEM')
 print('================================================================')
@@ -49,18 +49,19 @@ print('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
 # ARCHIVO DE CONFIGURACIÓN
 config_file = 'config.json'
 
-# MES DE EJECUCION
-month_executed = 'Mayo'
+# MES Y ANIO DE EJECUCION
+month_executed = 'Julio'
+year_executed = '2024'
 
 # FECHAS PARA CARPETA DRIVE en str
 year_ = '2024'
-month_ = '05'
+month_ = '07' # Número del mes. Ejemplo para enero: '01'
 # ***********************************************
 
 config_file_name = rf'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Repos\wb_odoo_external_api\config\{config_file}'
 
 #PATH del archivo de ordenes conciliadas
-orders_walmart_file_path = 'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Finanzas/{}/Walmart/autofacturacion.csv'.format(month_executed)
+orders_walmart_file_path = 'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Finanzas/{}/{}/Walmart/autofacturacion.csv'.format(year_executed,month_executed)
 
 def get_odoo_access():
     with open(config_file_name, 'r') as config_file:
@@ -571,7 +572,7 @@ def invoice_create_qty():
     print('----------------------------------------------------------------')
     msg = MIMEMultipart()
     msg['From'] = 'sergio@wonderbrands.co'
-    msg['To'] = ', '.join(['sergio@wonderbrands.co', 'eric@wonderbrands.co', 'rosalba@wonderbrands.co','natalia@wonderbrands.co','greta@somos-reyes.com','contabilidad@somos-reyes.com','alex@wonderbrands.co','will@wonderbrands.co'])
+    msg['To'] = ', '.join(['sergio@wonderbrands.co', 'eric@wonderbrands.co', 'rosalba@wonderbrands.co','carlos.hinojosa@wonderbrands.co','greta@somos-reyes.com','contabilidad@somos-reyes.com','alex@wonderbrands.co','will@wonderbrands.co'])
     msg['Subject'] = 'Cierre de facturación de órdenes autofacturadas - Walmart'
     # Adjuntar el cuerpo del correo
     msg.attach(MIMEText(body, 'html'))
@@ -594,6 +595,7 @@ def invoice_create_qty():
        smtpObj.starttls()
        smtpObj.login(smtp_username, smtp_password)
        #smtpObj.sendmail(smtp_username, msg['To'], msg.as_string())
+       smtpObj.send_message(msg)
        print("Correo enviado correctamente")
     except Exception as e:
        print(f"Error: no se pudo enviar el correo: {e}")

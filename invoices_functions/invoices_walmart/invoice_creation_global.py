@@ -47,7 +47,7 @@ print('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
 
 # ***********************************************
 # ARCHIVO DE CONFIGURACIÓN
-config_file = 'config.json'
+config_file = 'config_dev.json'
 # ***********************************************
 
 config_file_name = rf'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Repos\wb_odoo_external_api\config\{config_file}'
@@ -290,7 +290,7 @@ def invoice_create_global(excel_file_path):
        smtpObj = smtplib.SMTP(smtp_server, smtp_port)
        smtpObj.starttls()
        smtpObj.login(smtp_username, smtp_password)
-       smtpObj.sendmail(smtp_username, msg['To'], msg.as_string())
+       #smtpObj.sendmail(smtp_username, msg['To'], msg.as_string())
        print("Correo enviado correctamente")
     except Exception as e:
        print(f"Error: no se pudo enviar el correo: {e}")
@@ -312,8 +312,9 @@ def execute_invoice_create_global(runs_numbs, global_path):
     :param runs_numbs: Numero de corridas (es igual al numero de archivos csv)
     :param global_path: La ruta dodne se encuentran los archivos
     """
-    for num in range(1,runs_numbs+1):
+    for num in range(4,runs_numbs+1):
         print('\n \n ********* Corrida {} ********** \n \n'.format(num))
+        print('/so_invoices{}.xlsx'.format(num))
         invoice_create_global(global_path + '/so_invoices{}.xlsx'.format(num))
         end_time = datetime.datetime.now()
         duration = end_time - today_date
@@ -323,11 +324,12 @@ def execute_invoice_create_global(runs_numbs, global_path):
 
 if __name__ == "__main__":
     # ***********************************************
-    # MES DE EJECUCIÓN
-    month = 'Mayo'
+    # MES Y ANIO DE EJECUCION
+    month = 'Junio'
+    year_executed = '2024'
     # ***********************************************
 
     excel_files_dir = f'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Repos/wb_odoo_external_api/invoices_functions/files/invoices'
-    file_path_walmart = f'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Finanzas/{month}/Walmart/facturacion_global.csv'
+    file_path_walmart = f'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Finanzas/{year_executed}/{month}/Walmart/facturacion_global.csv'
     num_of_runs = e_o.split_csv_to_excel(file_path_walmart, 999, excel_files_dir)
     execute_invoice_create_global(num_of_runs, excel_files_dir)

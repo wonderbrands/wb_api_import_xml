@@ -8,6 +8,8 @@ from email.mime.base import MIMEBase
 from email import encoders
 import base64
 import os
+from datetime import datetime
+import time as tm
 
 __description__ = """
         Este script obtiene los resultados de las queries de Mercado Libre y Amazon tanto totales como parciales (Individuales y Globales),
@@ -15,7 +17,7 @@ __description__ = """
         
         La información que se obtiene son las órdenes que generan reembolsos (notas de crédito) que deben ser cotejadas por el qeuipo de finanzas.
         
-        Se deben modificar los parámetros de fechas de inicio y fin (start_date y end_date).
+        Se deben modificar los parámetros de fechas de inicio y fin (start_date y end_date), el anio y el mes.
 """
 
 def fetch_data(query_name, query_template, csv_path):
@@ -71,19 +73,23 @@ def send_email_with_attachments(sender_email, sender_password, to_recipients, cc
         smtp_obj.starttls()
         smtp_obj.login(sender_email, sender_password)
         recipients = to_recipients + cc_recipients
-        smtp_obj.sendmail(sender_email, recipients, msg.as_string())
+        #smtp_obj.sendmail(sender_email, recipients, msg.as_string())
+        smtp_obj.send_message(msg)
         smtp_obj.quit()
         print("Correo enviado correctamente")
     except Exception as e:
         print(f"Error: no se pudo enviar el correo: {e}")
 
-if __name__ == '__main__':
-    # FECHAS
-    start_date = '2024-04-30'
-    end_date = '2024-04-30'
-    test_date = 'mes_de_prueba'  # Nombrar carpetas como: Mes_anio     Ejemplo: Mayo_2024
-    # ************************************
+def init_process(start_date,end_date,year,month):
 
+    _start_date = datetime.strptime(start_date, '%d-%m-%Y')
+    _end_date = datetime.strptime(end_date, '%d-%m-%Y')
+
+    _start_date = _start_date.strftime('%Y-%m-%d')
+    _end_date = _end_date.strftime('%Y-%m-%d')
+
+
+    #print(_start_date_ML, _end_date_ML, _start_date, _end_date, _start_date_AMZ, _end_date_AMZ)
 
     # MERCADO-LIBRE TOTALES
     query_template_ML_Totales = f"""
@@ -91,6 +97,7 @@ if __name__ == '__main__':
     #INDIVIDUALES
     SELECT c.name,
            ifnull(d.order_id, dd.pack_id) 'order_id_or_pack_id',
+           c.channel_order_reference 'marketplace reference',
            b.amount_total 'total_factura',
            b.amount_untaxed 'subtotal_factura',
            ifnull(d.refunded_amt, dd.refunded_amt) 'ml_refunded_amount',
@@ -107,14 +114,14 @@ if __name__ == '__main__':
                FROM somos_reyes.ml_order_payments a
                LEFT JOIN somos_reyes.ml_order_update b
                ON a.order_id = b.order_id
-               WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '{start_date}' AND date(payment_date_last_modified) <= '{end_date}'
+               WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '{_start_date}' AND date(payment_date_last_modified) <= '{_end_date}'
                GROUP BY 1) d
     ON c.channel_order_id = d.order_id
     LEFT JOIN (SELECT a.pack_id, max(payment_date_last_modified) 'payment_date_last_modified', SUM(b.paid_amt) 'paid_amt', SUM(b.refunded_amt) 'refunded_amt', SUM(shipping_amt) 'shipping_amt'
     FROM somos_reyes.ml_order_update a
     LEFT JOIN somos_reyes.ml_order_payments b
     ON a.order_id = b.order_id
-    WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '{start_date}' AND date(payment_date_last_modified) <= '{end_date}'
+    WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '{_start_date}' AND date(payment_date_last_modified) <= '{_end_date}'
     GROUP BY 1) dd
     ON c.yuju_pack_id = dd.pack_id
     LEFT JOIN (SELECT distinct invoice_origin FROM somos_reyes.odoo_new_account_move_aux WHERE name like '%RINV%') e
@@ -129,6 +136,7 @@ if __name__ == '__main__':
     #GLOBALES
     SELECT c.name,
            ifnull(d.order_id, dd.pack_id) 'order_id_or_pack_id',
+           c.channel_order_reference 'marketplace reference',
            b.amount_total 'total_factura',
            b.amount_untaxed 'subtotal_factura',
            ifnull(d.refunded_amt, dd.refunded_amt) 'ml_refunded_amount',
@@ -145,14 +153,14 @@ if __name__ == '__main__':
                FROM somos_reyes.ml_order_payments a
                LEFT JOIN somos_reyes.ml_order_update b
                ON a.order_id = b.order_id
-               WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '{start_date}' AND date(payment_date_last_modified) <= '{end_date}'
+               WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '{_start_date}' AND date(payment_date_last_modified) <= '{_end_date}'
                GROUP BY 1) d
     ON c.channel_order_id = d.order_id
     LEFT JOIN (SELECT a.pack_id, max(payment_date_last_modified) 'payment_date_last_modified', SUM(b.paid_amt) 'paid_amt', SUM(b.refunded_amt) 'refunded_amt', SUM(shipping_amt) 'shipping_amt'
     FROM somos_reyes.ml_order_update a
     LEFT JOIN somos_reyes.ml_order_payments b
     ON a.order_id = b.order_id
-    WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '{start_date}' AND date(payment_date_last_modified) <= '{end_date}'
+    WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '{_start_date}' AND date(payment_date_last_modified) <= '{_end_date}'
     GROUP BY 1) dd
     ON c.yuju_pack_id = dd.pack_id
     LEFT JOIN (SELECT distinct invoice_origin FROM somos_reyes.odoo_new_account_move_aux WHERE name like '%RINV%') e
@@ -168,7 +176,7 @@ if __name__ == '__main__':
     """
 
     query_name = 'MERCADO-LIBRE TOTALES'
-    csv_path_ML_Totales = rf'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Finanzas\{test_date}\Notas_de_credito_totales_ML.csv'
+    csv_path_ML_Totales = rf'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Finanzas\{year}\{month}\Notas_de_credito_totales_ML.csv'
     fetch_data(query_name, query_template_ML_Totales, csv_path_ML_Totales)
 
     # MERCADO-LIBRE PARCIALES
@@ -177,10 +185,11 @@ if __name__ == '__main__':
     #INDIVIDUALES
     SELECT c.name,
            ifnull(d.order_id, dd.pack_id) 'order_id_or_pack_id',
+           c.channel_order_reference 'marketplace reference',
            b.amount_total 'total_factura',
            b.amount_untaxed 'subtotal_factura',
-           ifnull(d.refunded_amt, dd.refunded_amt) 'ml_refunded_amount',
-           ifnull(d.shipping_amt, dd.shipping_amt) 'ml_shipping_amount',
+           ifnull(d.refunded_amt, dd.refunded_amt) 'total_so',
+           ifnull(d.shipping_amt, dd.shipping_amt) 'ml_refunded_amount',
            ifnull(d.payment_date_last_modified, dd.payment_date_last_modified) 'payment_date_last_modified',
            b.invoice_partner_display_name 'cliente',
            b.name,
@@ -204,7 +213,7 @@ if __name__ == '__main__':
                FROM somos_reyes.ml_order_payments a
                LEFT JOIN somos_reyes.ml_order_update b
                ON a.order_id = b.order_id
-               WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '{start_date}' AND date(payment_date_last_modified) <= '{end_date}'
+               WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '{_start_date}' AND date(payment_date_last_modified) <= '{_end_date}'
                GROUP BY 1, 2
                ) d
     ON c.channel_order_id = d.order_id
@@ -219,7 +228,7 @@ if __name__ == '__main__':
     FROM somos_reyes.ml_order_update a
     LEFT JOIN somos_reyes.ml_order_payments b
     ON a.order_id = b.order_id
-    WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '{start_date}' AND date(payment_date_last_modified) <= '{end_date}'
+    WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '{_start_date}' AND date(payment_date_last_modified) <= '{_end_date}'
     GROUP BY 1, 2
     ) dd
     ON c.yuju_pack_id = dd.pack_id
@@ -241,7 +250,7 @@ if __name__ == '__main__':
                FROM somos_reyes.ml_order_payments a
                LEFT JOIN somos_reyes.ml_order_update b
                ON a.order_id = b.order_id
-               WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '{start_date}' AND date(payment_date_last_modified) <= '{end_date}'
+               WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '{_start_date}' AND date(payment_date_last_modified) <= '{_end_date}'
                GROUP BY 1) t
     ON c.channel_order_id = t.order_id
 
@@ -251,7 +260,7 @@ if __name__ == '__main__':
     FROM somos_reyes.ml_order_update a
     LEFT JOIN somos_reyes.ml_order_payments b
     ON a.order_id = b.order_id
-    WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '{start_date}' AND date(payment_date_last_modified) <= '{end_date}'
+    WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '{_start_date}' AND date(payment_date_last_modified) <= '{_end_date}'
     GROUP BY 1
     ) tt
     ON c.yuju_pack_id = tt.pack_id
@@ -269,6 +278,7 @@ if __name__ == '__main__':
     #GLOBALES
     SELECT c.name,
            ifnull(d.order_id, dd.pack_id) 'order_id_or_pack_id',
+           c.channel_order_reference 'marketplace reference',
            b.amount_total 'total_factura',
            b.amount_untaxed 'subtotal_factura',
            c.amount_total 'total_so',
@@ -295,7 +305,7 @@ if __name__ == '__main__':
                FROM somos_reyes.ml_order_payments a
                LEFT JOIN somos_reyes.ml_order_update b
                ON a.order_id = b.order_id
-               WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '{start_date}' AND date(payment_date_last_modified) <= '{end_date}'
+               WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '{_start_date}' AND date(payment_date_last_modified) <= '{_end_date}'
                GROUP BY 1, 2
                ) d
     ON c.channel_order_id = d.order_id
@@ -309,7 +319,7 @@ if __name__ == '__main__':
     FROM somos_reyes.ml_order_update a
     LEFT JOIN somos_reyes.ml_order_payments b
     ON a.order_id = b.order_id
-    WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '{start_date}' AND date(payment_date_last_modified) <= '{end_date}'
+    WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '{_start_date}' AND date(payment_date_last_modified) <= '{_end_date}'
     GROUP BY 1, 2
     ) dd
     ON c.yuju_pack_id = dd.pack_id
@@ -328,7 +338,7 @@ if __name__ == '__main__':
                FROM somos_reyes.ml_order_payments a
                LEFT JOIN somos_reyes.ml_order_update b
                ON a.order_id = b.order_id
-               WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '{start_date}' AND date(payment_date_last_modified) <= '{end_date}'
+               WHERE refunded_amt > 0 AND b.pack_id = 'None' AND date(payment_date_last_modified) >= '{_start_date}' AND date(payment_date_last_modified) <= '{_end_date}'
                GROUP BY 1) t
     ON c.channel_order_id = t.order_id
 
@@ -338,7 +348,7 @@ if __name__ == '__main__':
     FROM somos_reyes.ml_order_update a
     LEFT JOIN somos_reyes.ml_order_payments b
     ON a.order_id = b.order_id
-    WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '{start_date}' AND date(payment_date_last_modified) <= '{end_date}'
+    WHERE b.refunded_amt > 0 AND a.pack_id <> 'None' AND date(payment_date_last_modified) >= '{_start_date}' AND date(payment_date_last_modified) <= '{_end_date}'
     GROUP BY 1
     ) tt
     ON c.yuju_pack_id = tt.pack_id
@@ -353,7 +363,7 @@ if __name__ == '__main__':
     """
 
     query_name = 'MERCADO-LIBRE PARCIALES'
-    csv_path_ML_Parciales = rf'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Finanzas\{test_date}\Notas_de_credito_parciales_ML.csv'
+    csv_path_ML_Parciales = rf'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Finanzas\{year}\{month}\Notas_de_credito_parciales_ML.csv'
     fetch_data(query_name, query_template_ML_Parciales, csv_path_ML_Parciales)
 
     # AMAZON TOTALES
@@ -362,6 +372,7 @@ if __name__ == '__main__':
     #INDIVIDUALES
     SELECT c.name,
            d.order_id 'order_id',
+           c.channel_order_reference 'marketplace reference',
            b.amount_total 'total_factura',
            b.amount_untaxed 'subtotal_factura',
            d.refunded_amt,
@@ -376,9 +387,9 @@ if __name__ == '__main__':
     LEFT JOIN somos_reyes.odoo_new_sale_order c
     ON b.invoice_origin = c.name
 
-    LEFT JOIN (SELECT a.order_id, max(STR_TO_DATE(fecha, '%d/%m/%Y')) 'refund_date', SUM(total - tarifas_de_amazon) * (-1) 'refunded_amt'
+    LEFT JOIN (SELECT a.order_id, max(STR_TO_DATE(fecha, '%m/%d/%Y')) 'refund_date', SUM(total - tarifas_de_amazon) * (-1) 'refunded_amt'
                FROM somos_reyes.amazon_payments_refunds a
-               WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%d/%m/%Y') >= '{start_date}' AND STR_TO_DATE(fecha, '%d/%m/%Y') <= '{end_date}'
+               WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%m/%d/%Y') >= '{_start_date}' AND STR_TO_DATE(fecha, '%m/%d/%Y') <= '{_end_date}'
                GROUP BY 1) d
     ON c.channel_order_id = d.order_id
 
@@ -394,6 +405,7 @@ if __name__ == '__main__':
     #GLOBALES
     SELECT c.name,
            d.order_id,
+           c.channel_order_reference 'marketplace reference',
            b.amount_total 'total_factura',
            b.amount_untaxed 'subtotal_factura',
            d.refunded_amt,
@@ -406,9 +418,9 @@ if __name__ == '__main__':
     FROM somos_reyes.odoo_new_account_move_aux b
     LEFT JOIN somos_reyes.odoo_new_sale_order c
     ON SUBSTRING_INDEX(SUBSTRING_INDEX(invoice_ids, ']', 1), '[', -1) = b.id
-    LEFT JOIN (SELECT a.order_id, max(STR_TO_DATE(fecha, '%d/%m/%Y')) 'refund_date', SUM(total - tarifas_de_amazon) * (-1) 'refunded_amt'
+    LEFT JOIN (SELECT a.order_id, max(STR_TO_DATE(fecha, '%m/%d/%Y')) 'refund_date', SUM(total - tarifas_de_amazon) * (-1) 'refunded_amt'
                FROM somos_reyes.amazon_payments_refunds a
-               WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%d/%m/%Y') >= '{start_date}' AND STR_TO_DATE(fecha, '%d/%m/%Y') <= '{end_date}'
+               WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%m/%d/%Y') >= '{_start_date}' AND STR_TO_DATE(fecha, '%m/%d/%Y') <= '{_end_date}'
                GROUP BY 1) d
     ON c.channel_order_id = d.order_id
     LEFT JOIN (SELECT distinct invoice_origin FROM somos_reyes.odoo_new_account_move_aux WHERE name like '%RINV%') e
@@ -421,7 +433,7 @@ if __name__ == '__main__':
     """
 
     query_name = 'AMAZON TOTALES'
-    csv_path_AMZ_Totales = rf'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Finanzas\{test_date}\Notas_de_credito_totales_AMAZON.csv'
+    csv_path_AMZ_Totales = rf'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Finanzas\{year}\{month}\Notas_de_credito_totales_AMAZON.csv'
     fetch_data(query_name, query_template_AMZ_Totales, csv_path_AMZ_Totales)
 
     # AMAZON PARCIALES
@@ -430,6 +442,7 @@ if __name__ == '__main__':
     #INDIVIDUALES
     SELECT c.name,
            d.order_id 'order_id',
+           c.channel_order_reference 'marketplace reference',
            b.amount_total 'total_factura',
            b.amount_untaxed 'subtotal_factura',
            d.refunded_amt,
@@ -446,9 +459,9 @@ if __name__ == '__main__':
     LEFT JOIN somos_reyes.odoo_new_sale_order c
     ON b.invoice_origin = c.name
 
-    LEFT JOIN (SELECT a.order_id, max(STR_TO_DATE(fecha, '%d/%m/%Y')) 'refund_date', SUM(total - tarifas_de_amazon) * (-1) 'refunded_amt'
+    LEFT JOIN (SELECT a.order_id, max(STR_TO_DATE(fecha, '%m/%d/%Y')) 'refund_date', SUM(total - tarifas_de_amazon) * (-1) 'refunded_amt'
                FROM somos_reyes.amazon_payments_refunds a
-               WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%d/%m/%Y') >= '{start_date}' AND STR_TO_DATE(fecha, '%d/%m/%Y') <= '{end_date}'
+               WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%m/%d/%Y') >= '{_start_date}' AND STR_TO_DATE(fecha, '%m/%d/%Y') <= '{_end_date}'
                GROUP BY 1) d
     ON c.channel_order_id = d.order_id
 
@@ -476,6 +489,7 @@ if __name__ == '__main__':
     #GLOBALES
     SELECT c.name,
            d.order_id,
+           c.channel_order_reference 'marketplace reference',
            b.amount_total 'total_factura',
            b.amount_untaxed 'subtotal_factura',
            d.refunded_amt,
@@ -490,9 +504,9 @@ if __name__ == '__main__':
     FROM somos_reyes.odoo_new_account_move_aux b
     LEFT JOIN somos_reyes.odoo_new_sale_order c
     ON SUBSTRING_INDEX(SUBSTRING_INDEX(invoice_ids, ']', 1), '[', -1) = b.id
-    LEFT JOIN (SELECT a.order_id, max(STR_TO_DATE(fecha, '%d/%m/%Y')) 'refund_date', SUM(total - tarifas_de_amazon) * (-1) 'refunded_amt'
+    LEFT JOIN (SELECT a.order_id, max(STR_TO_DATE(fecha, '%m/%d/%Y')) 'refund_date', SUM(total - tarifas_de_amazon) * (-1) 'refunded_amt'
                FROM somos_reyes.amazon_payments_refunds a
-               WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%d/%m/%Y') >= '{start_date}' AND STR_TO_DATE(fecha, '%d/%m/%Y') <= '{end_date}'
+               WHERE (total - tarifas_de_amazon) * (-1) > 0 AND STR_TO_DATE(fecha, '%m/%d/%Y') >= '{_start_date}' AND STR_TO_DATE(fecha, '%m/%d/%Y') <= '{_end_date}'
                GROUP BY 1) d
     ON c.channel_order_id = d.order_id
     LEFT JOIN (SELECT distinct invoice_origin FROM somos_reyes.odoo_new_account_move_aux WHERE name like '%RINV%') e
@@ -513,15 +527,17 @@ if __name__ == '__main__':
     """
 
     query_name = 'AMAZON PARCIALES'
-    csv_path_AMZ_Parciales = rf'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Finanzas\{test_date}\Notas_de_credito_parciales_AMAZON.csv'
+    csv_path_AMZ_Parciales = rf'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Finanzas\{year}\{month}\Notas_de_credito_parciales_AMAZON.csv'
     fetch_data(query_name, query_template_AMZ_Parciales, csv_path_AMZ_Parciales)
 
     # Información del correo electrónico
     sender_email = 'sergio@wonderbrands.co'
     sender_password = 'lwbwgygovuhcyjnk'
-    recipients = ['natalia@wonderbrands.co']
+    recipients = ['carlos.hinojosa@wonderbrands.co']
     cc_recipients = ['rosalba@wonderbrands.co', 'greta@somos-reyes.com', 'alex@wonderbrands.co', 'will@wonderbrands.co', 'eric@wonderbrands.co']
-    subject = f'Notas de Crédito a generar del {start_date} al {end_date}'
+    #recipients = ['sergio@wonderbrands.co','sergiogil.fiein@gmail.com','lili.men.mor11@gmail.com']
+    #cc_recipients = ['sergio.gil.guerrero.garcia@gmail.com']
+    subject = f'*Notas de Crédito a generar del {start_date} al {end_date}*'
     body = '''\
     <html>
       <head></head>
@@ -538,6 +554,18 @@ if __name__ == '__main__':
     # Enviar el correo electrónico con los archivos adjuntos
     attachment_paths = [csv_path_ML_Totales, csv_path_ML_Parciales, csv_path_AMZ_Totales, csv_path_AMZ_Parciales]
     send_email_with_attachments(sender_email, sender_password, recipients, cc_recipients, subject, body, attachment_paths)
+
+if __name__ == '__main__':
+    # FECHAS   Mes-dia-año
+    start_date = '26-06-2024'
+    end_date = '28-07-2024'
+    # Fecha para carpetas   ex: ...\2024\junio
+    year = '2024'
+    month = 'Julio'
+    # ************************************
+
+    init_process(start_date,end_date,year,month)
+
 
 
 

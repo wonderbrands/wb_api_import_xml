@@ -10,6 +10,7 @@ import base64
 import os
 from datetime import datetime
 import time as tm
+import prepare_folders as prep
 
 __description__ = """
         Este script obtiene los resultados de las queries de Mercado Libre y Amazon tanto totales como parciales (Individuales y Globales),
@@ -80,7 +81,10 @@ def send_email_with_attachments(sender_email, sender_password, to_recipients, cc
     except Exception as e:
         print(f"Error: no se pudo enviar el correo: {e}")
 
-def init_process(start_date,end_date,year,month):
+def init_process(start_date,end_date):
+
+    month, year = prep.get_dates()
+    year = str(year)
 
     _start_date = datetime.strptime(start_date, '%d-%m-%Y')
     _end_date = datetime.strptime(end_date, '%d-%m-%Y')
@@ -537,7 +541,7 @@ def init_process(start_date,end_date,year,month):
     cc_recipients = ['rosalba@wonderbrands.co', 'greta@somos-reyes.com', 'alex@wonderbrands.co', 'will@wonderbrands.co', 'eric@wonderbrands.co']
     #recipients = ['sergio@wonderbrands.co','sergiogil.fiein@gmail.com','lili.men.mor11@gmail.com']
     #cc_recipients = ['sergio.gil.guerrero.garcia@gmail.com']
-    subject = f'*Notas de Crédito a generar del {start_date} al {end_date}*'
+    subject = f'*Notas de Crédito a generar del {start_date} al {end_date} V2*'
     body = '''\
     <html>
       <head></head>
@@ -556,15 +560,14 @@ def init_process(start_date,end_date,year,month):
     send_email_with_attachments(sender_email, sender_password, recipients, cc_recipients, subject, body, attachment_paths)
 
 if __name__ == '__main__':
-    # FECHAS   Mes-dia-año
-    start_date = '26-06-2024'
-    end_date = '28-07-2024'
-    # Fecha para carpetas   ex: ...\2024\junio
-    year = '2024'
-    month = 'Julio'
+    prep.create_folders() # Se crean las carpetas a fecha de hoy para el proceso del cierre contable.
+    tm.sleep(2)
+    # FECHAS   dia-mes-año
+    start_date = '27-12-2024'
+    end_date = '28-01-2025'
     # ************************************
 
-    init_process(start_date,end_date,year,month)
+    init_process(start_date,end_date)
 
 
 

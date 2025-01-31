@@ -31,8 +31,10 @@ import smtplib
 import ssl
 import email
 import datetime
+import time as tm
 
 from Test import extract_orders as e_o
+from Test import prepare_folders as prep
 
 print('================================================================')
 print('BIENVENIDO AL PROCESO DE AUTOFACTURACIÓN WALMART')
@@ -50,13 +52,18 @@ print('Fecha:' + today_date.strftime("%Y-%m-%d %H:%M:%S"))
 config_file = 'config.json'
 
 # MES Y ANIO DE EJECUCION
-month_executed = 'Julio'
-year_executed = '2024'
+month_executed, year_executed = prep.get_dates()
+year_executed = str(year_executed)
 
 # FECHAS PARA CARPETA DRIVE en str
-year_ = '2024'
-month_ = '07' # Número del mes. Ejemplo para enero: '01'
-# ***********************************************
+month_ = str(prep.get_month_number()) # Número del mes. Ejemplo para enero: '01'
+
+# ----------------------------------------------------------------
+# Mes y año manual si se ejecuta en el mes posterior pero para efecto contable del mes anterior.
+#month_executed = "Noviembre"
+#month_ = "11"
+#year_executed = "2024"
+# ----------------------------------------------------------------
 
 config_file_name = rf'C:\Users\Sergio Gil Guerrero\Documents\WonderBrands\Repos\wb_odoo_external_api\config\{config_file}'
 
@@ -81,7 +88,7 @@ def get_email_access():
 def invoice_create_qty():
     # Formato para query
     marketplace_refs_list, placeholders, num_records = e_o.marketplace_references(orders_walmart_file_path)
-    date_list_param = [year_+month_]
+    date_list_param = [year_executed+month_]
     print(marketplace_refs_list)
 
     # Obtener credenciales
@@ -225,7 +232,7 @@ def invoice_create_qty():
                                         'payment_reference': payment_reference,
                                         'transaction_ids': [(6, 0, transaction_ids)],
                                         'invoice_line_ids': [],
-                                        'company_id': company_id,
+                                        'invoice_date': '2024-11-30' # FECHA DE FACTURA manual si se ejecuta para mes anterior
                                     }
                                     line_id = inv_lines['id']
                                     invoice_lines = {'display_type': inv_lines['display_type'],
@@ -251,7 +258,7 @@ def invoice_create_qty():
                                     #agrega el id de la factura creada a una tabla
                                     inv_ids.append(create_inv)
                                     message = {
-                                        'body': 'Esta factura fue creada por el equipo de Tech vía API',
+                                        'body': 'Esta factura fue creada por el equipo de Tech vía API: Autofacturación',
                                         'message_type': 'comment',
                                     }
                                     write_msg_inv = models.execute_kw(db_name, uid, password, 'account.move', 'message_post', [create_inv], message)
@@ -262,7 +269,7 @@ def invoice_create_qty():
                                         file_name = xml_files[value_position] #utliza la posición que asignamos anteriormente
                                         file_date = xml_files[value_position_date] #utliza la posición que asignamos anteriormente
                                         file_name_mayus = file_name.upper() #Pone en mayúsculas el nombre del XML
-                                        invoices_folder = 'G:/.shortcut-targets-by-id/1vsZk0-0Cd1FnEKNQlXzq3EuSgg6ZRgtP/{}/{}'.format(year_,year_+month_) #carpeta en la que se encuentran los xmls
+                                        invoices_folder = 'G:/.shortcut-targets-by-id/1vsZk0-0Cd1FnEKNQlXzq3EuSgg6ZRgtP/{}/{}'.format(year_executed,year_executed+month_) #carpeta en la que se encuentran los xmls
                                         xml_file = file_name + '.xml'
                                         xml_file_path = os.path.join(invoices_folder, xml_file)
                                         with open(xml_file_path, 'rb') as f:
@@ -374,6 +381,7 @@ def invoice_create_qty():
                                         'transaction_ids': [(6, 0, transaction_ids)],
                                         'invoice_line_ids': [],
                                         'company_id': company_id,
+                                        'invoice_date': '2024-11-30' # FECHA DE FACTURA manual si se ejecuta para mes anterior
                                     }
                                     # line_id = sale_order_line[0]['id']
                                     line_id = inv_lines['id']
@@ -408,7 +416,7 @@ def invoice_create_qty():
                                         file_name = xml_files[value_position]
                                         file_date = xml_files[value_position_date]
                                         file_name_mayus = file_name.upper()
-                                        invoices_folder = 'G:/.shortcut-targets-by-id/1vsZk0-0Cd1FnEKNQlXzq3EuSgg6ZRgtP/{}/{}'.format(year_,year_+month_) #carpeta en la que se encuentran los xmls
+                                        invoices_folder = 'G:/.shortcut-targets-by-id/1vsZk0-0Cd1FnEKNQlXzq3EuSgg6ZRgtP/{}/{}'.format(year_executed,year_executed+month_) #carpeta en la que se encuentran los xmls
                                         xml_file = file_name + '.xml'
                                         xml_file_path = os.path.join(invoices_folder, xml_file)
                                         with open(xml_file_path, 'rb') as f:

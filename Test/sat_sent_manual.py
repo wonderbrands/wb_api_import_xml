@@ -30,6 +30,8 @@ import random
 import sys
 import set666 as creds
 
+import prepare_folders as prep
+
 print(
     '------ ------ ------ ------ ------ ------ ------ ------ ------ ------ ------ ------ ------ ------ ------ ------ ------ ------')
 print('Connect to MySQL db.')
@@ -56,15 +58,30 @@ search_date = yday
 
 # ******************
 # MES DE EJECUCIÓN
-year = '2024'
-month = 'Julio'
+# year = '2024'
+# month = 'Septiembre'
+month, year = prep.get_dates()
+year = str(year)
+print('******************')
+print(month, year)
+print('******************')
 # ******************
+
+# ----------------------------------------------------------------
+# Mes y año manual si se ejecuta en el mes posterior pero para efecto contable del mes anterior.
+#month = "Noviembre"
+#year = "2024"
+# ----------------------------------------------------------------
 
 # REVISAR QUE EXISTA LA RUTA DE LOS XML'S !!!
 os.chdir(f'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Finanzas/{year}/{month}/Walmart/xmls_walmart')
 
 for file in glob.glob("*.xml")[0:]:
-    tree = ET.parse(file)
+    try:
+        tree = ET.parse(file)
+    except Exception as e:
+        print(f"Error en archivo {file}: {e}")
+
     root = tree.getroot()
 
     fecha = root.get('Fecha')

@@ -35,6 +35,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 
 from Test import extract_orders as e_o
+from Test import prepare_folders as prep
 
 print('================================================================')
 print('BIENVENIDO AL PROCESO DE NOTAS DE CRÉDITO PARA MARKETPLACES')
@@ -57,11 +58,23 @@ l10n_mx_edi_payment_method_id = 3
 l10n_mx_edi_usage = 'G02'
 
 #FECHAS DEL PERIODO ***********************************************
-start_date_str = datetime.date(2024, 6, 25).strftime("%Y-%m-%d")
-end_date_str = datetime.date(2024, 7, 28).strftime("%Y-%m-%d")
-month_executed = 'Julio'
-year_executed = '2024'
+start_date_str = datetime.date(2024, 12, 27).strftime("%Y-%m-%d")
+end_date_str = datetime.date(2025, 1, 28).strftime("%Y-%m-%d")
 # ***********************************************
+
+month_executed, year_executed = prep.get_dates()
+year_executed = str(year_executed)
+
+# ----------------------------------------------------------------
+# Mes y año manual
+# month_executed = 'Septiembre'
+# year_executed = '2024'
+# ----------------------------------------------------------------
+
+
+print('******************************************')
+print(month_executed, year_executed)
+print('******************************************')
 
 #PATHS de los archivos de ordenes conciliadas
 orders_meli_file_path = 'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Finanzas/{}/{}/Conciliadas/Notas_de_credito_totales_ML.csv'.format(year_executed,month_executed)
@@ -244,9 +257,11 @@ def reverse_invoice_meli(): #NOTAS DE CRÉDITO INDIVIDUALES MELI
                             #Actualización de Forma de Pago, CFDI Origen, Equipo de Ventas
                             update_vals_nc = models.execute_kw(db_name, uid, password, 'account.move', 'write',[[nc_id], {'team_id': team_id, 'l10n_mx_edi_origin': l10n_mx_edi_origin, 'l10n_mx_edi_payment_method_id': l10n_mx_edi_payment_method_id, 'l10n_mx_edi_usage': l10n_mx_edi_usage}])
                             #Confirma la nota de crédito
-                            #upd_nc_state = models.execute_kw(db_name, uid, password, 'account.move', 'action_post',[nc_id])
+                            upd_nc_state = models.execute_kw(db_name, uid, password, 'account.move', 'action_post',[nc_id])
                             # Timbramos la nota de crédito
                             # upd_nc_stamp = models.execute_kw(db_name, uid, password, 'account.move', 'button_process_edi_web_services',[nc_id])
+                            stamp_credit_note(models, db_name, uid, password, nc_id)
+
                             #buscamos el nombre de la nota creada
                             search_nc_name = models.execute_kw(db_name, uid, password, 'account.move', 'search_read',[[['id', '=', nc_id]]])
                             nc_name = search_nc_name[0]['name']
@@ -545,9 +560,11 @@ def reverse_invoice_global_meli():
                                 #Enlazamos la venta con la nueva factura
                                 upd_sale = models.execute_kw(db_name, uid, password, 'sale.order', 'write', [[sale_id], {'invoice_ids': [(4, 0, create_nc)]}])
                                 #Publicamos la nota de crédito
-                                #upd_nc_state = models.execute_kw(db_name, uid, password, 'account.move', 'action_post', [create_nc])
+                                upd_nc_state = models.execute_kw(db_name, uid, password, 'account.move', 'action_post', [create_nc])
                                 #Timbramos la nota de crédito
                                 #upd_nc_stamp = models.execute_kw(db_name, uid, password, 'account.move', 'button_process_edi_web_services',[create_nc])
+                                stamp_credit_note(models, db_name, uid, password, create_nc)
+
                                 #Buscamos el nombre de la factura ya creada
                                 search_nc_name = models.execute_kw(db_name, uid, password, 'account.move', 'search_read',[[['id', '=', create_nc]]])
                                 nc_name = search_nc_name[0]['name']
@@ -820,9 +837,11 @@ def reverse_invoice_amazon():
                         # Actualización de Forma de Pago, CFDI Origen, Equipo de Ventas
                         update_vals_nc = models.execute_kw(db_name, uid, password, 'account.move', 'write', [[nc_id], {'team_id': team_id, 'l10n_mx_edi_origin': l10n_mx_edi_origin, 'l10n_mx_edi_payment_method_id': l10n_mx_edi_payment_method_id, 'l10n_mx_edi_usage': l10n_mx_edi_usage}])
                         #Confirma la nota de crédito
-                        #upd_nc_state = models.execute_kw(db_name, uid, password, 'account.move', 'action_post',[nc_id])
+                        upd_nc_state = models.execute_kw(db_name, uid, password, 'account.move', 'action_post',[nc_id])
                         # Timbramos la nota de crédito
                         # upd_nc_stamp = models.execute_kw(db_name, uid, password, 'account.move', 'button_process_edi_web_services',[nc_id])
+                        stamp_credit_note(models, db_name, uid, password, nc_id)
+
                         #buscamos el nombre de la nota creada
                         search_nc_name = models.execute_kw(db_name, uid, password, 'account.move', 'search_read',[[['id', '=', nc_id]]])
                         nc_name = search_nc_name[0]['name']
@@ -1094,7 +1113,7 @@ def reverse_invoice_global_amazon():
                                 refund_vals['invoice_line_ids'].append((0, 0, nc_lines))
                             #Crea la nota de crédito
                             create_nc = models.execute_kw(db_name, uid, password, 'account.move', 'create', [refund_vals])
-                            #Actualiza la nota de crédito
+
                             #Agrega mensaje al Attachment de la nota de crédito
                             message = {
                                 'body': f"Esta nota de crédito fue creada a partir de la factura: {inv_name}, de la órden {sale_name}, con folio fiscal {inv_uuid}, a solicitud del equipo de Contabilidad, por el equipo de Tech mediante API.",
@@ -1104,9 +1123,11 @@ def reverse_invoice_global_amazon():
                             #Enlazamos la venta con la nueva factura
                             upd_sale = models.execute_kw(db_name, uid, password, 'sale.order', 'write', [[sale_id], {'invoice_ids': [(4, 0, create_nc)]}])
                             #Publicamos la nota de crédito
-                            #upd_nc_state = models.execute_kw(db_name, uid, password, 'account.move', 'action_post', [create_nc])
+                            upd_nc_state = models.execute_kw(db_name, uid, password, 'account.move', 'action_post', [create_nc])
                             #Timbramos la nota de crédito
-                            #upd_nc_stamp = models.execute_kw(db_name, uid, password, 'account.move', 'button_process_edi_web_services',[create_nc])
+                            # upd_nc_stamp = models.execute_kw(db_name, uid, password, 'account.move', 'button_process_edi_web_services',[create_nc])
+                            stamp_credit_note(models, db_name, uid, password, create_nc)
+
                             #Buscamos el nombre de la factura ya creada
                             search_nc_name = models.execute_kw(db_name, uid, password, 'account.move', 'search_read',[[['id', '=', create_nc]]])
                             nc_name = search_nc_name[0]['name']
@@ -1237,9 +1258,26 @@ def reverse_invoice_global_amazon():
     mycursor.close()
     mydb.close()
 
+
+def stamp_credit_note(models,db_name,uid,password, credit_note_id):
+    # Timbrar la Nota de credito (certificar)
+    # invoice_stamp = models.execute_kw(db_name, uid, password, 'account.move', 'action_l10n_mx_edi_invoice', [[invoice_id]])
+    try:
+        print('----------------------------------------------------------------')
+        print('Timbrando nota de credito')
+        credit_note_stamp = models.execute_kw(db_name, uid, password, 'account.move', 'action_process_edi_web_services',
+                                              [[credit_note_id]])
+        print(f"Nota de crédito timbrada: {credit_note_stamp}")
+    except Exception as e:
+        print('----------------------------------------------------------------')
+        print("Nota de credito timbrada")
+    print('----------------------------------------------------------------')
+
+
+
 if __name__ == "__main__":
     # Numero de workers = numero de funciones (para este script)
-    num_workers = 1
+    num_workers = 2
 
     # Crear un ThreadPoolExecutor con `num_workers` hilos
     with ThreadPoolExecutor(max_workers=num_workers) as executor:
@@ -1247,7 +1285,7 @@ if __name__ == "__main__":
         futures = [
             #executor.submit(reverse_invoice_meli),
             #executor.submit(reverse_invoice_global_meli),
-            #executor.submit(reverse_invoice_amazon),
+            executor.submit(reverse_invoice_amazon),
             executor.submit(reverse_invoice_global_amazon)
         ]
 

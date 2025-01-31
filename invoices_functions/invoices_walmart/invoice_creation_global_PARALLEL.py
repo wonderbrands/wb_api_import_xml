@@ -35,6 +35,8 @@ from concurrent.futures import ThreadPoolExecutor
 
 from Test import extract_orders as e_o
 
+from Test import prepare_folders as prep
+
 print('================================================================')
 print('BIENVENIDO AL PROCESO DE FACTURACIÓN WALMART')
 print('================================================================')
@@ -146,6 +148,8 @@ def invoice_create_global(excel_file_path, execution_number):
             'partner_id': 140530,
             'invoice_origin': ', '.join(sales_order_records),
             'invoice_line_ids': [],
+            'team_id': 30, # Equipo de ventas Walmart
+            'invoice_date': '2024-11-30' # FECHA DE FACTURA manual si se ejecuta para mes anterior
         }
         # Consultamos a sale.order para obtener los campos requeridos de cada orden de venta
         for sale_order in sales_order_records:
@@ -160,7 +164,7 @@ def invoice_create_global(excel_file_path, execution_number):
                 order_state = order[0]['state']
                 order_inv_count = order[0]['invoice_count']
                 if order_state == 'done':
-                    if order_inv_count < 1:
+                    if order_inv_count < 2: # 1 Si es la primer factura, 2 cuando se requiere volver a facturar si la primer factura nacio mal
                         #for line in order_line_id:
                         #print(f"Tomando las lineas de la orden")
                         sale_order_line = models.execute_kw(db_name, uid, password, 'sale.order.line', 'search_read', [[['id', '=', order_line_id]]])
@@ -210,7 +214,7 @@ def invoice_create_global(excel_file_path, execution_number):
         write_msg_inv = models.execute_kw(db_name, uid, password, 'account.move', 'message_post', [invoice_id], message_so)
         #Mensaje de creación por API
         message = {
-            'body': 'Esta factura fue creada por el equipo de Tech vía API',
+            'body': 'Esta factura fue creada por el equipo de Tech vía API : Facturación global',
             'message_type': 'comment',
         }
         write_msg_tech = models.execute_kw(db_name, uid, password, 'account.move', 'message_post', [invoice_id], message)
@@ -347,15 +351,31 @@ if __name__ == "__main__":
 
     # ***********************************************
     # MES Y ANIO DE EJECUCION
-    month = 'Julio'
-    year_executed = '2024'
+    month, year = prep.get_dates()
+    year_executed = str(year)
+    print('******************')
+    print(month, year)
+    print('******************')
+
+    # ----------------------------------------------------------------
+    # Mes y año manual si se ejecuta en el mes posterior pero para efecto contable del mes anterior.
+    #month = "Noviembre"
+    #year_executed = "2024"
+    # ----------------------------------------------------------------
+
+    order_lines_in_invoice = 800 #Numero de lienas de orden de la factura, el limite esta al rededor de 1300 (comun = 999)
     # ***********************************************
 
     start_time = datetime.datetime.now()
 
     excel_files_dir = f'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Repos/wb_odoo_external_api/invoices_functions/files/invoices'
     file_path_walmart = f'C:/Users/Sergio Gil Guerrero/Documents/WonderBrands/Finanzas/{year_executed}/{month}/Walmart/facturacion_global.csv'
-    num_of_runs = e_o.split_csv_to_excel(file_path_walmart, 999, excel_files_dir)
+
+    # Limpia la carpeta 'invoices' de los archivos antiguos
+    e_o.delete_files(excel_files_dir)
+
+    # Separa en n archivos de acuerdo al numero de ordenes y los guarda en la carpeta 'invoices'
+    num_of_runs = e_o.split_csv_to_excel(file_path_walmart, order_lines_in_invoice, excel_files_dir)
     execute_invoice_create_global(num_of_runs, excel_files_dir)
 
     end_time = datetime.datetime.now()

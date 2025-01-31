@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 
 def filter_orders(csv_file, type_val, marketplace_val):
     """
@@ -107,6 +108,26 @@ def split_csv_to_excel(csv_file, chunk_size, output_dir):
 
     print(f"Se han creado {num_chunks} archivos Excel en {output_dir}")
     return num_chunks
+
+def delete_files(folder_path):
+    # Verifica si la carpeta existe
+    if not os.path.exists(folder_path):
+        print("La carpeta no existe.")
+        return
+
+    # Elimina todos los archivos en la carpeta
+    for filename in os.listdir(folder_path):
+        file_path = os.path.join(folder_path, filename)
+
+        # Verifica si es un archivo (y no una subcarpeta) antes de eliminar
+        if os.path.isfile(file_path):
+            try:
+                os.remove(file_path)
+                print(f"Archivo eliminado: {file_path}")
+            except Exception as e:
+                print(f"No se pudo eliminar {file_path}. Error: {e}")
+
+    print("Todos los archivos han sido eliminados.")
 
 
 if __name__ == "__main__":
